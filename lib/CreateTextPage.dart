@@ -1,7 +1,11 @@
 import 'package:cor/DeletePage.dart';
 import 'package:cor/SavePage.dart';
+import 'package:cor/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uuid/uuid.dart';
+
+import 'TextPage.dart';
 
 class CreateTextPage extends StatefulWidget {
   const CreateTextPage({Key? key}) : super(key: key);
@@ -12,7 +16,8 @@ class CreateTextPage extends StatefulWidget {
 
 TextEditingController lableController  = TextEditingController();
 TextEditingController authorController  = TextEditingController();
-
+List<String> newText=[];
+List<String> infoNewText=[];
 class _CreateTextPageState extends State<CreateTextPage> {
   @override
   Widget build(BuildContext context) {
@@ -180,7 +185,7 @@ class _CreateTextPageState extends State<CreateTextPage> {
                         height: 7*((MediaQuery.of(context).size.height/2)/10),
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 20,
+                            itemCount: 40,
                             padding: EdgeInsets.zero,
                             itemBuilder: (BuildContext context, int index) {
                               return  Container(
@@ -216,7 +221,9 @@ class _CreateTextPageState extends State<CreateTextPage> {
                                         ),
 child:Center(child: index==0? Text("Текст", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),):  Center(child:TextField(
   textAlign: TextAlign.center,
-
+onChanged: (text){
+    newText[index]=text;
+},
 
   //controller: readingSpeedController,
   decoration: InputDecoration(
@@ -264,7 +271,17 @@ child:Center(child: index==0? Text("Текст", textAlign: TextAlign.center, st
                             child: Center(child:Text("Удалить", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w800),)),
                           )),
                       GestureDetector(
-                          onTap: (){ Navigator.of(context).push(PageRouteBuilder(
+                          onTap: ()async{
+                            String uuid = Uuid().v4();
+                            my_lib.add(uuid);
+                            await pref.setStringList('$uuid', newText);
+                            infoNewText.add(lableController.toString());
+                            infoNewText.add(authorController.toString());
+                            infoNewText.add("90");
+                            infoNewText.add("9.2");
+                            await pref.setStringList('${uuid}_info', infoNewText);
+                            await pref.setStringList('${uuid}_res', <String>['-',]);
+                            Navigator.of(context).push(PageRouteBuilder(
                               opaque: false,
                               pageBuilder: (BuildContext context, _, __) => SavePage()));},
                           child:Container(

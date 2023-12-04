@@ -38,6 +38,7 @@ dependencies:
   flutter_svg:
   flutter_multi_select_items: ^0.4.2
   shared_preferences: ^2.2.2
+  uuid:
 
 dev_dependencies:
   flutter_test:

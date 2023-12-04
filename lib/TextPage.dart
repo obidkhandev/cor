@@ -14,6 +14,7 @@ class TextPage extends StatefulWidget {
 late  List<String>? items;
 List<String> text_titles=[];
 List<String> text_autor=[];
+List<String> my_lib=[];
 
 List<bool> _isSelectAge = [false, false, false, false, false, false, false];
  String selectAge='';
@@ -387,7 +388,8 @@ class _TextPageState extends State<TextPage> {
                         ),
                       )),
                   GestureDetector(
-                      onTap: () {
+                      onTap: () async{
+                        my_lib = await pref.getStringList("my_lib")?? [];
                         Navigator.of(context).push(PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) =>

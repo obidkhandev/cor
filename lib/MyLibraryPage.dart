@@ -1,4 +1,5 @@
 import 'package:cor/CreateTextPage.dart';
+import 'package:cor/TextPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -79,64 +80,120 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
 
                         width: MediaQuery.of(context).size.width-28,
                         height: MediaQuery.of(context).size.height/2,
-                        child: ListView.builder(padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: 20,
+                        child: Column(
+                          children: [
+                        Container(
+                        width: MediaQuery.of(context).size.width-28,
+                          height: (MediaQuery.of(context).size.height/2)/9,
 
-                            itemBuilder: (BuildContext context, int index) {
-                              return  Container(
-                                  width: MediaQuery.of(context).size.width-28,
+                          child: Row(
+                            children: [Container(
+                                width: (MediaQuery.of(context).size.height/2)/9,
+                                height: (MediaQuery.of(context).size.height/2)/9,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.5,
+                                  ),
+                                  color:  Colors.grey.shade300,
+
+                                ),
+                                child: Center(child: Text("", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
+
+
+                            ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width/2,
                                   height: (MediaQuery.of(context).size.height/2)/9,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
+                                    color:  Colors.grey.shade300,
+                                  ),
+                                  child: Center(child:  Text("Название", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
 
-                                  child: Row(
-                                    children: [Container(
-                                        width: (MediaQuery.of(context).size.height/2)/9,
-                                        height: (MediaQuery.of(context).size.height/2)/9,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            width: 0.5,
-                                          ),
-                                          color: index==0 ?  Colors.grey.shade300: Colors.white,
+
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width/3.5,
+                                  height: (MediaQuery.of(context).size.height/2)/9,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
+                                    color:  Colors.grey.shade300,
+                                  ),
+                                  child: Center(child:Text("Автор", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
+
+                              )
+
+                            ],
+
+                          )
+                      ),
+                            ListView.builder(padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: my_lib.length,
+
+                                itemBuilder: (BuildContext context, int index) {
+                                  return  Container(
+                                      width: MediaQuery.of(context).size.width-28,
+                                      height: (MediaQuery.of(context).size.height/2)/9,
+
+                                      child: Row(
+                                        children: [Container(
+                                            width: (MediaQuery.of(context).size.height/2)/9,
+                                            height: (MediaQuery.of(context).size.height/2)/9,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                width: 0.5,
+                                              ),
+                                              color:  Colors.white,
+
+                                            ),
+                                            child: Center(child: Text((index+1).toString()),)
+
 
                                         ),
-                                        child: Center(child: index==0? Text("", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),):Text(index.toString()),)
+                                          Container(
+                                              width: MediaQuery.of(context).size.width/2,
+                                              height: (MediaQuery.of(context).size.height/2)/9,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.5,
+                                                ),
+                                                color: Colors.white,
+                                              ),
+                                              child: Center(child: Text(my_lib[0]),)
 
 
-                                    ),
-                                      Container(
-                                          width: MediaQuery.of(context).size.width/2,
-                                          height: (MediaQuery.of(context).size.height/2)/9,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 0.5,
-                                            ),
-                                            color: index==0 ?  Colors.grey.shade300: Colors.white,
                                           ),
-                                          child: Center(child: index==0? Text("Название", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),):Text(''),)
+                                          Container(
+                                              width: MediaQuery.of(context).size.width/3.5,
+                                              height: (MediaQuery.of(context).size.height/2)/9,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.5,
+                                                ),
+                                                color: Colors.white,
+                                              ),
+                                              child: Center(child: Text(''),)
 
+                                          )
 
-                                      ),
-                                      Container(
-                                          width: MediaQuery.of(context).size.width/3.5,
-                                          height: (MediaQuery.of(context).size.height/2)/9,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 0.5,
-                                            ),
-                                            color: index==0 ?  Colors.grey.shade300: Colors.white,
-                                          ),
-                                          child: Center(child: index==0? Text("Автор", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),):Text(''),)
+                                        ],
 
                                       )
-
-                                    ],
-
-                                  )
-                              );
-                            }),)),
+                                  );
+                                }),
+                          ],
+                        ),)),
 
 
 Row(
