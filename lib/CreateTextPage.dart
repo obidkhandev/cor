@@ -220,9 +220,11 @@ class _CreateTextPageState extends State<CreateTextPage> {
                                           color:index==0? Colors.grey.shade300: Colors.white,
                                         ),
 child:Center(child: index==0? Text("Текст", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),):  Center(child:TextField(
+  textCapitalization: TextCapitalization.sentences,
   textAlign: TextAlign.center,
 onChanged: (text){
-    newText[index]=text;
+    print(text);
+    newText[index-1]=text;
 },
 
   //controller: readingSpeedController,
@@ -274,7 +276,9 @@ onChanged: (text){
                           onTap: ()async{
                             String uuid = Uuid().v4();
                             my_lib.add(uuid);
+                            print("Добавили ===================================================== + $my_lib");
                             await pref.setStringList('$uuid', newText);
+                            print("Добавили text ===================================================== + $newText");
                             infoNewText.add(lableController.toString());
                             infoNewText.add(authorController.toString());
                             infoNewText.add("90");

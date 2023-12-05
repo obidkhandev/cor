@@ -1,3 +1,4 @@
+import 'package:cor/MyLibraryPage.dart';
 import 'package:flutter/material.dart';
 
 class SavePage extends StatefulWidget {
@@ -36,14 +37,10 @@ class _SavePageState extends State<SavePage> {
 
                         GestureDetector(
                             onTap: (){
-                              Navigator.pop(context);
-                              /*Navigator.pushAndRemoveUntil<dynamic>(
-                                  context,
-                                  MaterialPageRoute<dynamic>(
-                                    builder: (BuildContext context) => WordPage(),
-                                  ),
-                                      (route) => false,//if you want to disable back feature set to false
-                                );*/},
+
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) => MyLibraryPage()));},
                             child:Container(
                               width: MediaQuery.of(context).size.width / 4,
                               margin: EdgeInsets.only(bottom: 12),
