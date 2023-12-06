@@ -390,6 +390,11 @@ class _TextPageState extends State<TextPage> {
                   GestureDetector(
                       onTap: () async{
                         my_lib = await pref.getStringList("my_lib")?? [];
+                        for(var i = 0; i < my_lib.length; i++){
+                          var dott = await pref.getStringList("${my_lib[i]}_info");
+                          text_titles.add(dott![0]);
+                          text_autor.add(dott[1]);
+                        }
                         Navigator.of(context).push(PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) =>

@@ -11,7 +11,8 @@ class MyLibraryPage extends StatefulWidget {
   @override
   State<MyLibraryPage> createState() => _MyLibraryPageState();
 }
-
+List<String> mylib_titles=[];
+List<String> mylib_autor=[];
 class _MyLibraryPageState extends State<MyLibraryPage> {
   @override
   Widget build(BuildContext context) {
@@ -169,7 +170,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                                 ),
                                                 color: Colors.white,
                                               ),
-                                              child: Center(child: Text(my_lib[0]),)
+                                              child: Center(child: Text(text_titles[index]),)
 
 
                                           ),
@@ -183,7 +184,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                                 ),
                                                 color: Colors.white,
                                               ),
-                                              child: Center(child: Text(''),)
+                                              child: Center(child: Text(text_autor[index]),)
 
                                           )
 

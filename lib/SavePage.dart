@@ -1,4 +1,6 @@
 import 'package:cor/MyLibraryPage.dart';
+import 'package:cor/TextPage.dart';
+import 'package:cor/main.dart';
 import 'package:flutter/material.dart';
 
 class SavePage extends StatefulWidget {
@@ -36,7 +38,7 @@ class _SavePageState extends State<SavePage> {
                           child: Text("Сохранено", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800,fontSize: 16),),),
 
                         GestureDetector(
-                            onTap: (){
+                            onTap: ()async{
 
                               Navigator.of(context).push(PageRouteBuilder(
                                   opaque: false,
