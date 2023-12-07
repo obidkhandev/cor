@@ -1,4 +1,3 @@
-
 import 'package:cor/BreathingTrainingPage.dart';
 import 'package:cor/Pref.dart';
 import 'package:cor/ResultPage.dart';
@@ -10,7 +9,45 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  List<String> test = [
+    'Ветер по морю гуляет',
+    'и кораблик подгоняет',
+    'он бежит себе в волнах',
+    'на поднятых парусах'
+  ];
+  var speed;
+
+  var syllable_A;
+  var exhalation_B;
+  var speed_C;
+  var c = 0;
+
+    for (var i = 0; i < test.length; i++) {
+      c = c + 'а'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'у'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'о'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'ы'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'и'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'э'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'я'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'ю'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'е'.allMatches(test[i].toLowerCase()).length;
+      c = c + 'ё'.allMatches(test[i].toLowerCase()).length;
+      c = c + ' в '.allMatches(test[i].toLowerCase()).length;
+      c = c + ' с '.allMatches(test[i].toLowerCase()).length;
+      c = c + ' к '.allMatches(test[i].toLowerCase()).length;
+    }
+
+    print(c);
+  print(c/(test.length)); //==================СРЕДНЕЕ КОЛИЧЕСТВО СЛОГОВ
+  syllable_A =c/(test.length) ;
+  print(c/(test.length)*0.4);//=============== среднее время выдоха
+  exhalation_B = c/(test.length)*0.4;
+  print(c/(test.length)*0.4+1.5);
+  print((c/(test.length)*0.4+1.5)/60);
+  print((c/(test.length))/((c/(test.length)*0.4+1.5)/60));//=============== СКОРОСТЬ ЧТЕНИЯ
+  speed_C = (c/(test.length))/((c/(test.length)*0.4+1.5)/60);
 }
 
 late SharedPreferences pref;
@@ -21,8 +58,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -31,7 +66,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme:
-        ColorScheme.fromSeed(seedColor:  Color.fromRGBO(33, 150, 82, 1)),
+            ColorScheme.fromSeed(seedColor: Color.fromRGBO(33, 150, 82, 1)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Коррекция речи'),
@@ -48,19 +83,12 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     initBD();
-
-
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        child:Padding(
-            padding: EdgeInsets.only(right: 8,left: 8),
-
-            child:Center(
+        child: Padding(
+            padding: EdgeInsets.only(right: 8, left: 8),
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -85,96 +112,130 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.only(top: 24),
                       child: Align(
                           alignment: Alignment.centerRight,
-                          child: GestureDetector(child:Image.asset("images/settings.jpg",) ,))),
-                  Container( width: MediaQuery.of(context).size.width/3.5,
-                      height: MediaQuery.of(context).size.width/3.5,
-                     // margin: EdgeInsets.only(bottom:12),
-                      padding: EdgeInsets.only(left: 14,right: 14),
+                          child: GestureDetector(
+                            child: Image.asset(
+                              "images/settings.jpg",
+                            ),
+                          ))),
+                  Container(
+                      width: MediaQuery.of(context).size.width / 3.5,
+                      height: MediaQuery.of(context).size.width / 3.5,
+                      // margin: EdgeInsets.only(bottom:12),
+                      padding: EdgeInsets.only(left: 14, right: 14),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(100)),
-                      ), child:Image.asset("images/logo.png",)),
-                  Spacer(flex: 2,),
-                 Container(
-                     width: MediaQuery.of(context).size.width-50,
-                    // margin: EdgeInsets.only(bottom:12),
-                    // padding: EdgeInsets.only(top:6,bottom: 6),
-                     decoration: const BoxDecoration(
-                       color: Color.fromRGBO(255, 255, 255, 0.75),
-                       borderRadius: BorderRadius.only(
-                           topRight: Radius.circular(10),
-                           topLeft: Radius.circular(10),
-                           bottomRight: Radius.circular(10),
-                           bottomLeft: Radius.circular(10)),
-                     ),
-                     child: Text(
-                    "Коррекция\n речи",
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 87, 204, 1),
-                        fontSize:36,
-                        fontWeight: FontWeight.w700),
-                    textAlign: TextAlign.center,
-                  )),
-
-
-                  Spacer(flex: 3,),
+                      ),
+                      child: Image.asset(
+                        "images/logo.png",
+                      )),
+                  Spacer(
+                    flex: 2,
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width - 50,
+                      // margin: EdgeInsets.only(bottom:12),
+                      // padding: EdgeInsets.only(top:6,bottom: 6),
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(255, 255, 255, 0.75),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
+                      ),
+                      child: Text(
+                        "Коррекция\n речи",
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 87, 204, 1),
+                            fontSize: 36,
+                            fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,
+                      )),
+                  Spacer(
+                    flex: 3,
+                  ),
                   Row(
                     children: [
-                      Column(children: [ GestureDetector(
-                          onTap: (){
+                      Column(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
 /*
                             Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) => LetterPage()));*/
-                          },
-                          child:Container(
-                            width: MediaQuery.of(context).size.width/2-40,height: MediaQuery.of(context).size.height/11,
-                            margin: EdgeInsets.only(bottom:12,left: 24,right: 24),
-                            padding: EdgeInsets.only(top:6,bottom: 6),
-                            decoration: const BoxDecoration(
-                              color: Color.fromRGBO(47, 128, 237, 1),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10)),
-                            ),
-                            child: Center(child:Text("Инструкция", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
-                          )),
-                        GestureDetector(
-                            onTap: (){
-
-                            Navigator.of(context).push(PageRouteBuilder(
-                                opaque: false,
-                                pageBuilder: (BuildContext context, _, __) => BreathingTrainingPage()));
-                            },
-                            child:Container(
-                              width: MediaQuery.of(context).size.width/2-40,
-                              height: MediaQuery.of(context).size.height/11,
-                              margin: EdgeInsets.only(bottom:12,left: 24,right: 24),
-                              padding: EdgeInsets.only(top:6,bottom: 6),
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(234, 87, 87, 1),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)),
-                              ),
-                              child: Center(child:Text("Тренинг\nдыхания", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
-                            ))],),
+                              },
+                              child: Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 40,
+                                height: MediaQuery.of(context).size.height / 11,
+                                margin: EdgeInsets.only(
+                                    bottom: 12, left: 24, right: 24),
+                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(47, 128, 237, 1),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10)),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  "Инструкция",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800),
+                                )),
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            BreathingTrainingPage()));
+                              },
+                              child: Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 40,
+                                height: MediaQuery.of(context).size.height / 11,
+                                margin: EdgeInsets.only(
+                                    bottom: 12, left: 24, right: 24),
+                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(234, 87, 87, 1),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10)),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  "Тренинг\nдыхания",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800),
+                                )),
+                              ))
+                        ],
+                      ),
                       GestureDetector(
-                          onTap: (){
-
+                          onTap: () {
                             Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
-                                pageBuilder: (BuildContext context, _, __) => TextPage()));
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    TextPage()));
                           },
-                          child:Container(
-                            width: MediaQuery.of(context).size.width/2-40,
-                            height: MediaQuery.of(context).size.height/5,
-                            margin: EdgeInsets.only(bottom:12),
-                            padding: EdgeInsets.only(top:6,bottom: 6),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2 - 40,
+                            height: MediaQuery.of(context).size.height / 5,
+                            margin: EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.only(top: 6, bottom: 6),
                             decoration: const BoxDecoration(
                               color: Color.fromRGBO(33, 150, 83, 1),
                               borderRadius: BorderRadius.only(
@@ -183,16 +244,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                   bottomRight: Radius.circular(10),
                                   bottomLeft: Radius.circular(10)),
                             ),
-                            child: Center(child:Text("Чтение\n(корреция\nречи)",textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
+                            child: Center(
+                                child: Text(
+                              "Чтение\n(корреция\nречи)",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800),
+                            )),
                           )),
                     ],
                   ),
                   GestureDetector(
-                      onTap: (){},
-                      child:Container(
-                        width: MediaQuery.of(context).size.width/2,
-                        margin: EdgeInsets.only(top:12,bottom: 40),
-                        padding: EdgeInsets.only(top:12,bottom: 12),
+                      onTap: () {},
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        margin: EdgeInsets.only(top: 12, bottom: 40),
+                        padding: EdgeInsets.only(top: 12, bottom: 12),
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(0, 82, 204, 1),
                           borderRadius: BorderRadius.only(
@@ -201,9 +270,18 @@ class _MyHomePageState extends State<MyHomePage> {
                               bottomRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10)),
                         ),
-                        child: Center(child:Text("О методе", style: TextStyle(color: Colors.white, fontSize: 24,fontWeight: FontWeight.w800),)),
+                        child: Center(
+                            child: Text(
+                          "О методе",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800),
+                        )),
                       )),
-                  Spacer(flex: 1,)
+                  Spacer(
+                    flex: 1,
+                  )
                 ],
               ),
             )),
