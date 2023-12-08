@@ -5,6 +5,7 @@ import 'package:cor/ResultPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:linear_timer/linear_timer.dart';
 
 class ReadingPage extends StatefulWidget {
   const ReadingPage({Key? key}) : super(key: key);
@@ -14,7 +15,9 @@ class ReadingPage extends StatefulWidget {
 }
 bool isRecord = false;
 var indexLines = 0;
-class _ReadingPageState extends State<ReadingPage> {
+
+class _ReadingPageState extends State<ReadingPage> with TickerProviderStateMixin{
+  late LinearTimerController timerController = LinearTimerController(this);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,7 +123,7 @@ class _ReadingPageState extends State<ReadingPage> {
                           ),
                           color: Color.fromRGBO(217, 217, 217, 1),
                         ),
-                            child:Text(lines[indexLines],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),textAlign: TextAlign.center,),
+                            child:Text(lines[indexLines],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),),
                       ),
                     ],
 
@@ -144,7 +147,7 @@ class _ReadingPageState extends State<ReadingPage> {
                               ),
                               color: Color.fromRGBO(217, 217, 217, 1),
                             ),
-                            child:Text(lines[indexLines+1],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),textAlign: TextAlign.center,),
+                            child:Text(lines[indexLines+1],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16)),
                           ),
                         ],
 
@@ -168,7 +171,7 @@ class _ReadingPageState extends State<ReadingPage> {
                               ),
                               color: Color.fromRGBO(217, 217, 217, 1),
                             ),
-                            child:Text(lines[indexLines+2],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),textAlign: TextAlign.center,),
+                            child:Text(lines[indexLines+2],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16)),
                           ),
                         ],
 
@@ -192,7 +195,24 @@ class _ReadingPageState extends State<ReadingPage> {
                               ),
                               color: Color.fromRGBO(217, 217, 217, 1),
                             ),
-                            child:Text(lines[indexLines+3],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),textAlign: TextAlign.center,),
+                            child:Column(
+                              children: [
+                                Text(lines[indexLines+3],style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16, ), ),
+                                Center(
+                                    child: LinearTimer(
+                                      backgroundColor: Colors.transparent,
+                                      color: Colors.indigo,
+                                      duration: const Duration(seconds: 5),
+                                      controller: timerController,
+                                      onTimerEnd: () {
+                                        setState(() {
+
+                                        });
+                                      },
+                                    )
+                                )
+                              ],
+                            ),
                           ),
                         ],
 

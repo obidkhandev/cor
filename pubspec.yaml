@@ -39,6 +39,7 @@ dependencies:
   flutter_multi_select_items: ^0.4.2
   shared_preferences: ^2.2.2
   uuid:
+  linear_timer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

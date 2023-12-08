@@ -9,45 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  //runApp(const MyApp());
-  List<String> test = [
-    'Ветер по морю гуляет',
-    'и кораблик подгоняет',
-    'он бежит себе в волнах',
-    'на поднятых парусах'
-  ];
-  var speed;
-
-  var syllable_A;
-  var exhalation_B;
-  var speed_C;
-  var c = 0;
-
-    for (var i = 0; i < test.length; i++) {
-      c = c + 'а'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'у'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'о'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'ы'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'и'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'э'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'я'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'ю'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'е'.allMatches(test[i].toLowerCase()).length;
-      c = c + 'ё'.allMatches(test[i].toLowerCase()).length;
-      c = c + ' в '.allMatches(test[i].toLowerCase()).length;
-      c = c + ' с '.allMatches(test[i].toLowerCase()).length;
-      c = c + ' к '.allMatches(test[i].toLowerCase()).length;
-    }
-
-    print(c);
-  print(c/(test.length)); //==================СРЕДНЕЕ КОЛИЧЕСТВО СЛОГОВ
-  syllable_A =c/(test.length) ;
-  print(c/(test.length)*0.4);//=============== среднее время выдоха
-  exhalation_B = c/(test.length)*0.4;
-  print(c/(test.length)*0.4+1.5);
-  print((c/(test.length)*0.4+1.5)/60);
-  print((c/(test.length))/((c/(test.length)*0.4+1.5)/60));//=============== СКОРОСТЬ ЧТЕНИЯ
-  speed_C = (c/(test.length))/((c/(test.length)*0.4+1.5)/60);
+  runApp(const MyApp());
 }
 
 late SharedPreferences pref;
