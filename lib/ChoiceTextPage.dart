@@ -15,6 +15,7 @@ class ChoiceTextPage extends StatefulWidget {
 }
  var selectIndex = -1;
 late List<String> lines;
+late int readingSpeed;
 class _ChoiceTextPageState extends State<ChoiceTextPage> {
   @override
   void initState(){
@@ -32,7 +33,7 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -53,7 +54,7 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
                               child: GestureDetector(
                                 onTap: (){Navigator.pop(context);},
                                 child: SvgPicture.asset(
-                                "images/back.svg",
+                                "assets/images/back.svg",
                                 colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
 
                               ) ,))),
@@ -61,7 +62,7 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(child:Image.asset("images/settings.jpg",) ,))),
+                              child: GestureDetector(child:Image.asset("assets/images/settings.jpg",) ,))),
                     ],
                   ),
 
@@ -224,8 +225,8 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
                       onTap: ()async{
                         if(selectIndex!=-1){
                           lines = await pref.getStringList(items![selectIndex])!;
-
-
+                          readingSpeedController.text= await pref.getStringList("${items![selectIndex]}_info")![2];
+                           readingSpeed = int.parse(await pref.getStringList("${items![selectIndex]}_info")![2]);
                           Navigator.of(context).push(PageRouteBuilder(
                               opaque: false,
                               pageBuilder: (BuildContext context, _, __) =>

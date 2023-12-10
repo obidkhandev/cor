@@ -11,35 +11,35 @@ initBD() async {
   await pref.setStringList('2-4 года', <String>['1', '2', '3','4','5','6','7',"8"]);
 
   await pref.setStringList('1', <String>['В огороде Фёкла', 'Ахала и охала:', '«Уродилась свёкла','Не на грядке, около!»','Жалко Фёкле свёклу,','Жалко свёкле Фёклу.','Жаловалась Фёкла:',"«Заблудилась свёкла»."]);
-  await pref.setStringList('1_info', <String>['В огороде Фёкла', '-',"90","9.2" ]);
+  await pref.setStringList('1_info', <String>['В огороде Фёкла', '-',"94","9.2" ]);
   await pref.setStringList('1_res', <String>['-',]);
 
   await pref.setStringList('2', <String>['Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара','Гитара']);
-  await pref.setStringList('2_info', <String>['Гитара', '-',"90","9.2" ]);
+  await pref.setStringList('2_info', <String>['Гитара', '-',"67","9.2" ]);
   await pref.setStringList('2_res', <String>['-',]);
 
   await pref.setStringList('3', <String>['Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб','Гриб']);
-  await pref.setStringList('3_info', <String>['Гриб', '-',"90","9.2" ]);
+  await pref.setStringList('3_info', <String>['Гриб', '-',"32","9.2" ]);
   await pref.setStringList('3_res', <String>['-',]);
 
   await pref.setStringList('4', <String>['Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга','Книга']);
-  await pref.setStringList('4_info', <String>['Книга', '-',"90","9.2" ]);
+  await pref.setStringList('4_info', <String>['Книга', '-',"52","9.2" ]);
   await pref.setStringList('4_res', <String>['-',]);
 
   await pref.setStringList('5', <String>['Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак','Мак']);
-  await pref.setStringList('5_info', <String>['Мак', '-',"90","9.2" ]);
+  await pref.setStringList('5_info', <String>['Мак', '-',"32","9.2" ]);
   await pref.setStringList('5_res', <String>['-',]);
 
   await pref.setStringList('6', <String>['Мы в лес пошли,','Топор нашли,','Дрова рубили:','– Ах! Ох! Ух! Их!','Мы в лес пошли,','Топор нашли,','Дрова рубили:','– Ах! Ох! Ух! Их!']);
-  await pref.setStringList('6_info', <String>['Мы в лес пошли', '-',"90","9.2" ]);
+  await pref.setStringList('6_info', <String>['Мы в лес пошли', '-',"82","9.2" ]);
   await pref.setStringList('6_res', <String>['-',]);
 
   await pref.setStringList('7', <String>['Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга','Радуга',]);
-  await pref.setStringList('7_info', <String>['Радуга', '-',"90","9.2" ]);
+  await pref.setStringList('7_info', <String>['Радуга', '-',"67","9.2" ]);
   await pref.setStringList('7_res', <String>['-',]);
 
   await pref.setStringList('8', <String>['Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза','Роза']);
-  await pref.setStringList('8_info', <String>['Роза', '-',"90","9.2" ]);
+  await pref.setStringList('8_info', <String>['Роза', '-',"52","9.2" ]);
   await pref.setStringList('8_res', <String>['-',]);
 
 
@@ -48,18 +48,18 @@ initBD() async {
   await pref.setStringList('4-5 лет', <String>['9', '10', '11','12','13']);
 
   await pref.setStringList('9', <String>['Уронили мишку на пол,','Оторвали мишке лапу.','Все равно его не брошу —','Потому что он хороший.']);
-  await pref.setStringList('9_info', <String>['Мишка', 'Агния Барто',"90","9.2" ]);
+  await pref.setStringList('9_info', <String>['Мишка', 'Агния Барто',"102","9.2" ]);
   await pref.setStringList('9_res', <String>['-',]);
 
   await pref.setStringList('10', <String>['Наша Таня громко плачет:','Уронила в речку мячик.','— Тише, Танечка, не плачь:','Не утонет в речке мяч.']);
-  await pref.setStringList('10_info', <String>['Мячик (Наша Таня громко плачет)', 'Агния Барто',"90","9.2" ]);
+  await pref.setStringList('10_info', <String>['Мячик (Наша Таня громко плачет)', 'Агния Барто',"102","9.2" ]);
   await pref.setStringList('10_res', <String>['-',]);
 
   await pref.setStringList('11', <String>['Купили в магазине','Резиновую Зину,','Резиновую Зину','В корзинке принесли.',
     'Она была разиней,','Резиновая Зина,','Упала из корзины,','Измазалась в грязи.',
     'Мы вымоем в бензине','Резиновую Зину,','Мы вымоем в бензине','И пальцем погрозим:',
     'Не будь такой разиней,','Резиновая Зина,','А то отправим Зину','Обратно в магазин.',]);
-  await pref.setStringList('11_info', <String>['Резиновая Зина', 'Агния Барто',"90","9.2" ]);
+  await pref.setStringList('11_info', <String>['Резиновая Зина', 'Агния Барто',"98","9.2" ]);
   await pref.setStringList('11_res', <String>['-',]);
 
   await pref.setStringList('12', <String>['Жили у бабуси','Два веселых гуся:','Один серый,','Другой белый —','Два веселых гуся.',
@@ -67,7 +67,7 @@ initBD() async {
     'Мыли гуси лапки','В луже у канавки.','Один серый,','Другой белый —','Спрятались в канавке.',
     'Вот кричит бабуся:','«Ой, пропали гуси!','Один серый,','Другой белый —','Гуси мои, гуси».',
     'Выходили гуси,','Кланялись бабусе.','Один серый,','Другой белый —','Кланялись бабусе.',]);
-  await pref.setStringList('12_info', <String>['Жили у бабуси два веселых гуся', 'Русская народная песня',"90","9.2" ]);
+  await pref.setStringList('12_info', <String>['Жили у бабуси два веселых гуся', 'Русская народная песня',"87","9.2" ]);
   await pref.setStringList('12_res', <String>['-',]);
 
   await pref.setStringList('13', <String>[
@@ -77,7 +77,7 @@ initBD() async {
     'Пять — похож на Три и Два —','Тот же хвост и голова,','То же пятнышко на спинке,','Так же спит весь день в корзинке.',
     'Хороши у нас котята —','Раз, Два, Три, Четыре, Пять!','Заходите к нам, ребята,','Посмотреть и посчитать.',
   ]);
-  await pref.setStringList('13_info', <String>['Котята', 'Сергей Михалков',"90","9.2" ]);
+  await pref.setStringList('13_info', <String>['Котята', 'Сергей Михалков',"101","9.2" ]);
   await pref.setStringList('13_res', <String>['-',]);
 
 
@@ -91,7 +91,7 @@ initBD() async {
     'Молоток настоящий братишке.','Мяч сестрёнке, конфета Тишке.','А ещё есть друг у меня,','Друг Серёжка мне тоже родня.',
     'Я к нему прибегаю с утра,','Без него мне игра не игра.','Все секреты ему говорю,','Всё на свете ему подарю.',
   ]);
-  await pref.setStringList('14_info', <String>['Моя родня', 'Аким Яков',"90","9.2" ]);
+  await pref.setStringList('14_info', <String>['Моя родня', 'Аким Яков',"107","9.2" ]);
   await pref.setStringList('14_res', <String>['-',]);
 
 
@@ -101,7 +101,7 @@ initBD() async {
     'С нею солнце краше','И весна милей…','Прощебечь с дороги','Нам привет скорей!',
     'Дам тебе я зерен,','А ты песню спой,','Что из стран далеких','Принесла с собой…',
   ]);
-  await pref.setStringList('15_info', <String>['Травка зеленеет, солнышко блестит', 'Алексей Плещеев',"90","9.2" ]);
+  await pref.setStringList('15_info', <String>['Травка зеленеет, солнышко блестит', 'Алексей Плещеев',"91","9.2" ]);
   await pref.setStringList('15_res', <String>['-',]);
 
 
@@ -113,7 +113,7 @@ initBD() async {
     'До сих пор нам неизвестно,','Кто сумеет, кто захочет,','Кто нас всех перехохочет,','Всех один пересмеёт?',
 
   ]);
-  await pref.setStringList('16_info', <String>['Мы играли в хохотушки', 'И. Токмакова',"90","9.2" ]);
+  await pref.setStringList('16_info', <String>['Мы играли в хохотушки', 'И. Токмакова',"101","9.2" ]);
   await pref.setStringList('16_res', <String>['-',]);
 
 
@@ -125,7 +125,7 @@ initBD() async {
     'Кулинаки-пулинаки,','Где часы, а где собаки?..','Только тот и разберёт,','Кто ходит задом-наперёд.',
 
   ]);
-  await pref.setStringList('17_info', <String>['Кулинаки-пулинаки', 'Ирина Пивоварова',"90","9.2" ]);
+  await pref.setStringList('17_info', <String>['Кулинаки-пулинаки', 'Ирина Пивоварова',"100","9.2" ]);
   await pref.setStringList('17_res', <String>['-',]);
 
 
@@ -133,7 +133,7 @@ initBD() async {
   await pref.setStringList('18',  <String>[
     'Нельзя воспитывать щенков','Посредством крика и пинков.','Щенок, воспитанный пинком,','Не будет преданным щенком.','Ты после грубого пинка','Попробуй подзови щенка!',
   ]);
-  await pref.setStringList('18_info', <String>['Важный совет', 'Сергей Михалков',"90","9.2" ]);
+  await pref.setStringList('18_info', <String>['Важный совет', 'Сергей Михалков',"102","9.2" ]);
   await pref.setStringList('18_res', <String>['-',]);
 
 
@@ -150,7 +150,7 @@ initBD() async {
     'Но резвых деток звонкий смех','И беззаботных птичек пенье','Мне говорят — кто больше всех','Природы любит обновленье!',
 
   ]);
-  await pref.setStringList('19_info', <String>['Весна', 'Алексей Плещеев',"90","9.2" ]);
+  await pref.setStringList('19_info', <String>['Весна', 'Алексей Плещеев',"104","9.2" ]);
   await pref.setStringList('19_res', <String>['-',]);
 
 
@@ -274,7 +274,7 @@ initBD() async {
         'Баюшки-баю!'
 
   ]);
-  await pref.setStringList('20_info', <String>['Путаница', 'Корней Чуковский',"90","9.2" ]);
+  await pref.setStringList('20_info', <String>['Путаница', 'Корней Чуковский',"94","9.2" ]);
   await pref.setStringList('20_res', <String>['-',]);
 
 
@@ -319,7 +319,7 @@ initBD() async {
         'Так поди же, попляши!»',
 
   ]);
-  await pref.setStringList('21_info', <String>['Басня «Стрекоза и муравей»', 'Крылов Иван',"90","9.2" ]);
+  await pref.setStringList('21_info', <String>['Басня «Стрекоза и муравей»', 'Крылов Иван',"101","9.2" ]);
   await pref.setStringList('21_res', <String>['-',]);
 
 
@@ -351,7 +351,7 @@ initBD() async {
  'Все любя, ничего не желать?',
 
   ]);
-  await pref.setStringList('22_info', <String>['Закружилась листва золотая…', 'Сергей Есенин',"90","9.2" ]);
+  await pref.setStringList('22_info', <String>['Закружилась листва золотая…', 'Сергей Есенин',"108","9.2" ]);
   await pref.setStringList('22_res', <String>['-',]);
 
 
@@ -377,7 +377,7 @@ initBD() async {
   'Ослепительной красой.',
 
   ]);
-  await pref.setStringList('23_info', <String>['Чародейкою зимою…', 'Федор Тютчев',"90","9.2" ]);
+  await pref.setStringList('23_info', <String>['Чародейкою зимою…', 'Федор Тютчев',"100","9.2" ]);
   await pref.setStringList('23_res', <String>['-',]);
 
   //====================================== 3 класс ======================
@@ -424,7 +424,7 @@ initBD() async {
   'И берег, милый для меня.',
 
   ]);
-  await pref.setStringList('24_info', <String>['Зимнее утро', 'Александр Пушкин',"90","9.2" ]);
+  await pref.setStringList('24_info', <String>['Зимнее утро', 'Александр Пушкин',"105","9.2" ]);
   await pref.setStringList('24_res', <String>['-',]);
 
   await pref.setStringList('25',  <String>[
@@ -442,7 +442,7 @@ initBD() async {
   'Стоял ноябрь уж у двора.',
 
   ]);
-  await pref.setStringList('25_info', <String>['Уж небо осенью дышало… (отрывок из «Евгения Онегина»)', 'Александр Пушкин',"90","9.2" ]);
+  await pref.setStringList('25_info', <String>['Уж небо осенью дышало… (отрывок из «Евгения Онегина»)', 'Александр Пушкин',"104","9.2" ]);
   await pref.setStringList('25_res', <String>['-',]);
 
   await pref.setStringList('26',  <String>[
@@ -462,7 +462,7 @@ initBD() async {
   'Ну, Зима пропала, хоть была сильна.',
 
   ]);
-  await pref.setStringList('26_info', <String>['Золотое слово', 'Константин Бальмонт',"90","9.2" ]);
+  await pref.setStringList('26_info', <String>['Золотое слово', 'Константин Бальмонт',"112","9.2" ]);
   await pref.setStringList('26_res', <String>['-',]);
 
   await pref.setStringList('27',  <String>[
@@ -476,7 +476,7 @@ initBD() async {
   'Он стоит, задумался глубоко,',
   'И тихонько плачет он в пустыне.',
   ]);
-  await pref.setStringList('27_info', <String>['Утес', 'Михаил Лермонтов',"90","9.2" ]);
+  await pref.setStringList('27_info', <String>['Утес', 'Михаил Лермонтов',"110","9.2" ]);
   await pref.setStringList('27_res', <String>['-',]);
 
   await pref.setStringList('28',  <String>[
@@ -501,7 +501,7 @@ initBD() async {
   'Смеясь, на землю пролила.',
 
   ]);
-  await pref.setStringList('28_info', <String>['Весенняя гроза', 'Федор Тютчев',"90","9.2" ]);
+  await pref.setStringList('28_info', <String>['Весенняя гроза', 'Федор Тютчев',"105","9.2" ]);
   await pref.setStringList('28_res', <String>['-',]);
 
 
@@ -528,7 +528,7 @@ initBD() async {
   'То чудится тебе…',
 
   ]);
-  await pref.setStringList('29_info', <String>['Няне', 'Александр Пушкин',"90","9.2" ]);
+  await pref.setStringList('29_info', <String>['Няне', 'Александр Пушкин',"104","9.2" ]);
   await pref.setStringList('29_res', <String>['-',]);
 
 
@@ -570,7 +570,7 @@ initBD() async {
   'Иль пещеры царь — медведь!',
 
   ]);
-  await pref.setStringList('30_info', <String>['Опять сон', 'Валерий Брюсов',"90","9.2" ]);
+  await pref.setStringList('30_info', <String>['Опять сон', 'Валерий Брюсов',"101","9.2" ]);
   await pref.setStringList('30_res', <String>['-',]);
 
 
@@ -617,7 +617,7 @@ initBD() async {
   'Он, дивный, унесет!',
 
   ]);
-  await pref.setStringList('31_info', <String>['Весна, весна! как воздух чист!..', 'Евгений Баратынский',"90","9.2" ]);
+  await pref.setStringList('31_info', <String>['Весна, весна! как воздух чист!..', 'Евгений Баратынский',"99","9.2" ]);
   await pref.setStringList('31_res', <String>['-',]);
 
 
@@ -648,7 +648,7 @@ initBD() async {
   'Ну, а нам какое дело, —',
   'Говори да говори.',
   ]);
-  await pref.setStringList('32_info', <String>['Бабушкины сказки', 'Сергей Есенин',"90","9.2" ]);
+  await pref.setStringList('32_info', <String>['Бабушкины сказки', 'Сергей Есенин',"101","9.2" ]);
   await pref.setStringList('32_res', <String>['-',]);
 
 
@@ -675,7 +675,7 @@ initBD() async {
   'Чем ты и дышишь и живешь.',
 
   ]);
-  await pref.setStringList('33_info', <String>['Как неожиданно и ярко…', 'Федор Тютчев',"90","9.2" ]);
+  await pref.setStringList('33_info', <String>['Как неожиданно и ярко…', 'Федор Тютчев',"105","9.2" ]);
   await pref.setStringList('33_res', <String>['-',]);
 
 
@@ -695,7 +695,7 @@ initBD() async {
   'И отдаленные седой зимы угрозы.',
 
   ]);
-  await pref.setStringList('34_info', <String>['Унылая пора! Очей очарованье!', 'Александр Пушкин',"90","9.2" ]);
+  await pref.setStringList('34_info', <String>['Унылая пора! Очей очарованье!', 'Александр Пушкин',"116","9.2" ]);
   await pref.setStringList('34_res', <String>['-',]);
 
 
@@ -725,7 +725,7 @@ initBD() async {
   'Я вернусь, когда, малютки,',
   'Вы уж будете читать!»',
   ]);
-  await pref.setStringList('35_info', <String>['Дети и птичка', 'Алексей Плещеев',"90","9.2" ]);
+  await pref.setStringList('35_info', <String>['Дети и птичка', 'Алексей Плещеев',"108","9.2" ]);
   await pref.setStringList('35_res', <String>['-',]);
 
 
@@ -756,7 +756,7 @@ initBD() async {
   'А он украдкою кивает на Петра.',
 
   ]);
-  await pref.setStringList('36_info', <String>['Зеркало и обезьяна (Басня)', 'Иван Крылов',"90","9.2" ]);
+  await pref.setStringList('36_info', <String>['Зеркало и обезьяна (Басня)', 'Иван Крылов',"111","9.2" ]);
   await pref.setStringList('36_res', <String>['-',]);
 
 
@@ -789,7 +789,7 @@ initBD() async {
   'Так он ее еще и гонит.',
 
   ]);
-  await pref.setStringList('37_info', <String>['Басня «Мартышка и очки»', 'Крылов Иван',"90","9.2" ]);
+  await pref.setStringList('37_info', <String>['Басня «Мартышка и очки»', 'Крылов Иван',"111","9.2" ]);
   await pref.setStringList('37_res', <String>['-',]);
 
 
@@ -815,7 +815,7 @@ initBD() async {
   'Думаю думу свою…',
 
   ]);
-  await pref.setStringList('38_info', <String>['Славная осень', 'Николай Некрасов',"90","9.2" ]);
+  await pref.setStringList('38_info', <String>['Славная осень', 'Николай Некрасов',"110","9.2" ]);
   await pref.setStringList('38_res', <String>['-',]);
 }
 

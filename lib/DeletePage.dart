@@ -1,4 +1,10 @@
+import 'package:cor/ChoiceTextPage.dart';
+import 'package:cor/ResultPage.dart';
+import 'package:cor/TextPage.dart';
 import 'package:flutter/material.dart';
+
+import 'TextResultPage.dart';
+import 'main.dart';
 
 class DeletePage extends StatefulWidget {
   const DeletePage({Key? key}) : super(key: key);
@@ -72,8 +78,18 @@ class _DeletePageState extends State<DeletePage> {
                                       )),
                                 )),
                             GestureDetector(
-                                onTap: (){
-                                  Navigator.pop(context);
+                                onTap: ()async{
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder: (BuildContext context, _, __) =>
+                                        MyHomePage(title: 'Коррекция речи'),
+                                  ));
+
+                                  resForText.removeAt(curIndex);
+                                  await pref.setStringList('${items[selectIndex]}_res', resForText);
+                                  setState(() {
+
+                                  });
                                   /*Navigator.pushAndRemoveUntil<dynamic>(
                                   context,
                                   MaterialPageRoute<dynamic>(

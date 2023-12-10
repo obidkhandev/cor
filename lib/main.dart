@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
                             child: Image.asset(
-                              "images/settings.jpg",
+                              "assets/images/settings.jpg",
                             ),
                           ))),
                   Container(
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.all(Radius.circular(100)),
                       ),
                       child: Image.asset(
-                        "images/logo.png",
+                        "assets/images/logo.png",
                       )),
                   Spacer(
                     flex: 2,

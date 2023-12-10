@@ -1,4 +1,7 @@
+import 'package:cor/ChoiceTextPage.dart';
+import 'package:cor/TextPage.dart';
 import 'package:cor/TextResultPage.dart';
+import 'package:cor/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -10,7 +13,9 @@ class ResultPage extends StatefulWidget {
   @override
   State<ResultPage> createState() => _ResultPageState();
 }
-
+List<String> resForText=[];
+List <String> dateForText=[];
+List <String> modeForText=[];
 class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class _ResultPageState extends State<ResultPage> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -39,7 +44,7 @@ class _ResultPageState extends State<ResultPage> {
                           child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(onTap: (){Navigator.pop(context);},child: SvgPicture.asset(
-                                "images/back.svg",
+                                "assets/images/back.svg",
                                 colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
 
                               ) ,))),
@@ -47,7 +52,7 @@ class _ResultPageState extends State<ResultPage> {
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(child:Image.asset("images/settings.jpg",) ,))),
+                              child: GestureDetector(child:Image.asset("assets/images/settings.jpg",) ,))),
                     ],
                   ),
 
@@ -77,18 +82,14 @@ class _ResultPageState extends State<ResultPage> {
 
                         width: MediaQuery.of(context).size.width-28,
                         height: MediaQuery.of(context).size.height/2,
-                        child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: 20,
+                        child: Column(
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width-28,
+                                height: (MediaQuery.of(context).size.height/2)/9,
 
-                            itemBuilder: (BuildContext context, int index) {
-                              return  Container(
-                                  width: MediaQuery.of(context).size.width-28,
-                                  height: (MediaQuery.of(context).size.height/2)/9,
-
-                                  child: Row(
-                                    children: [Container(
+                                child: Row(
+                                  children: [Container(
                                       width: (MediaQuery.of(context).size.height/2)/9,
                                       height: (MediaQuery.of(context).size.height/2)/9,
                                       decoration: BoxDecoration(
@@ -96,13 +97,14 @@ class _ResultPageState extends State<ResultPage> {
                                           color: Colors.grey,
                                           width: 0.5,
                                         ),
-                                        color: (index==0)?Colors.grey.shade300: Colors.white,
+                                        color:  Colors.grey.shade300,
 
                                       ),
-                                      child: Center(child: (index==0)?Text(''):Text(index.toString())),
+                                      child: Center(child:  Text("", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
 
-                                    ),
-                                      Container(
+
+                                  ),
+                                    Container(
                                         width: MediaQuery.of(context).size.width/2,
                                         height: (MediaQuery.of(context).size.height/2)/9,
                                         decoration: BoxDecoration(
@@ -110,12 +112,13 @@ class _ResultPageState extends State<ResultPage> {
                                             color: Colors.grey,
                                             width: 0.5,
                                           ),
-                                          color: (index==0)?Colors.grey.shade300: Colors.white,
+                                          color: Colors.grey.shade300,
                                         ),
-                                        child: Center(child: (index==0)?Text('Название'):Text("")),
+                                        child: Center(child:Text("Название", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
 
-                                      ),
-                                      Container(
+
+                                    ),
+                                    Container(
                                         width: MediaQuery.of(context).size.width/3.5,
                                         height: (MediaQuery.of(context).size.height/2)/9,
                                         decoration: BoxDecoration(
@@ -123,17 +126,97 @@ class _ResultPageState extends State<ResultPage> {
                                             color: Colors.grey,
                                             width: 0.5,
                                           ),
-                                          color: (index==0)?Colors.grey.shade300: Colors.white,
+                                          color: Colors.grey.shade300,
                                         ),
-                                        child: Center(child: (index==0)?Text('Автор'):Text("")),
+                                        child: Center(child: Text("Автор", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w800),))
 
-                                      )
+                                    )
 
-                                    ],
+                                  ],
 
-                                  )
-                              );
-                            }),)),
+                                )
+                            ),
+                           Container(
+                               height: (MediaQuery.of(context).size.height/2)-(((MediaQuery.of(context).size.height /
+                                   2) /
+                                   10)*1.5),
+                               child: ListView.builder(padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: items?.length ?? 0,
+
+                                itemBuilder: (BuildContext context, int index) {
+                                  return  GestureDetector(
+                                      onTap: ()async{
+                                        selectIndex = index;
+                                        resForText=await pref.getStringList("${items[selectIndex]}_res") ?? [];// ссылки на записи
+                                        resForText.removeWhere((item) => item == '-');
+
+                                        for(var i =0; i<resForText.length;i++){
+                                          dateForText.add((await pref.getStringList("${resForText[i]}"))?[0] ?? "");
+                                          modeForText.add((await pref.getStringList("${resForText[i]}"))?[1] ?? "");
+
+                                        }
+                                        setState(() {
+
+                                        });
+
+                                      },
+
+                                      child:Container(
+                                          width: MediaQuery.of(context).size.width-28,
+                                          height: (MediaQuery.of(context).size.height/2)/9,
+
+                                          child: Row(
+                                            children: [Container(
+                                                width: (MediaQuery.of(context).size.height/2)/9,
+                                                height: (MediaQuery.of(context).size.height/2)/9,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey,
+                                                    width: 0.5,
+                                                  ),
+                                                  color: selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
+
+                                                ),
+                                                child: Center(child: Text("${index+1}".toString(), textAlign: TextAlign.center,),)
+
+
+                                            ),
+                                              Container(
+                                                  width: MediaQuery.of(context).size.width/2,
+                                                  height: (MediaQuery.of(context).size.height/2)/9,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 0.5,
+                                                    ),
+                                                    color: selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
+                                                  ),
+                                                  child: Center(child:Text('${text_titles[index]}', textAlign: TextAlign.center,),)
+
+
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context).size.width/3.5,
+                                                  height: (MediaQuery.of(context).size.height/2)/9,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 0.5,
+                                                    ),
+                                                    color: selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
+                                                  ),
+                                                  child: Center(child: Text('${text_autor[index]}', textAlign: TextAlign.center,),)
+
+                                              )
+
+                                            ],
+
+                                          )
+                                      ));
+                                })),
+                          ],
+                        ),)),
 
 
 

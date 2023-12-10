@@ -1,9 +1,12 @@
 import 'package:cor/CreateTextPage.dart';
+import 'package:cor/ReadingPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'ChoiceTextPage.dart';
 import 'ReadingModePage.dart';
+import 'main.dart';
 
 class MyLibraryPage extends StatefulWidget {
   const MyLibraryPage({Key? key}) : super(key: key);
@@ -13,7 +16,16 @@ class MyLibraryPage extends StatefulWidget {
 }
 List<String> mylib_titles=[];
 List<String> mylib_autor=[];
+ bool isEdit = false ;
 class _MyLibraryPageState extends State<MyLibraryPage> {
+
+
+  @override
+  void initState() {
+    selectIndex = -1;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +34,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -43,7 +55,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                               child: GestureDetector(
                                 onTap: (){Navigator.pop(context);},
                                 child: SvgPicture.asset(
-                                "images/back.svg",
+                                "assets/images/back.svg",
                                 colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
 
                               ) ,))),
@@ -51,7 +63,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(child:Image.asset("images/settings.jpg",) ,))),
+                              child: GestureDetector(child:Image.asset("assets/images/settings.jpg",) ,))),
                     ],
                   ),
 
@@ -137,10 +149,16 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                       ),
                             ListView.builder(padding: EdgeInsets.zero,
                                 shrinkWrap: true,
-                                itemCount: my_lib.length,
+                                itemCount: items.length,
 
                                 itemBuilder: (BuildContext context, int index) {
-                                  return  Container(
+                                  return  GestureDetector(
+                                  onTap: (){
+                                  selectIndex = index;
+                                  setState(() {
+
+                                  });},
+                                      child:Container(
                                       width: MediaQuery.of(context).size.width-28,
                                       height: (MediaQuery.of(context).size.height/2)/9,
 
@@ -153,7 +171,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                                 color: Colors.grey,
                                                 width: 0.5,
                                               ),
-                                              color:  Colors.white,
+                                              color:  selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
 
                                             ),
                                             child: Center(child: Text((index+1).toString()),)
@@ -168,7 +186,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                                   color: Colors.grey,
                                                   width: 0.5,
                                                 ),
-                                                color: Colors.white,
+                                                color:  selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
                                               ),
                                               child: Center(child: Text(text_titles[index]),)
 
@@ -182,7 +200,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                                   color: Colors.grey,
                                                   width: 0.5,
                                                 ),
-                                                color: Colors.white,
+                                                color:  selectIndex == index ? Color.fromRGBO(102, 156, 238, 0.97):Colors.white,
                                               ),
                                               child: Center(child: Text(text_autor[index]),)
 
@@ -191,7 +209,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                                         ],
 
                                       )
-                                  );
+                                  ));
                                 }),
                           ],
                         ),)),
@@ -201,7 +219,9 @@ Row(
   mainAxisAlignment: MainAxisAlignment.spaceAround,
   children: [
   GestureDetector(
-      onTap: (){ Navigator.of(context).push(PageRouteBuilder(
+      onTap: (){
+        isEdit = false;
+        Navigator.of(context).push(PageRouteBuilder(
           opaque: false,
           pageBuilder: (BuildContext context, _, __) => CreateTextPage()));},
       child:Container(
@@ -219,9 +239,18 @@ Row(
         child: Center(child:Text("Создать новый текст", style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w800),)),
       )),
   GestureDetector(
-      onTap: (){ Navigator.of(context).push(PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (BuildContext context, _, __) => CreateTextPage()));},
+      onTap: ()async{
+       if(selectIndex!=-1) {
+         isEdit = true;
+         lines = await pref.getStringList(items[selectIndex])!;
+
+
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      CreateTextPage()));
+                            }
+                          },
       child:Container(
         width: MediaQuery.of(context).size.width/2.5,
         margin: EdgeInsets.only(top:12,),
@@ -240,7 +269,20 @@ Row(
                   Spacer(flex: 2,),
 
                   GestureDetector(
-                      onTap: (){ Navigator.of(context).push(PageRouteBuilder(
+                      onTap: ()async{
+
+                        lines = await pref.getStringList(items[selectIndex])!;
+                        print(lines);
+                        readingSpeedController.text= await pref.getStringList("${items[selectIndex]}_info")![2];
+
+                        var ttt = double.parse(await pref.getStringList("${items[selectIndex]}_info")![2]);
+                        readingSpeed = ttt.round();
+                        print(readingSpeed);
+                        initLineTime(lines, readingSpeed);
+
+
+
+                        Navigator.of(context).push(PageRouteBuilder(
                           opaque: false,
                           pageBuilder: (BuildContext context, _, __) => ReadingModePage()));},
                       child:Container(
@@ -266,3 +308,42 @@ Row(
     );
   }
 }
+num libLineTime (List<String>cur_lines){
+
+  num syllable_A;
+  num exhalation_B;
+  num speed_C;
+  num count_vowels = 0;
+  for (var i = 0; i < cur_lines.length; i++) {
+    count_vowels = count_vowels + 'а'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'у'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'о'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'ы'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'и'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'э'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'я'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'ю'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'е'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + 'ё'.allMatches(cur_lines[i].toLowerCase()).length;
+
+    count_vowels = count_vowels + ' в '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + ' с '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels = count_vowels + ' к '.allMatches(cur_lines[i].toLowerCase()).length;
+  }
+  print(count_vowels);
+  print(count_vowels/(cur_lines.length));
+  readingMode=="1 строка"?syllable_A =count_vowels/(cur_lines.length) :syllable_A =count_vowels/((cur_lines.length)/2); //==================СРЕДНЕЕ КОЛИЧЕСТВО СЛОГОВ
+  print(count_vowels/(cur_lines.length)*0.4);
+  exhalation_B = syllable_A*0.4;//=============== среднее время выдоха
+  print(count_vowels/(cur_lines.length)*0.4+1.5);
+  print((count_vowels/(cur_lines.length)*0.4+1.5)/60);
+  print(((syllable_A)/((syllable_A*0.4+1.5)/60)).toString()+"speed");
+  speed_C = (syllable_A)/((syllable_A*0.4+1.5)/60);//=============== СКОРОСТЬ ЧТЕНИЯ
+
+  return speed_C.round();
+  }
+
+
+
+
+

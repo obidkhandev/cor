@@ -11,10 +11,10 @@ class TextPage extends StatefulWidget {
   @override
   State<TextPage> createState() => _TextPageState();
 }
-late  List<String>? items;
+ List<String> items=[];
 List<String> text_titles=[];
 List<String> text_autor=[];
-List<String> my_lib=[];
+
 
 List<bool> _isSelectAge = [false, false, false, false, false, false, false];
  String selectAge='';
@@ -28,7 +28,7 @@ class _TextPageState extends State<TextPage> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -47,7 +47,7 @@ class _TextPageState extends State<TextPage> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(onTap: (){Navigator.pop(context);},
                                 child: SvgPicture.asset(
-                                  "images/back.svg",
+                                  "assets/images/back.svg",
                                   colorFilter: ColorFilter.mode(
                                       Colors.red, BlendMode.srcIn),
                                 ),
@@ -58,7 +58,7 @@ class _TextPageState extends State<TextPage> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 child: Image.asset(
-                                  "images/settings.jpg",
+                                  "assets/images/settings.jpg",
                                 ),
                               ))),
                     ],
@@ -389,9 +389,11 @@ class _TextPageState extends State<TextPage> {
                       )),
                   GestureDetector(
                       onTap: () async{
-                        my_lib = await pref.getStringList("my_lib")?? [];
-                        for(var i = 0; i < my_lib.length; i++){
-                          var dott = await pref.getStringList("${my_lib[i]}_info");
+                        text_autor=[];
+                        text_titles=[];
+                        items = await pref.getStringList("my_lib")?? [];
+                        for(var i = 0; i < items!.length; i++){
+                          var dott = await pref.getStringList("${items![i]}_info");
                           text_titles.add(dott![0]);
                           text_autor.add(dott[1]);
                         }
@@ -431,10 +433,10 @@ class _TextPageState extends State<TextPage> {
 
 
                         if(selectAge!=""){
-                          items = await pref.getStringList(selectAge);
+                          items = (await pref.getStringList(selectAge))!;
 
-                          for(var i = 0; i < items!.length; i++){
-                              var dott = await pref.getStringList("${items![i]}_info");
+                          for(var i = 0; i < items.length; i++){
+                              var dott = await pref.getStringList("${items[i]}_info");
                               text_titles.add(dott![0]);
                               text_autor.add(dott[1]);
                           }

@@ -1,3 +1,4 @@
+import 'package:cor/ChoiceTextPage.dart';
 import 'package:cor/DeletePage.dart';
 import 'package:cor/SavePage.dart';
 import 'package:cor/main.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uuid/uuid.dart';
 
+import 'MyLibraryPage.dart';
 import 'TextPage.dart';
 
 class CreateTextPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class CreateTextPage extends StatefulWidget {
   @override
   State<CreateTextPage> createState() => _CreateTextPageState();
 }
+
 List<TextEditingController> controllers = [];
 TextEditingController lableController = TextEditingController();
 TextEditingController authorController = TextEditingController();
@@ -20,23 +23,33 @@ List<String> newText = [];
 List<String> infoNewText = [];
 
 class _CreateTextPageState extends State<CreateTextPage> {
-
   @override
   void initState() {
-    newText = [];
-    lableController.clear();
-    authorController.clear();
-    infoNewText=[];
-    for(int i = 0; i<40; i++) {
-      controllers.clear();
-    }
-    for(int i = 0; i<40; i++) {
-      controllers.add(TextEditingController(text:""));
+    if (isEdit == false) {
+      newText = [];
+      lableController.clear();
+      authorController.clear();
+      infoNewText = [];
+      for (int i = 0; i < 40; i++) {
+        controllers.clear();
+      }
+      for (int i = 0; i < 40; i++) {
+        controllers.add(TextEditingController(text: ""));
+      }
+    } else {
+      for (int i = 0; i < 40; i++) {
+        controllers.add(TextEditingController(text: ""));
+      }
+      newText = [];
+      infoNewText = [];
+      lableController.text = text_titles[selectIndex];
+      authorController.text = text_autor[selectIndex];
+      for (int i = 0; i < lines.length; i++) {
+        controllers[i].text = lines[i];
+      }
     }
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +60,7 @@ class _CreateTextPageState extends State<CreateTextPage> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/bg.png"),
+            image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -69,7 +82,7 @@ class _CreateTextPageState extends State<CreateTextPage> {
                                   Navigator.pop(context);
                                 },
                                 child: SvgPicture.asset(
-                                  "images/back.svg",
+                                  "assets/images/back.svg",
                                   colorFilter: ColorFilter.mode(
                                       Colors.red, BlendMode.srcIn),
                                 ),
@@ -80,7 +93,7 @@ class _CreateTextPageState extends State<CreateTextPage> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 child: Image.asset(
-                                  "images/settings.jpg",
+                                  "assets/images/settings.jpg",
                                 ),
                               ))),
                     ],
@@ -199,119 +212,173 @@ class _CreateTextPageState extends State<CreateTextPage> {
                     )),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(top: 12),
+                      padding: EdgeInsets.only(top: 24),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 28,
                         height:
                             7 * ((MediaQuery.of(context).size.height / 2) / 10),
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 40,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                  width: MediaQuery.of(context).size.width - 28,
-                                  height:
-                                      (MediaQuery.of(context).size.height / 2) /
-                                          10,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          padding: EdgeInsets.all(4),
-                                          width: ((MediaQuery.of(context)
+                        child: Column(
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width - 28,
+                                height:
+                                    (MediaQuery.of(context).size.height / 2) /
+                                        10,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        width: ((MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    2) /
+                                                9) *
+                                            2,
+                                        height: (MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                2) /
+                                            9,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 0.5,
+                                          ),
+                                          color: Colors.grey.shade300,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "№ Выдоха",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                        )),
+                                    Container(
+                                        padding: EdgeInsets.all(0),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.5,
+                                        height: (MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                2) /
+                                            9,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 0.5,
+                                          ),
+                                          color: Colors.grey.shade300,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Текст",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                        )),
+                                  ],
+                                )),
+                            Container(
+                                height: (MediaQuery.of(context).size.height/2)-(((MediaQuery.of(context).size.height /
+                                    2) /
+                                    10)*4),
+                                child:ListView.builder(padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: 40,
+
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          28,
+                                      height:
+                                          (MediaQuery.of(context).size.height /
+                                                  2) /
+                                              10,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                              padding: EdgeInsets.all(4),
+                                              width: ((MediaQuery.of(context)
+                                                              .size
+                                                              .height /
+                                                          2) /
+                                                      9) *
+                                                  2,
+                                              height: (MediaQuery.of(context)
                                                           .size
                                                           .height /
                                                       2) /
-                                                  9) *
-                                              2,
-                                          height: (MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2) /
-                                              9,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 0.5,
-                                            ),
-                                            color: index == 0
-                                                ? Colors.grey.shade300
-                                                : Colors.white,
-                                          ),
-                                          child: Center(
-                                            child: index == 0
-                                                ? Text(
-                                                    "№ Выдоха",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  )
-                                                : Text(index.toString()),
-                                          )),
-                                      Container(
-                                          padding: EdgeInsets.all(0),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                          height: (MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2) /
-                                              9,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 0.5,
-                                            ),
-                                            color: index == 0
-                                                ? Colors.grey.shade300
-                                                : Colors.white,
-                                          ),
-                                          child: Center(
-                                            child: index == 0
-                                                ? Text(
-                                                    "Текст",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  )
-                                                : Center(
-                                                    child: TextField(
-                                                      controller: controllers[index],
-                                                    textCapitalization:
-                                                        TextCapitalization
-                                                            .sentences,
-                                                    textAlign: TextAlign.center,
-                                                    /*onChanged: (text) {
-                                                      print(text);
-                                                      newText[index - 1] = text;
-                                                    },*/
+                                                  9,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.5,
+                                                ),
+                                                color: Colors.white,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                    "${index + 1}".toString()),
+                                              )),
+                                          Container(
 
-                                                    //controller: readingSpeedController,
-                                                    decoration: InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 0,
-                                                              vertical: 0),
-                                                      hintText: "",
-                                                      counterText: "",
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            54, 103, 166, 1),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  )),
-                                          )),
-                                    ],
-                                  ));
-                            }),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.5,
+                                              height: (MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      2) /
+                                                  9,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.5,
+                                                ),
+                                                color: Colors.white,
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller:
+                                                      controllers[index],
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .sentences,
+                                                  textAlign: TextAlign.center,
+
+                                                  onChanged: (text) {
+                                                    print(text);
+                                                    newText[index - 1] = text;
+                                                  },
+
+//controller: readingSpeedController,
+                                                  decoration: InputDecoration(
+                                                    isDense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0,
+                                                            vertical: 0),
+                                                    hintText: "",
+                                                    counterText: "",
+                                                    border: InputBorder.none,
+                                                  ),
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          54, 103, 166, 1),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                ),
+                                              )),
+                                        ],
+                                      ));
+                                })),
+                          ],
+                        ),
                       )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -350,53 +417,92 @@ class _CreateTextPageState extends State<CreateTextPage> {
                       GestureDetector(
                           onTap: () async {
                             for (int i = 0; i < 40; i++) {
-                            newText.add(controllers[i].text);
-                          }
-                          newText.removeWhere((item) => item == '');
-                                if((lableController.text.isNotEmpty)&(authorController.text.isNotEmpty)&(newText.isNotEmpty)){
-
-
-                              String uuid = Uuid().v4();
-                              my_lib.add(uuid);
-                              await pref.setStringList('my_lib', my_lib);
-                              print(
-                                  "Добавили ===================================================== + $my_lib");
-                              await pref.setStringList('$uuid', newText);
-                              print(
-                                  "Добавили text ===================================================== + $newText");
-                              infoNewText.add(lableController.text.toString());
-                              infoNewText.add(authorController.text.toString());
-                              infoNewText.add("90");
-                              infoNewText.add("9.2");
-
-                              await pref.setStringList(
-                                  '${uuid}_info', infoNewText);
-                              print(
-                                  "Добавили info ===================================================== + $infoNewText");
-                              await pref.setStringList('${uuid}_res', <String>[
-                                '-',
-                              ]);
-                              my_lib = await pref.getStringList("my_lib") ?? [];
-                              print(
-                                  "Добавили my_lib ===================================================== + $my_lib");
-                              for (var i = 0; i < my_lib.length; i++) {
-                                var dott = await pref
-                                    .getStringList("${my_lib[i]}_info");
+                              newText.add(controllers[i].text);
+                            }
+                            newText.removeWhere((item) => item == '');
+                            if ((lableController.text.isNotEmpty) &
+                                (authorController.text.isNotEmpty) &
+                                (newText.isNotEmpty)) {
+                              if (isEdit == false) {
+                                String uuid = Uuid().v4();
+                                items.add(uuid);
+                                await pref.setStringList('my_lib', items);
                                 print(
-                                    "Добавили дотттт ===================================================== + $dott");
-                                text_titles.add(dott![0]);
-                                text_autor.add(dott[1]);
+                                    "Добавили ===================================================== + $items");
+                                await pref.setStringList('$uuid', newText);
+                                print(
+                                    "Добавили text ===================================================== + $newText");
+                                infoNewText
+                                    .add(lableController.text.toString());
+                                infoNewText
+                                    .add(authorController.text.toString());
+                                infoNewText
+                                    .add((libLineTime(newText)).toString());
+                                infoNewText.add("9.2");
+
+                                await pref.setStringList(
+                                    '${uuid}_info', infoNewText);
+                                print(
+                                    "Добавили info ===================================================== + $infoNewText");
+                                await pref
+                                    .setStringList('${uuid}_res', <String>[
+                                  '-',
+                                ]);
+                                items =
+                                    await pref.getStringList("my_lib") ?? [];
+                                print(
+                                    "Добавили my_lib ===================================================== + $items");
+                                text_autor = [];
+                                text_titles = [];
+                                for (var i = 0; i < items.length; i++) {
+                                  var dott =
+                                      await pref.getStringList("${uuid}_info");
+                                  print(
+                                      "Добавили дотттт ===================================================== + $dott");
+                                  text_titles.add(dott![0]);
+                                  text_autor.add(dott[1]);
+                                }
+
+                                print(
+                                    "Добавили названия ===================================================== + $text_titles");
+                                print(
+                                    "Добавили автор ===================================================== + $text_autor");
+
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            SavePage()));
+                              } else {
+                                await pref.remove('${items[selectIndex]}');
+                                await pref.setStringList(
+                                    '${items[selectIndex]}', newText);
+                                print(newText);
+                                infoNewText
+                                    .add(lableController.text.toString());
+                                infoNewText
+                                    .add(authorController.text.toString());
+                                infoNewText
+                                    .add((libLineTime(newText)).toString());
+                                infoNewText.add("9.2");
+
+                                await pref.setStringList(
+                                    '${items[selectIndex]}_info', infoNewText);
+
+                                text_autor = [];
+                                text_titles = [];
+                                for (var i = 0; i < items.length; i++) {
+                                  var dott = await pref
+                                      .getStringList("${items[i]}_info");
+                                  text_titles.add(dott![0]);
+                                  text_autor.add(dott[1]);
+                                  Navigator.of(context).push(PageRouteBuilder(
+                                      opaque: false,
+                                      pageBuilder:
+                                          (BuildContext context, _, __) =>
+                                              SavePage()));
+                                }
                               }
-
-                              print(
-                                  "Добавили названия ===================================================== + $text_titles");
-                              print(
-                                  "Добавили автор ===================================================== + $text_autor");
-
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  opaque: false,
-                                  pageBuilder: (BuildContext context, _, __) =>
-                                      SavePage()));
                             }
                           },
                           child: Container(
