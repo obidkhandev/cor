@@ -1,6 +1,7 @@
 import 'package:cor/CreateTextPage.dart';
 import 'package:cor/ReadingPage.dart';
 import 'package:cor/TextPage.dart';
+import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -63,7 +64,9 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(child:Image.asset("assets/images/settings.jpg",) ,))),
+                              child: GestureDetector(   onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) => SettingsPage()));},child:Image.asset("assets/images/settings.jpg",) ,))),
                     ],
                   ),
 

@@ -2,6 +2,7 @@ import 'package:cor/ChoiceTextPage.dart';
 import 'package:cor/MyLibraryPage.dart';
 import 'package:cor/Pref.dart';
 import 'package:cor/main.dart';
+import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -56,7 +57,9 @@ class _TextPageState extends State<TextPage> {
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(
+                              child: GestureDetector(   onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) => SettingsPage()));},
                                 child: Image.asset(
                                   "assets/images/settings.jpg",
                                 ),

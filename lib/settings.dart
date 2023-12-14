@@ -41,13 +41,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Column(
                       children: [
                         GestureDetector(
-                            onTap: (){Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => ManualPage(),
-                              ),
-                                  (route) => false,//if you want to disable back feature set to false
-                            );},
+                            onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) => ManualPage()));},
                             child: Text(
                               "Инструкция",textAlign: TextAlign.center,
                               style: TextStyle(

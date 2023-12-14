@@ -1,3 +1,4 @@
+import 'package:animated_line_through/animated_line_through.dart';
 import 'package:cor/BreathingTrainingPage.dart';
 import 'package:cor/ManualPage.dart';
 import 'package:cor/Pref.dart';
@@ -56,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     initBD();
   }
-
+  bool _isCrossed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontWeight: FontWeight.w700),
                         textAlign: TextAlign.center,
                       )),
+
+
                   Spacer(
                     flex: 3,
                   ),
@@ -134,10 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           GestureDetector(
                               onTap: () {
-/*
+
                             Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
-                                pageBuilder: (BuildContext context, _, __) => LetterPage()));*/
+                                pageBuilder: (BuildContext context, _, __) => ManualPage()));
                               },
                               child: Container(
                                 width:

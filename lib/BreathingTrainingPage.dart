@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:linear_timer/linear_timer.dart';
@@ -60,7 +61,12 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(child:Image.asset("assets/images/settings.jpg",) ,))),
+                              child: GestureDetector(
+                                onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder: (BuildContext context, _, __) => SettingsPage()));},
+
+                                child:Image.asset("assets/images/settings.jpg",) ,))),
                     ],
                   ),
                   Container(

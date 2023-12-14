@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:animated_line_through/animated_line_through.dart';
+import 'package:cor/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +36,7 @@ class ReadingPage extends StatefulWidget {
 
 bool isRecord = false;
 var indexLines = 0;
-List<bool> timerRunning = [false, false, false, false];
+List<bool> _isCrossed = [false, false, false, false];
 List<bool> inhale = [true, true, true, true];
 
 List<num> initLineTime(List<String> cur_lines, num? selectSpeed) {
@@ -375,14 +377,20 @@ class _ReadingPageState extends State<ReadingPage>
                   padding: EdgeInsets.only(top: 24),
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: GestureDetector(
+                      child: GestureDetector(   onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) => SettingsPage()));},
                         child: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Image.asset(
                           "assets/images/settings.jpg",
-                        ):Container(
+                        ):GestureDetector(
+                            onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) => SettingsPage()));},
+                            child:Container(
                           height: 30,
                             child:Image.asset(
                           "assets/images/settings.jpg",
-                        )),
+                        ))),
                       ))),
             ],
           ),
@@ -478,25 +486,85 @@ class _ReadingPageState extends State<ReadingPage>
                                           1.6,
                                     ),
                                     child: readingMode == "2 строки"
-                                        ? Text(
+                                        ?
+                                    Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(bottom: 10),
+                                            child:Text(
+                                              ((indexLines + 1) >
+                                                  (lines.length - 1))
+                                                  ? "${lines[indexLines]}"
+                                                  : "${lines[indexLines]} ${lines?[indexLines + 1] ?? " "}",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                  fontSize: 16),
+                                            )),
+                                        AnimatedLineThrough( color: _isCrossed[0]?Colors.indigo:Colors.transparent,
+                                          duration: Duration(
+                                              milliseconds: (1000 *
+                                                  initLineTime(
+                                                      lines,
+                                                      readingSpeed)[
+                                                  indexLines +
+                                                      0])
+                                                  .toInt()),
+                                          isCrossed: _isCrossed[0],
+                                          strokeWidth: 2,
+                                          child: Text(
                                             ((indexLines + 1) >
-                                                    (lines.length - 1))
+                                                (lines.length - 1))
                                                 ? "${lines[indexLines]}"
                                                 : "${lines[indexLines]} ${lines?[indexLines + 1] ?? " "}",
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.transparent,
                                                 fontWeight:
-                                                    FontWeight.w700,
-                                                fontSize: 16),
-                                          )
-                                        : Text(
-                                            "lines[indexLines] sldjfk;dsj ksjdf k;jsdkf; jsk;djf; ksjdf;k js;kdfj k;sdjf;skdjfk; jsdf sd",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight:
-                                                    FontWeight.w700,
+                                                FontWeight.w700,
                                                 fontSize: 16),
                                           ),
+                                        ),
+                                      ],
+                                    )
+
+                                        : Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(bottom: 10),
+                                            child:Text(
+                                              lines[indexLines] ,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                  fontSize: 16),
+                                            )),
+                                        AnimatedLineThrough(
+                                          color: _isCrossed[0]?Colors.indigo:Colors.transparent,
+                                          duration: Duration(
+                                              milliseconds: (1000 *
+                                                  initLineTime(
+                                                      lines,
+                                                      readingSpeed)[
+                                                  indexLines +
+                                                      0])
+                                                  .toInt()),
+                                          isCrossed: _isCrossed[0],
+                                          strokeWidth: 2,
+                                          child: Text(
+                                            lines[indexLines] ,
+                                            style: TextStyle(
+                                                color: Colors.transparent,
+                                                fontWeight:
+                                                FontWeight.w700,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                       width: wdth1,
@@ -504,7 +572,7 @@ class _ReadingPageState extends State<ReadingPage>
                                           onTimerStart: () {},
                                           backgroundColor:
                                               Colors.transparent,
-                                          color: Colors.indigo,
+                                          color: Colors.transparent,
                                           duration: Duration(
                                               milliseconds: (1000 *
                                                       initLineTime(
@@ -517,6 +585,7 @@ class _ReadingPageState extends State<ReadingPage>
                                           onTimerEnd: () {
                                             timerController1.stop();
                                             timerController1.reset();
+                                            _isCrossed[0]=false;
 
                                             if (indexLines + 1 <=
                                                 lines.length - 1) {
@@ -541,6 +610,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                 });
                                                 timerController2
                                                     .start();
+                                                _isCrossed[1]=true;
                                               });
                                             } else {
                                               print("Закончили!");
@@ -601,31 +671,87 @@ class _ReadingPageState extends State<ReadingPage>
                                             1.6,
                                       ),
                                       child: readingMode == "2 строки"
-                                          ? Text(
+                                          ?  Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.only(bottom: 10),
+                                              child:Text(
+                                                ((indexLines + 3) >
+                                                    (lines.length -
+                                                        1))
+                                                    ? "${lines[indexLines + 2]} "
+                                                    : "${lines[indexLines + 2]} ${lines?[indexLines + 3] ?? " "}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16),
+                                              )),
+                                          AnimatedLineThrough( color: _isCrossed[1]?Colors.indigo:Colors.transparent,
+                                            duration: Duration(
+                                                milliseconds: (1000 *
+                                                    initLineTime(
+                                                        lines,
+                                                        readingSpeed)[
+                                                    indexLines +
+                                                        1])
+                                                    .toInt()),
+                                            isCrossed: _isCrossed[1],
+                                            strokeWidth: 2,
+                                            child: Text(
                                               ((indexLines + 3) >
-                                                      (lines.length -
-                                                          1))
+                                                  (lines.length -
+                                                      1))
                                                   ? "${lines[indexLines + 2]} "
                                                   : "${lines[indexLines + 2]} ${lines?[indexLines + 3] ?? " "}",
                                               style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Colors.transparent,
                                                   fontWeight:
-                                                      FontWeight.w700,
+                                                  FontWeight.w700,
                                                   fontSize: 16),
-                                            )
-                                          : Text(lines[indexLines + 1],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight:
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                          :  Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.only(bottom: 10),
+                                              child:Text(lines[indexLines + 1],
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
                                                       FontWeight.w700,
-                                                  fontSize: 16))),
+                                                      fontSize: 16))),
+                                          AnimatedLineThrough( color: _isCrossed[1]?Colors.indigo:Colors.transparent,
+                                              duration: Duration(
+                                                  milliseconds: (1000 *
+                                                      initLineTime(
+                                                          lines,
+                                                          readingSpeed)[
+                                                      indexLines +
+                                                          1])
+                                                      .toInt()),
+                                            isCrossed: _isCrossed[1],
+                                            strokeWidth: 2,
+                                            child: Text(lines[indexLines + 1],
+                                                style: TextStyle(
+                                                    color: Colors.transparent,
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16))
+                                          ),
+                                        ],
+                                      )),
                                   Container(
                                       width: wdth2,
                                       child: LinearTimer(
                                           // forward: false,
                                           backgroundColor:
                                               Colors.transparent,
-                                          color: Colors.indigo,
+                                          color: Colors.transparent,
                                           duration: Duration(
                                               milliseconds: (1000 *
                                                       initLineTime(
@@ -638,7 +764,7 @@ class _ReadingPageState extends State<ReadingPage>
                                           onTimerEnd: () {
                                             timerController2.stop();
                                             timerController2.reset();
-
+_isCrossed[1]=false;
                                             if (indexLines + 2 <=
                                                 lines.length - 1) {
                                               if (readingMode !=
@@ -664,6 +790,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                   });
                                                   timerController3
                                                       .start();
+                                                  _isCrossed[2]=true;
                                                 });
                                               } else {
                                                 if (indexLines + 4 <=
@@ -695,6 +822,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     });
                                                     timerController1
                                                         .start();
+                                                    _isCrossed[0]=true;
                                                   });
                                                 }
                                               }
@@ -764,20 +892,46 @@ class _ReadingPageState extends State<ReadingPage>
                                                         .width /
                                                     1.6,
                                           ),
-                                          child: Text(
-                                              lines[indexLines + 2],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight:
-                                                      FontWeight.w700,
-                                                  fontSize: 16))),
+                                          child:  Stack(
+                                            alignment: Alignment.bottomCenter,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(bottom: 10),
+                                                  child:Text(
+                                                      lines[indexLines + 2],
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                          FontWeight.w700,
+                                                          fontSize: 16))),
+                                              AnimatedLineThrough( color: _isCrossed[2]?Colors.indigo:Colors.transparent,
+                                                  duration: Duration(
+                                                      milliseconds: (1000 *
+                                                          initLineTime(
+                                                              lines,
+                                                              readingSpeed)[
+                                                          indexLines +
+                                                              2])
+                                                          .toInt()),
+                                                isCrossed: _isCrossed[2],
+                                                strokeWidth: 2,
+                                                child: Text(
+                                                    lines[indexLines + 2],
+                                                    style: TextStyle(
+                                                        color: Colors.transparent,
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                        fontSize: 16))
+                                              ),
+                                            ],
+                                          )),
                                       Container(
                                           width: wdth3,
                                           child: LinearTimer(
                                               onTimerStart: () {},
                                               backgroundColor:
                                                   Colors.transparent,
-                                              color: Colors.indigo,
+                                              color: Colors.transparent,
                                               duration: Duration(
                                                   milliseconds: (1000 *
                                                           initLineTime(
@@ -792,6 +946,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                 timerController3.stop();
                                                 timerController3
                                                     .reset();
+                                                _isCrossed[2]=false;
 
                                                 if (indexLines + 3 <=
                                                     lines.length - 1) {
@@ -817,6 +972,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     });
                                                     timerController4
                                                         .start();
+                                                    _isCrossed[3]=true;
                                                   });
                                                 } else {
                                                   print("Закончили!");
@@ -884,21 +1040,49 @@ class _ReadingPageState extends State<ReadingPage>
                                                         .width /
                                                     1.6,
                                           ),
-                                          child: Text(
-                                            lines[indexLines + 3],
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight:
-                                                  FontWeight.w700,
-                                              fontSize: 16,
-                                            ),
+                                          child:  Stack(
+                                            alignment: Alignment.bottomCenter,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsets.only(bottom: 10),
+                                                  child:Text(
+                                                    lines[indexLines + 3],
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                      fontSize: 16,
+                                                    ),
+                                                  )),
+                                              AnimatedLineThrough( color: _isCrossed[3]?Colors.indigo:Colors.transparent,
+                                                  duration: Duration(
+                                                      milliseconds: (1000 *
+                                                          initLineTime(
+                                                              lines,
+                                                              readingSpeed)[
+                                                          indexLines +
+                                                              2])
+                                                          .toInt()),
+                                                isCrossed: _isCrossed[3],
+                                                strokeWidth: 2,
+                                                child: Text(
+                                                  lines[indexLines + 3],
+                                                  style: TextStyle(
+                                                    color: Colors.transparent,
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                    fontSize: 16,
+                                                  ),
+                                                )
+                                              ),
+                                            ],
                                           )),
                                       Container(
                                           width: wdth4,
                                           child: LinearTimer(
                                               backgroundColor:
                                                   Colors.transparent,
-                                              color: Colors.indigo,
+                                              color: Colors.transparent,
                                               duration: Duration(
                                                   milliseconds: (1000 *
                                                           initLineTime(
@@ -913,6 +1097,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                 timerController4.stop();
                                                 timerController4
                                                     .reset();
+                                                _isCrossed[3]=false;
 
                                                 if (indexLines + 4 <=
                                                     lines.length - 1) {
@@ -943,6 +1128,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     });
                                                     timerController1
                                                         .start();
+                                                    _isCrossed[0]=true;
                                                   });
                                                 } else {
                                                   print("Закончили!");
@@ -1253,8 +1439,10 @@ class _ReadingPageState extends State<ReadingPage>
                     Future.delayed(const Duration(milliseconds: 1500),
                         () {
                       inhale = [false, true, true, true];
+                      _isCrossed=[true, false, false, false];
                       setState(() {});
                       timerController1.start();
+                      _isCrossed[0]=true;
                     });
                   });
                 } else {
@@ -1283,6 +1471,7 @@ class _ReadingPageState extends State<ReadingPage>
                     );
                   }
                   inhale = [false, false, false, false];
+                  _isCrossed = [false, false, false, false];
                   timerController1.stop();
                   timerController2.stop();
                   timerController3.stop();
