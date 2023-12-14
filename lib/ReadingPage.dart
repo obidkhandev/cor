@@ -12,6 +12,7 @@ import 'package:cor/ResultPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:cor/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 
@@ -33,84 +34,119 @@ class ReadingPage extends StatefulWidget {
 
 bool isRecord = false;
 var indexLines = 0;
-List<bool> timerRunning = [false,false,false,false];
-List<bool> inhale = [false,false,false,false];
-List<num> initLineTime (List<String>cur_lines, num? selectSpeed){
+List<bool> timerRunning = [false, false, false, false];
+List<bool> inhale = [true, true, true, true];
 
+List<num> initLineTime(List<String> cur_lines, num? selectSpeed) {
   num syllable_A;
   num exhalation_B;
   num speed_C;
   num count_vowels = 0;
   for (var i = 0; i < cur_lines.length; i++) {
-    count_vowels = count_vowels + 'а'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'у'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'о'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'ы'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'и'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'э'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'я'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'ю'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'е'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + 'ё'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'а'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'у'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'о'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'ы'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'и'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'э'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'я'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'ю'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'е'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + 'ё'.allMatches(cur_lines[i].toLowerCase()).length;
 
-    count_vowels = count_vowels + ' в '.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + ' с '.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels = count_vowels + ' к '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + ' в '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + ' с '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels =
+        count_vowels + ' к '.allMatches(cur_lines[i].toLowerCase()).length;
   }
   print(count_vowels);
-  print(count_vowels/(cur_lines.length));
-  readingMode=="1 строка"?syllable_A =count_vowels/(cur_lines.length) :syllable_A =count_vowels/((cur_lines.length)/2); //==================СРЕДНЕЕ КОЛИЧЕСТВО СЛОГОВ
-  print(count_vowels/(cur_lines.length)*0.4);
-  exhalation_B = syllable_A*0.4;//=============== среднее время выдоха
-  print(count_vowels/(cur_lines.length)*0.4+1.5);
-  print((count_vowels/(cur_lines.length)*0.4+1.5)/60);
-  print(((syllable_A)/((syllable_A*0.4+1.5)/60)).toString()+"speed");
-  speed_C = (syllable_A)/((syllable_A*0.4+1.5)/60);//=============== СКОРОСТЬ ЧТЕНИЯ
+  print(count_vowels / (cur_lines.length));
+  readingMode == "1 строка"
+      ? syllable_A = count_vowels / (cur_lines.length)
+      : syllable_A = count_vowels /
+          ((cur_lines.length) /
+              2); //==================СРЕДНЕЕ КОЛИЧЕСТВО СЛОГОВ
+  print(count_vowels / (cur_lines.length) * 0.4);
+  exhalation_B = syllable_A * 0.4; //=============== среднее время выдоха
+  print(count_vowels / (cur_lines.length) * 0.4 + 1.5);
+  print((count_vowels / (cur_lines.length) * 0.4 + 1.5) / 60);
+  print(((syllable_A) / ((syllable_A * 0.4 + 1.5) / 60)).toString() + "speed");
+  speed_C = (syllable_A) /
+      ((syllable_A * 0.4 + 1.5) / 60); //=============== СКОРОСТЬ ЧТЕНИЯ
 
-  num syllable_1_D;//=============== Длительность 1 слога
-  selectSpeed==null
-      ? syllable_1_D=(syllable_A/speed_C*60-1.5)/syllable_A
-  :syllable_1_D=(syllable_A/selectSpeed*60-1.5)/syllable_A;
+  num syllable_1_D; //=============== Длительность 1 слога
+  selectSpeed == null
+      ? syllable_1_D = (syllable_A / speed_C * 60 - 1.5) / syllable_A
+      : syllable_1_D = (syllable_A / selectSpeed * 60 - 1.5) / syllable_A;
 
-
-  List<num> timeForLine=[];//============================время для каждой линии
+  List<num> timeForLine =
+      []; //============================время для каждой линии
   for (var i = 0; i < cur_lines.length; i++) {
     num count_vowels_with = 0;
 
-    count_vowels_with = count_vowels_with + 'а'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'у'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'о'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'ы'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'и'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'э'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'я'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'ю'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'е'.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + 'ё'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'а'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'у'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'о'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'ы'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'и'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'э'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'я'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'ю'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'е'.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + 'ё'.allMatches(cur_lines[i].toLowerCase()).length;
 
-    count_vowels_with = count_vowels_with + ' в '.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + ' с '.allMatches(cur_lines[i].toLowerCase()).length;
-    count_vowels_with = count_vowels_with + ' к '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + ' в '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + ' с '.allMatches(cur_lines[i].toLowerCase()).length;
+    count_vowels_with =
+        count_vowels_with + ' к '.allMatches(cur_lines[i].toLowerCase()).length;
 
-    count_vowels_with = count_vowels_with + ('. '.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + (','.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + ('?'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + ('!'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + ('...'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + (':'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + (';'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
-    count_vowels_with = count_vowels_with + ('-'.allMatches(cur_lines[i].toLowerCase()).length)*0.25 ;
+    count_vowels_with = count_vowels_with +
+        ('. '.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        (','.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        ('?'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        ('!'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        ('...'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        (':'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        (';'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
+    count_vowels_with = count_vowels_with +
+        ('-'.allMatches(cur_lines[i].toLowerCase()).length) * 0.25;
 
-    timeForLine.add(syllable_1_D*count_vowels_with);
+    timeForLine.add(syllable_1_D * count_vowels_with);
   }
-print(timeForLine);
+  print(timeForLine);
 
   return timeForLine;
-
-
 }
-
-
 
 late FlutterSoundRecorder _recordingSession;
 final recordingPlayer = AssetsAudioPlayer();
@@ -119,7 +155,6 @@ bool _playAudio = false;
 
 class _ReadingPageState extends State<ReadingPage>
     with TickerProviderStateMixin {
-
   final _key1 = GlobalKey();
   final _key2 = GlobalKey();
   final _key3 = GlobalKey();
@@ -134,46 +169,25 @@ class _ReadingPageState extends State<ReadingPage>
   late Timer _timer;
   bool _isStart = false;
 
+  double wdth1 = 50;
+  double wdth2 = 50;
+  double wdth3 = 50;
+  double wdth4 = 50;
 
-
-
-
-
-   double wdth1 =50;
-  double wdth2 =50;
-  double wdth3=50;
-  double wdth4 =50;
-
-  wdthFunc(BuildContext context)
-  {
-
+  wdthFunc(BuildContext context) {
     setState(() {
-      wdth1= _key1.currentContext?.size?.width ?? 50 ;
-      wdth2= _key2.currentContext?.size?.width ?? 50 ;
-      wdth3= _key3.currentContext?.size?.width ?? 50 ;
-      wdth4= _key4.currentContext?.size?.width ?? 50 ;
+      wdth1 = _key1.currentContext?.size?.width ?? 50;
+      wdth2 = _key2.currentContext?.size?.width ?? 50;
+      wdth3 = _key3.currentContext?.size?.width ?? 50;
+      wdth4 = _key4.currentContext?.size?.width ?? 50;
     });
   }
 
 
 
-
-
-
-  @override
-  void initState() {
-    super.initState();
-    initializer();
-
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => wdthFunc(context));
-
-  }
-
   void initializer() async {
-
-    List<String>? resPath = await pref.getStringList(
-        '${items[selectIndex]}_res');
+    List<String>? resPath =
+        await pref.getStringList('${items[selectIndex]}_res');
     String uuid = Uuid().v4();
     pathToAudio = '/sdcard/Download/${items[selectIndex]}_${uuid}.wav';
     resPath?.add(pathToAudio);
@@ -182,17 +196,19 @@ class _ReadingPageState extends State<ReadingPage>
         /*focus: AudioFocus.requestFocusAndStopOthers,
         category: SessionCategory.playAndRecord,
         mode: SessionMode.modeDefault,
-        device: AudioDevice.speaker*/);
+        device: AudioDevice.speaker*/
+        );
     await _recordingSession.setSubscriptionDuration(Duration(milliseconds: 10));
     await initializeDateFormatting();
     await Permission.microphone.request();
     await Permission.storage.request();
     await Permission.manageExternalStorage.request();
   }
+
   ElevatedButton createElevatedButton(
       {required IconData icon,
-        required Color iconColor,
-        required Function onPressFunc}) {
+      required Color iconColor,
+      required Function onPressFunc}) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(6.0),
@@ -219,7 +235,6 @@ class _ReadingPageState extends State<ReadingPage>
   }
 
   Future<void> startRecording() async {
-
     print("========================================ЗАПИСЬ ИДЕТ ");
     Directory directory = Directory(path.dirname(pathToAudio));
     if (!directory.existsSync()) {
@@ -231,13 +246,11 @@ class _ReadingPageState extends State<ReadingPage>
       codec: Codec.pcm16WAV,
     );
     StreamSubscription _recorderSubscription =
-    _recordingSession.onProgress!.listen((e) {
+        _recordingSession.onProgress!.listen((e) {
       var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
           isUtc: true);
       var timeText = DateFormat('mm:ss:SS', 'en_GB').format(date);
-      setState(() {
-
-      });
+      setState(() {});
     });
     _recorderSubscription.cancel();
   }
@@ -259,20 +272,9 @@ class _ReadingPageState extends State<ReadingPage>
   Future<void> stopPlayFunc() async {
     recordingPlayer.stop();
   }
-  @override
-  void dispose() {
-    _timer.cancel();
-
-    super.dispose();
-  }
-
-
-
-
 
   void _startTimer() {
-
-  /*  Timer.periodic(Duration(milliseconds: (_remainingTime*1000/11).toInt()), (timer)async {
+    /*  Timer.periodic(Duration(milliseconds: (_remainingTime*1000/11).toInt()), (timer)async {
       for(int sound=1; sound<12; sound++) {
        await player.play(AssetSource("0$sound.ogg") );
         print("====================================================$sound");
@@ -291,457 +293,530 @@ class _ReadingPageState extends State<ReadingPage>
     });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    initializer();
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+    WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
+    super.dispose();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+          body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg.png"),
-            fit: BoxFit.cover,
+    image: AssetImage("assets/images/bg.png"),
+    fit: BoxFit.cover,
           ),
-        ),
-        child: Padding(
-            padding: EdgeInsets.only(right: 8, left: 8),
-            child: Center(
+          ),
+          child: Padding(
+    padding: EdgeInsets.only(right: 8, left: 8),
+    child: Center(
+      child: Container(
+          width: MediaQuery.of(context).size.width-50,
+          height:  MediaQuery.of(context).size.height,
+          child:Column(
+      //  mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(top: 4),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?SvgPicture.asset(
+                          "assets/images/back.svg",
+                          colorFilter: ColorFilter.mode(
+                              Colors.red, BlendMode.srcIn),
+                        ):Container(
+                            height: 30,
+                            child:SvgPicture.asset(
+                          "assets/images/back.svg",
+                          colorFilter: ColorFilter.mode(
+                              Colors.red, BlendMode.srcIn),
+                        )),
+                      ))),
+              (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Container():  Container(
+                  width: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width/5 ,
+
+                  padding: EdgeInsets.only(right: 4, left: 4),
+                  margin:(MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? EdgeInsets.only(top: 12,): EdgeInsets.only(top: 0),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(217, 217, 217, 1),
+                  ),
+                  child: Text(
+                    "0:0$_remainingTime",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?40:28,
+                        fontWeight: FontWeight.w800),
+                    textAlign: TextAlign.center,
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(top: 24),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        child: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Image.asset(
+                          "assets/images/settings.jpg",
+                        ):Container(
+                          height: 30,
+                            child:Image.asset(
+                          "assets/images/settings.jpg",
+                        )),
+                      ))),
+            ],
+          ),
+          (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? Container(
+              width: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? MediaQuery.of(context).size.width / 2:MediaQuery.of(context).size.width/5 ,
+
+              padding: EdgeInsets.only(right: 4, left: 4),
+              margin:(MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? EdgeInsets.only(top: 12,): EdgeInsets.only(top: 0),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
+              child: Text(
+                "0:0$_remainingTime",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?40:28,
+                    fontWeight: FontWeight.w800),
+                textAlign: TextAlign.center,
+              )):Container(),
+          Container(
+              //width: MediaQuery.of(context).size.width-50,
+              margin: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?EdgeInsets.only(bottom: 12, top: 12):EdgeInsets.only(bottom: 4, top: 4),
+              padding:
+                  EdgeInsets.only(top: 2, bottom: 2, right: 6, left: 6),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(126, 157, 198, 1),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)),
+              ),
+              child: Text(
+                "Режим чтения ${readingMode}",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize:(MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? 20:14,
+                    fontWeight: FontWeight.w800),
+                textAlign: TextAlign.center,
+              )),
+          Spacer(
+            flex: 1,
+          ),
+          Center(child:Container(
+              width: MediaQuery.of(context).size.width / 1.4,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 24),
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/back.svg",
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.red, BlendMode.srcIn),
-                                ),
-                              ))),
-                      Padding(
-                          padding: EdgeInsets.only(top: 24),
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                child: Image.asset(
-                                  "assets/images/settings.jpg",
-                                ),
-                              ))),
-                    ],
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      padding: EdgeInsets.only(right: 12, left: 12),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(217, 217, 217, 1),
-                      ),
-                      child: Text(
-                        "0:0$_remainingTime",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w800),
-                        textAlign: TextAlign.center,
-                      )),
-                  Container(
-                      //width: MediaQuery.of(context).size.width-50,
-                      margin: EdgeInsets.only(bottom: 22, top: 22),
-                      padding:
-                          EdgeInsets.only(top: 2, bottom: 2, right: 6, left: 6),
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(126, 157, 198, 1),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10)),
-                      ),
-                      child: Text(
-                        "Режим чтения ${readingMode}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800),
-                        textAlign: TextAlign.center,
-                      )),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          (indexLines) > lines.length - 1
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                   inhale[0]? Container(
-                                       width: 10,
-                                       child:Image.asset(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  (indexLines) > lines.length - 1
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            inhale[0]
+                                ? Container(
+                                    width: 10,
+                                    child: Image.asset(
                                       "assets/images/arrowTop.png",
-                                    )):Container(width: 10,),
-                                    Container(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(right: 12, left: 2),
-                                      padding: EdgeInsets.only(
-                                          top: 6, bottom: 6, right: 6, left: 6),
-                                      //  width: MediaQuery.of(context).size.width/1.5,
+                                    ))
+                                : Container(
+                                    width: 10,
+                                  ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width /
+                                        1.6,
+                              ),
+                              margin:
+                                  EdgeInsets.only(right: 12, left: 2),
+                              padding: EdgeInsets.only(
+                                  top: 1, bottom: 1, right: 6, left: 6),
+                              //  width: MediaQuery.of(context).size.width/1.5,
 
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                       Container(
-                                         key: _key1,
-                                         constraints: BoxConstraints(
-                                           maxWidth: MediaQuery.of(context).size.width / 1.6,
-                                         ),
-                                         child: readingMode=="2 строки" ?
-                                        Text(
-                                          ((indexLines+1)>(lines.length - 1))?"${lines[indexLines]}": "${lines[indexLines]} ${lines?[indexLines+1] ?? " "}",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
-
-                                        )
-                                            : Text(
-                                            lines[indexLines],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16),
-
-                                          ),),
-                                          Container(
-                                              width: wdth1,
-                                              child:LinearTimer(
-                                              onTimerStart: (){
-
-
-
-                                              },
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.indigo,
-                                              duration: Duration(milliseconds: (1000*initLineTime(lines,readingSpeed)[indexLines + 0]).toInt()),
-                                              controller: timerController1,
-                                              onTimerEnd: () {
-                                                timerController1.stop();
-                                                timerController1.reset();
-
-                                                if (indexLines + 1 <= lines.length - 1) {
-                                                  inhale=[false, true,false,false];
-                                                  Future.delayed(const Duration(milliseconds: 1500), () {
-
-                                                    inhale=[false, false,false,false];
-                                                    setState(() {
-                                                      wdthFunc(context);
-                                                    });
-                                                    timerController2.start();
-                                                  });
-
-                                                } else {
-                                                  print("Закончили!");
-                                                }
-                                                setState(() {
-                                                  wdthFunc(context);
-                                                });
-                                              }
-                                          )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 0.5,
                                 ),
-                          (indexLines + 1) > lines.length - 1
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    inhale[1]? Container(
-                                        width: 10,
-                                        child:Image.asset(
-                                          "assets/images/arrowTop.png",
-                                        )):Container(width: 10,),
-                                    Container(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(right: 12, left: 2),
-                                      padding: EdgeInsets.only(
-                                          top: 6, bottom: 6, right: 6, left: 6),
-                                      //  width: MediaQuery.of(context).size.width/1.5,
-
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                         Container(
-                                             key:_key2,
-                                             constraints: BoxConstraints(
-                                               maxWidth: MediaQuery.of(context).size.width / 1.6,
-                                             ),
-                                             child: readingMode=="2 строки" ?
-                                          Text(
-                                            ((indexLines+3)>(lines.length - 1))? "${lines[indexLines+2]} ": "${lines[indexLines+2]} ${lines?[indexLines+3]??" "}",
+                                color: Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    key: _key1,
+                                    constraints: BoxConstraints(
+                                      maxWidth: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                          1.6,
+                                    ),
+                                    child: readingMode == "2 строки"
+                                        ? Text(
+                                            ((indexLines + 1) >
+                                                    (lines.length - 1))
+                                                ? "${lines[indexLines]}"
+                                                : "${lines[indexLines]} ${lines?[indexLines + 1] ?? " "}",
                                             style: TextStyle(
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.w700,
+                                                fontWeight:
+                                                    FontWeight.w700,
                                                 fontSize: 16),
-
                                           )
-                                              : Text(lines[indexLines + 1],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16))),
-                                         Container(
-                                             width: wdth2,
-                                             child: LinearTimer(
-                                             // forward: false,
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.indigo,
-                                              duration: Duration(milliseconds: (1000*initLineTime(lines,readingSpeed)[indexLines + 1]).toInt()),
-                                              controller: timerController2,
-                                              onTimerEnd: () {
-                                                timerController2.stop();
-                                                timerController2.reset();
-
-
-                                                if (indexLines + 2 <= lines.length - 1) {
-                                                  if(readingMode!="2 строки" ){
-                                                    inhale = [
-                                                      false,
-                                                      false,
-                                                      true,
-                                                      false
-                                                    ];
-                                                    Future.delayed(
-                                                        const Duration(
-                                                            milliseconds: 1500),
-                                                        () {
-                                                      inhale = [
-                                                        false,
-                                                        false,
-                                                        false,
-                                                        false
-                                                      ];
-                                                      setState(() {wdthFunc(context);});
-                                                      timerController3.start();
-                                                    });
-                                                  }
-                                                  else{
-                                                    if (indexLines + 4 <= lines.length - 1) {
-                                                      indexLines = indexLines + 4;
-                                                      setState(() {
-                                                        wdthFunc(context);
-                                                      });
-                                                      inhale=[true, false,false,false];
-                                                      Future.delayed(const Duration(milliseconds: 1500), () {
-
-                                                        inhale=[false, false,false,false];
-                                                        setState(() {
-                                                          wdthFunc(context);
-                                                        });
-                                                        timerController1.start();
-                                                      });
-                                                    }}
-                                                } else {
-                                                  print("Закончили!");
-                                                }
-                                                setState(() {
-                                                  wdthFunc(context);
-                                                });
-                                              }
-                                          )),
-
-                                        ],
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                          (indexLines + 2) > lines.length - 1
-                              ? Container()
-                              : readingMode=="2 строки" ?Container():Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    inhale[2]? Container(
-                                        width: 10,
-                                        child:Image.asset(
-                                          "assets/images/arrowTop.png",
-                                        )):Container(width: 10,),
-                                    Container(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(right: 12, left: 2),
-                                      padding: EdgeInsets.only(
-                                          top: 6, bottom: 6, right: 6, left: 6),
-                                      //  width: MediaQuery.of(context).size.width/1.5,
-
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container( key: _key3,
-                                              constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width / 1.6,
-                                              ),
-                                              child:Text(lines[indexLines + 2],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16))),
-                                          Container(
-                                              width: wdth3,
-                                              child:LinearTimer(
-                                              onTimerStart: (){
-
-
-
-                                              },
-                                              backgroundColor: Colors.transparent,
-                                              color: Colors.indigo,
-                                              duration: Duration(milliseconds: (1000*initLineTime(lines,readingSpeed)[indexLines + 2]).toInt()),
-                                              controller: timerController3,
-                                              onTimerEnd: () {
-                                                timerController3.stop();
-                                                timerController3.reset();
-
-
-                                                if (indexLines + 3 <= lines.length - 1) {
-
-                                                  inhale=[false, false,false,true];
-                                                  Future.delayed(const Duration(milliseconds: 1500), () {
-
-                                                    inhale=[false, false,false,false];
-                                                    setState(() {
-                                                      wdthFunc(context);
-                                                    });
-                                                    timerController4.start();
-                                                  });
-                                                } else {
-                                                  print("Закончили!");
-                                                }
-                                                setState(() {
-                                                  wdthFunc(context);
-                                                });
-                                              }
-                                          )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                          (indexLines + 3) > lines.length - 1
-                              ? Container()
-                              : readingMode=="2 строки" ?Container():Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    inhale[3]? Container(
-                                        width: 10,
-                                        child:Image.asset(
-                                          "assets/images/arrowTop.png",
-                                        )):Container(width: 10,),
-                                    Container(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(right: 12, left: 2),
-                                      padding: EdgeInsets.only(
-                                          top: 6, bottom: 6, right: 6, left: 6),
-                                      //  width: MediaQuery.of(context).size.width/1.5,
-
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                      ),
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              key:_key4,
-                                              constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width / 1.6,
-                                              ),
-                                              child:Text(
-                                            lines[indexLines + 3],
+                                        : Text(
+                                            "lines[indexLines] sldjfk;dsj ksjdf k;jsdkf; jsk;djf; ksjdf;k js;kdfj k;sdjf;skdjfk; jsdf sd",
                                             style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                            ),
-                                          )),
-                                          Container(
-                                              width: wdth4,
-                                              child:LinearTimer(
-                                            backgroundColor: Colors.transparent,
-                                            color: Colors.indigo,
-                                            duration: Duration(milliseconds: (1000*initLineTime(lines,readingSpeed)[indexLines + 3]).toInt()),
-                                            controller: timerController4,
-                                              onTimerEnd: () {
-                                                timerController4.stop();
-                                                timerController4.reset();
+                                                color: Colors.black,
+                                                fontWeight:
+                                                    FontWeight.w700,
+                                                fontSize: 16),
+                                          ),
+                                  ),
+                                  Container(
+                                      width: wdth1,
+                                      child: LinearTimer(
+                                          onTimerStart: () {},
+                                          backgroundColor:
+                                              Colors.transparent,
+                                          color: Colors.indigo,
+                                          duration: Duration(
+                                              milliseconds: (1000 *
+                                                      initLineTime(
+                                                              lines,
+                                                              readingSpeed)[
+                                                          indexLines +
+                                                              0])
+                                                  .toInt()),
+                                          controller: timerController1,
+                                          onTimerEnd: () {
+                                            timerController1.stop();
+                                            timerController1.reset();
 
-                                                if (indexLines + 4 <= lines.length - 1) {
-                                                  indexLines = indexLines + 4;
+                                            if (indexLines + 1 <=
+                                                lines.length - 1) {
+                                              inhale = [
+                                                false,
+                                                true,
+                                                true,
+                                                true
+                                              ];
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds:
+                                                          1500), () {
+                                                inhale = [
+                                                  false,
+                                                  false,
+                                                  true,
+                                                  true
+                                                ];
+                                                setState(() {
+                                                  wdthFunc(context);
+                                                });
+                                                timerController2
+                                                    .start();
+                                              });
+                                            } else {
+                                              print("Закончили!");
+                                            }
+                                            setState(() {
+                                              wdthFunc(context);
+                                            });
+                                          })),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                  (indexLines + 1) > lines.length - 1
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            inhale[1]
+                                ? Container(
+                                    width: 10,
+                                    child: Image.asset(
+                                      "assets/images/arrowTop.png",
+                                    ))
+                                : Container(
+                                    width: 10,
+                                  ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width /
+                                        1.6,
+                              ),
+                              margin:
+                                  EdgeInsets.only(right: 12, left: 2),
+                              padding: EdgeInsets.only(
+                                  top:1, bottom: 1, right: 6, left: 6),
+                              //  width: MediaQuery.of(context).size.width/1.5,
+
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width:0.5,
+                                ),
+                                color: Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                      key: _key2,
+                                      constraints: BoxConstraints(
+                                        maxWidth: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                            1.6,
+                                      ),
+                                      child: readingMode == "2 строки"
+                                          ? Text(
+                                              ((indexLines + 3) >
+                                                      (lines.length -
+                                                          1))
+                                                  ? "${lines[indexLines + 2]} "
+                                                  : "${lines[indexLines + 2]} ${lines?[indexLines + 3] ?? " "}",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                  fontSize: 16),
+                                            )
+                                          : Text(lines[indexLines + 1],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                  fontSize: 16))),
+                                  Container(
+                                      width: wdth2,
+                                      child: LinearTimer(
+                                          // forward: false,
+                                          backgroundColor:
+                                              Colors.transparent,
+                                          color: Colors.indigo,
+                                          duration: Duration(
+                                              milliseconds: (1000 *
+                                                      initLineTime(
+                                                              lines,
+                                                              readingSpeed)[
+                                                          indexLines +
+                                                              1])
+                                                  .toInt()),
+                                          controller: timerController2,
+                                          onTimerEnd: () {
+                                            timerController2.stop();
+                                            timerController2.reset();
+
+                                            if (indexLines + 2 <=
+                                                lines.length - 1) {
+                                              if (readingMode !=
+                                                  "2 строки") {
+                                                inhale = [
+                                                  false,
+                                                  false,
+                                                  true,
+                                                  true
+                                                ];
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds:
+                                                            1500), () {
+                                                  inhale = [
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    true
+                                                  ];
                                                   setState(() {
                                                     wdthFunc(context);
                                                   });
-                                                  inhale=[true, false,false,false];
-                                                  Future.delayed(const Duration(milliseconds: 1500), () {
-
-                                                    inhale=[false, false,false,false];
+                                                  timerController3
+                                                      .start();
+                                                });
+                                              } else {
+                                                if (indexLines + 4 <=
+                                                    lines.length - 1) {
+                                                  indexLines =
+                                                      indexLines + 4;
+                                                  setState(() {
+                                                    wdthFunc(context);
+                                                  });
+                                                  inhale = [
+                                                    true,
+                                                    true,
+                                                    false,
+                                                    false
+                                                  ];
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds:
+                                                              1500),
+                                                      () {
+                                                    inhale = [
+                                                      false,
+                                                      true,
+                                                      false,
+                                                      false
+                                                    ];
                                                     setState(() {
                                                       wdthFunc(context);
                                                     });
-                                                    timerController1.start();
+                                                    timerController1
+                                                        .start();
+                                                  });
+                                                }
+                                              }
+                                            } else {
+                                              print("Закончили!");
+                                            }
+                                            setState(() {
+                                              wdthFunc(context);
+                                            });
+                                          })),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                  (indexLines + 2) > lines.length - 1
+                      ? Container()
+                      : readingMode == "2 строки"
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                              children: [
+                                inhale[2]
+                                    ? Container(
+                                        width: 10,
+                                        child: Image.asset(
+                                          "assets/images/arrowTop.png",
+                                        ))
+                                    : Container(
+                                        width: 10,
+                                      ),
+                                Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context)
+                                            .size
+                                            .width /
+                                        1.6,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      right: 12, left: 2),
+                                  padding: EdgeInsets.only(
+                                      top: 1,
+                                      bottom: 1,
+                                      right: 6,
+                                      left: 6),
+                                  //  width: MediaQuery.of(context).size.width/1.5,
+
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
+                                    color: Color.fromRGBO(
+                                        217, 217, 217, 1),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          key: _key3,
+                                          constraints: BoxConstraints(
+                                            maxWidth:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.6,
+                                          ),
+                                          child: Text(
+                                              lines[indexLines + 2],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                  fontSize: 16))),
+                                      Container(
+                                          width: wdth3,
+                                          child: LinearTimer(
+                                              onTimerStart: () {},
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              color: Colors.indigo,
+                                              duration: Duration(
+                                                  milliseconds: (1000 *
+                                                          initLineTime(
+                                                                  lines,
+                                                                  readingSpeed)[
+                                                              indexLines +
+                                                                  2])
+                                                      .toInt()),
+                                              controller:
+                                                  timerController3,
+                                              onTimerEnd: () {
+                                                timerController3.stop();
+                                                timerController3
+                                                    .reset();
+
+                                                if (indexLines + 3 <=
+                                                    lines.length - 1) {
+                                                  inhale = [
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    true
+                                                  ];
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds:
+                                                              1500),
+                                                      () {
+                                                    inhale = [
+                                                      false,
+                                                      false,
+                                                      false,
+                                                      false
+                                                    ];
+                                                    setState(() {
+                                                      wdthFunc(context);
+                                                    });
+                                                    timerController4
+                                                        .start();
                                                   });
                                                 } else {
                                                   print("Закончили!");
@@ -749,109 +824,232 @@ class _ReadingPageState extends State<ReadingPage>
                                                 setState(() {
                                                   wdthFunc(context);
                                                 });
-                                              }
-                                          ))
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ],
-                      )),
-                  Row(
-                    children: [
-                      GestureDetector(
-                          onTap: () async {
-
-
-
-
-
-                            isRecord = !isRecord;
-
-                          /*  if (indexLines + 4 <= lines.length - 1) {
-                              indexLines = indexLines + 4;
-                            } else {
-                              print("Закончили!");
-                            }*/
-                            setState(() {});
-                          },
-                          child: Container(
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              margin: EdgeInsets.only(bottom: 22, top: 48),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(217, 217, 217, 0.81),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(12),
-                                    topLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
-                                    bottomLeft: Radius.circular(12)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left:
-                                            (MediaQuery.of(context).size.width /
-                                                    2.5) /
-                                                4,
-                                        right: 16),
-                                    child: Text(
-                                      "Запись",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 16),
-                                    ),
+                                              })),
+                                    ],
                                   ),
-                                  Container(
-                                    width: 30,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                        width: 3,
+                                ),
+                              ],
+                            ),
+                  (indexLines + 3) > lines.length - 1
+                      ? Container()
+                      : readingMode == "2 строки"
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                              children: [
+                                inhale[3]
+                                    ? Container(
+                                        width: 10,
+                                        child: Image.asset(
+                                          "assets/images/arrowTop.png",
+                                        ))
+                                    : Container(
+                                        width: 10,
                                       ),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(12),
-                                          topLeft: Radius.circular(12),
-                                          bottomRight: Radius.circular(12),
-                                          bottomLeft: Radius.circular(12)),
-                                    ),
-                                    child: isRecord
-                                        ? Image.asset(
-                                            "assets/images/check.png",
-                                          )
-                                        : Container(),
-                                  )
-                                ],
-                              ))),
-                      Spacer()
-                    ],
-                  ),
-                  Container(
-                      width: 120,
-                      padding: EdgeInsets.only(right: 12, left: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromRGBO(54, 103, 166, 1),
-                          width: 3,
-                        ),
-                        color: Color.fromRGBO(217, 217, 217, 1),
-                      ),
-                      child: Center(
-                          child: TextField(
-                            onChanged: (speed)async{
-                              var dott = await pref.getStringList(
-                                  "${items![selectIndex]}_info")!;
-                              dott[2]=speed;
-                              await pref.setStringList('${items![selectIndex]}_info', dott);
+                                Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context)
+                                            .size
+                                            .width /
+                                        1.6,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      right: 12, left: 2),
+                                  padding: EdgeInsets.only(
+                                      top:1,
+                                      bottom: 1,
+                                      right: 6,
+                                      left: 6),
+                                  //  width: MediaQuery.of(context).size.width/1.5,
 
-                            },
-                            readOnly: _isStart?true:false,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
+                                    color: Color.fromRGBO(
+                                        217, 217, 217, 1),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          key: _key4,
+                                          constraints: BoxConstraints(
+                                            maxWidth:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.6,
+                                          ),
+                                          child: Text(
+                                            lines[indexLines + 3],
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight:
+                                                  FontWeight.w700,
+                                              fontSize: 16,
+                                            ),
+                                          )),
+                                      Container(
+                                          width: wdth4,
+                                          child: LinearTimer(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              color: Colors.indigo,
+                                              duration: Duration(
+                                                  milliseconds: (1000 *
+                                                          initLineTime(
+                                                                  lines,
+                                                                  readingSpeed)[
+                                                              indexLines +
+                                                                  3])
+                                                      .toInt()),
+                                              controller:
+                                                  timerController4,
+                                              onTimerEnd: () {
+                                                timerController4.stop();
+                                                timerController4
+                                                    .reset();
+
+                                                if (indexLines + 4 <=
+                                                    lines.length - 1) {
+                                                  indexLines =
+                                                      indexLines + 4;
+                                                  setState(() {
+                                                    wdthFunc(context);
+                                                  });
+                                                  inhale = [
+                                                    true,
+                                                    true,
+                                                    true,
+                                                    true
+                                                  ];
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds:
+                                                              1500),
+                                                      () {
+                                                    inhale = [
+                                                      false,
+                                                      true,
+                                                      true,
+                                                      true
+                                                    ];
+                                                    setState(() {
+                                                      wdthFunc(context);
+                                                    });
+                                                    timerController1
+                                                        .start();
+                                                  });
+                                                } else {
+                                                  print("Закончили!");
+                                                }
+                                                setState(() {
+                                                  wdthFunc(context);
+                                                });
+                                              }))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                ],
+              ))),
+          (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Container(): SizedBox(height: 2,),
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () async {
+                    isRecord = !isRecord;
+
+                    /*  if (indexLines + 4 <= lines.length - 1) {
+                      indexLines = indexLines + 4;
+                    } else {
+                      print("Закончили!");
+                    }*/
+                    setState(() {});
+                  },
+                  child: Container(
+                      width: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?MediaQuery.of(context).size.width / 2.5:MediaQuery.of(context).size.width / 5,
+                      margin: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?EdgeInsets.only(bottom: 22, top: 48):EdgeInsets.only(bottom: 2, top: 4),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(217, 217, 217, 0.81),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(12),
+                            topLeft: Radius.circular(12),
+                            bottomRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(12)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?EdgeInsets.only(
+                                left:
+                                    (MediaQuery.of(context).size.width /
+                                            2.5) /
+                                        4,
+                                right: 16):EdgeInsets.only(
+                                left:
+                                12,
+                                right: 16),
+                            child: Text(
+                              "Запись",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 16),
+                            ),
+                          ),
+                          Container(
+                            width: 30,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromRGBO(217, 217, 217, 1),
+                                width: 3,
+                              ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  topLeft: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)),
+                            ),
+                            child: isRecord
+                                ? Image.asset(
+                                    "assets/images/check.png",
+                                  )
+                                : Container(),
+                          )
+                        ],
+                      ))),Spacer(),
+              (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Container():Container(
+
+                  width: (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? 120:80,
+
+                  padding: EdgeInsets.only(right: 12, left: 12),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color.fromRGBO(54, 103, 166, 1),
+                      width: 3,
+                    ),
+                    color: Color.fromRGBO(217, 217, 217, 1),
+                  ),
+                  child: Center(
+                      child: TextField(
+                        onChanged: (speed) async {
+                          var dott = await pref
+                              .getStringList("${items![selectIndex]}_info")!;
+                          dott[2] = speed;
+                          await pref.setStringList(
+                              '${items![selectIndex]}_info', dott);
+                        },
+                        readOnly: _isStart ? true : false,
                         textAlign: TextAlign.center,
                         maxLength: 3,
                         keyboardType: TextInputType.number,
@@ -863,193 +1061,308 @@ class _ReadingPageState extends State<ReadingPage>
                         ),
                         style: TextStyle(
                             color: Color.fromRGBO(54, 103, 166, 1),
-                            fontSize: 40,
+                            fontSize:(MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? 40:24,
                             fontWeight: FontWeight.w800),
                       ))
-                      /*Text(
-                        "90",
-                        style: TextStyle(
-                            color: Color.fromRGBO(54, 103, 166, 1),
-                            fontSize:40,
-                            fontWeight: FontWeight.w800),
-                        textAlign: TextAlign.center,
-                      )*/
-                      ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          onPressed: () async{
-                            if(_isStart==false){
-                              readingSpeed--;
-                              var dott = await pref.getStringList(
-                                  "${items![selectIndex]}_info")!;
-                              dott[2]=readingSpeed.toString();
-                              await pref.setStringList('${items![selectIndex]}_info', dott);
-                              setState(() {});
-                              readingSpeedController.text =
-                                  readingSpeed.toString();
-                              setState(() {});
-                            }
-                          },
-                          icon: Icon(
-                            Icons.do_not_disturb_on,
-                            color: Colors.red,
-                            size: 36,
-                          )),
-                      SvgPicture.asset(
-                        "assets/images/arrow1.svg",
-                        //  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      SvgPicture.asset(
-                        "assets/images/arrow.svg",
-                        // colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                      ),
-                      IconButton(
-                          onPressed: () async{
-                            if(_isStart==false){
-                              readingSpeed++;
-                              var dott = await pref.getStringList(
-                                  "${items![selectIndex]}_info")!;
-                              dott[2]=readingSpeed.toString();
-                              await pref.setStringList('${items![selectIndex]}_info', dott);
-                              setState(() {});
-                              readingSpeedController.text =
-                                  readingSpeed.toString();
-                              setState(() {});
-                            }
-                          },
-                          icon: Icon(
-                            Icons.add_circle,
-                            color: Colors.green,
-                            size: 36,
-                          )),
-                    ],
-                  ),
-                  Spacer(
-                    flex: 2,
-                  ),
-                  GestureDetector(
-                      onTap: () async{
-                        _isStart = !_isStart;
-                        if(_isStart==true){
-
-                          if(isRecord){
-                            startRecording();
-                          }
-                          print("Меняем====================================================================$_isStart");
-                         this.setState(() {
-
-                          });
-                          _startTimer();
-                          Future.delayed(const Duration(milliseconds: 5000),
-                              () {
-                            initLineTime(lines, readingSpeed);
-                            inhale = [true, false, false, false];
-                            Future.delayed(const Duration(milliseconds: 1500),
-                                () {
-                              inhale = [false, false, false, false];
-                              setState(() {});
-                              timerController1.start();
-                            });
-                          });
+                /*Text(
+                "90",
+                style: TextStyle(
+                    color: Color.fromRGBO(54, 103, 166, 1),
+                    fontSize:40,
+                    fontWeight: FontWeight.w800),
+                textAlign: TextAlign.center,
+              )*/
+              ),
+              Spacer(),
+              (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Container():Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () async {
+                        if (_isStart == false) {
+                          readingSpeed--;
+                          var dott = await pref.getStringList(
+                              "${items![selectIndex]}_info")!;
+                          dott[2] = readingSpeed.toString();
+                          await pref.setStringList(
+                              '${items![selectIndex]}_info', dott);
+                          setState(() {});
+                          readingSpeedController.text =
+                              readingSpeed.toString();
+                          setState(() {});
                         }
-                        else{
-                          if(isRecord){
-                            stopRecording();
-                            var mode;
-                            if(readingMode=="2 строки"){mode=2;}else {
-                              mode = 1;
-                            }
-                            var ddd = await pref.getStringList('${items[selectIndex]}_res');
-                            ddd?.add(pathToAudio);
-                            await pref.setStringList('${items[selectIndex]}_res',ddd!);
-
-print("${await pref.getStringList('${items[selectIndex]}_res')}=========================================HTPSSSSSSSSSSSSSSSSSS=");
-                            await pref.setStringList(pathToAudio,<String>["${DateFormat.yMd().format(DateTime.now())}", "${mode}/${readingSpeed}",],);
-                          }
-                          inhale=[false, false,false,false];
-                          timerController1.stop();
-                          timerController2.stop();
-                          timerController3.stop();
-                          timerController4.stop();
-                          setState(() {
-                            _isStart = !_isStart;
-                          });
-                          items.clear();
-                          items = await pref.getStringList('2-4 года') ?? [];
-                          items.addAll(await pref.getStringList('4-5 лет') ?? []);
-                          items.addAll(await pref.getStringList('1 класс') ?? []);
-                          items.addAll(await pref.getStringList('2 класс') ?? []);
-                          items.addAll(await pref.getStringList('3 класс') ?? []);
-                          items.addAll(await pref.getStringList('4 класс') ?? []);
-                          items.addAll(await pref.getStringList('>11 лет') ?? []);
-                          items.addAll(await pref.getStringList('my_lib') ?? []);
-
-                          text_autor = [];
-                          text_titles = [];
-                          for (var i = 0; i < items.length; i++) {
-                            var dott = await pref
-                                .getStringList("${items[i]}_info");
-                            text_titles.add(dott![0]);
-                            text_autor.add(dott[1]);
-
-                          }
-                          print(items);
-
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) => ResultPage(),
-                            ),
-                                (route) => false,//if you want to disable back feature set to false
-                          );
-                        }
-
-
                       },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        margin: EdgeInsets.only(
-                          top: 12,
-                        ),
-                        padding: EdgeInsets.only(top: 12, bottom: 12),
-                        decoration:  BoxDecoration(
-                          color:_isStart?Color.fromRGBO(47, 128, 237, 1): Color.fromRGBO(33, 150, 83, 1),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
-                        ),
-                        child: Center(
-                            child: _isStart?Text(
-                              "Завершить",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w800),
-                            ):Text(
-                          "Начать",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800),
-                        )),
+                      icon: Icon(
+                        Icons.do_not_disturb_on,
+                        color: Colors.red,
+                        size: 36,
                       )),
-                  Spacer(
-                    flex: 1,
-                  )
+                  SvgPicture.asset(
+                    "assets/images/arrow1.svg",
+                    //  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  SvgPicture.asset(
+                    "assets/images/arrow.svg",
+                    // colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                  ),
+                  IconButton(
+                      onPressed: () async {
+                        if (_isStart == false) {
+                          readingSpeed++;
+                          var dott = await pref.getStringList(
+                              "${items![selectIndex]}_info")!;
+                          dott[2] = readingSpeed.toString();
+                          await pref.setStringList(
+                              '${items![selectIndex]}_info', dott);
+                          setState(() {});
+                          readingSpeedController.text =
+                              readingSpeed.toString();
+                          setState(() {});
+                        }
+                      },
+                      icon: Icon(
+                        Icons.add_circle,
+                        color: Colors.green,
+                        size: 36,
+                      )),
                 ],
               ),
-            )),
+            ],
+          ),
+          (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? Container(
+
+              width: 120,
+              padding: EdgeInsets.only(right: 12, left: 12),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color.fromRGBO(54, 103, 166, 1),
+                  width: 3,
+                ),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
+              child: Center(
+                  child: TextField(
+                onChanged: (speed) async {
+                  var dott = await pref
+                      .getStringList("${items![selectIndex]}_info")!;
+                  dott[2] = speed;
+                  await pref.setStringList(
+                      '${items![selectIndex]}_info', dott);
+                },
+                readOnly: _isStart ? true : false,
+                textAlign: TextAlign.center,
+                maxLength: 3,
+                keyboardType: TextInputType.number,
+                controller: readingSpeedController,
+                decoration: InputDecoration(
+                  hintText: "",
+                  counterText: "",
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(
+                    color: Color.fromRGBO(54, 103, 166, 1),
+                    fontSize:(MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ? 40:24,
+                    fontWeight: FontWeight.w800),
+              ))
+              /*Text(
+                "90",
+                style: TextStyle(
+                    color: Color.fromRGBO(54, 103, 166, 1),
+                    fontSize:40,
+                    fontWeight: FontWeight.w800),
+                textAlign: TextAlign.center,
+              )*/
+              ):Container(),
+          (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    if (_isStart == false) {
+                      readingSpeed--;
+                      var dott = await pref.getStringList(
+                          "${items![selectIndex]}_info")!;
+                      dott[2] = readingSpeed.toString();
+                      await pref.setStringList(
+                          '${items![selectIndex]}_info', dott);
+                      setState(() {});
+                      readingSpeedController.text =
+                          readingSpeed.toString();
+                      setState(() {});
+                    }
+                  },
+                  icon: Icon(
+                    Icons.do_not_disturb_on,
+                    color: Colors.red,
+                    size: 36,
+                  )),
+              SvgPicture.asset(
+                "assets/images/arrow1.svg",
+                //  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              SvgPicture.asset(
+                "assets/images/arrow.svg",
+                // colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+              ),
+              IconButton(
+                  onPressed: () async {
+                    if (_isStart == false) {
+                      readingSpeed++;
+                      var dott = await pref.getStringList(
+                          "${items![selectIndex]}_info")!;
+                      dott[2] = readingSpeed.toString();
+                      await pref.setStringList(
+                          '${items![selectIndex]}_info', dott);
+                      setState(() {});
+                      readingSpeedController.text =
+                          readingSpeed.toString();
+                      setState(() {});
+                    }
+                  },
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: Colors.green,
+                    size: 36,
+                  )),
+            ],
+          ):Container(),
+          Spacer(
+            flex: 2,
+          ),
+          GestureDetector(
+              onTap: () async {
+                _isStart = !_isStart;
+                if (_isStart == true) {
+                  if (isRecord) {
+                    startRecording();
+                  }
+                  print(
+                      "Меняем====================================================================$_isStart");
+                  this.setState(() {});
+                  _startTimer();
+                  Future.delayed(const Duration(milliseconds: 5000),
+                      () {
+                    initLineTime(lines, readingSpeed);
+                    inhale = [true, true, true, true];
+                    Future.delayed(const Duration(milliseconds: 1500),
+                        () {
+                      inhale = [false, true, true, true];
+                      setState(() {});
+                      timerController1.start();
+                    });
+                  });
+                } else {
+                  if (isRecord) {
+                    stopRecording();
+                    var mode;
+                    if (readingMode == "2 строки") {
+                      mode = 2;
+                    } else {
+                      mode = 1;
+                    }
+                    var ddd = await pref
+                        .getStringList('${items[selectIndex]}_res');
+                    ddd?.add(pathToAudio);
+                    await pref.setStringList(
+                        '${items[selectIndex]}_res', ddd!);
+
+                    print(
+                        "${await pref.getStringList('${items[selectIndex]}_res')}=========================================HTPSSSSSSSSSSSSSSSSSS=");
+                    await pref.setStringList(
+                      pathToAudio,
+                      <String>[
+                        "${DateFormat.yMd().format(DateTime.now())}",
+                        "${mode}/${readingSpeed}",
+                      ],
+                    );
+                  }
+                  inhale = [false, false, false, false];
+                  timerController1.stop();
+                  timerController2.stop();
+                  timerController3.stop();
+                  timerController4.stop();
+                  setState(() {
+                    _isStart = !_isStart;
+                  });
+                  items.clear();
+                  items = await pref.getStringList('2-4 года') ?? [];
+                  items.addAll(
+                      await pref.getStringList('4-5 лет') ?? []);
+                  items.addAll(
+                      await pref.getStringList('1 класс') ?? []);
+                  items.addAll(
+                      await pref.getStringList('2 класс') ?? []);
+                  items.addAll(
+                      await pref.getStringList('3 класс') ?? []);
+                  items.addAll(
+                      await pref.getStringList('4 класс') ?? []);
+                  items.addAll(
+                      await pref.getStringList('>11 лет') ?? []);
+                  items
+                      .addAll(await pref.getStringList('my_lib') ?? []);
+
+                  text_autor = [];
+                  text_titles = [];
+                  for (var i = 0; i < items.length; i++) {
+                    var dott =
+                        await pref.getStringList("${items[i]}_info");
+                    text_titles.add(dott![0]);
+                    text_autor.add(dott[1]);
+                  }
+                  print(items);
+
+                  Navigator.of(context).push(PageRouteBuilder(
+                      opaque: false,
+                      pageBuilder: (BuildContext context, _, __) => ResultPage()));
+                }
+              },
+              child: Container(
+                width:  (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?MediaQuery.of(context).size.width / 1.5:MediaQuery.of(context).size.width / 4,
+                margin:  (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?EdgeInsets.only(
+                  top: 4, bottom: 4
+                ):EdgeInsets.only(top: 1, bottom: 1),
+                padding:  (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width) ?EdgeInsets.only(top: 12, bottom: 12):EdgeInsets.only(top: 2, bottom: 2),
+                decoration: BoxDecoration(
+                  color: _isStart
+                      ? Color.fromRGBO(47, 128, 237, 1)
+                      : Color.fromRGBO(33, 150, 83, 1),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10)),
+                ),
+                child: Center(
+                    child: _isStart
+                        ? Text(
+                            "Завершить",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800),
+                          )
+                        : Text(
+                            "Начать",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800),
+                          )),
+              )),
+          Spacer(
+            flex: 1,
+          )
+        ],
       )),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    )),
+        ),
+          // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }
-
-

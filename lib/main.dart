@@ -1,14 +1,19 @@
 import 'package:cor/BreathingTrainingPage.dart';
+import 'package:cor/ManualPage.dart';
 import 'package:cor/Pref.dart';
 import 'package:cor/ResultPage.dart';
 import 'package:cor/TextPage.dart';
+import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   runApp(const MyApp());
 }
 
@@ -75,6 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) => SettingsPage()));
+
+                            },
                             child: Image.asset(
                               "assets/images/settings.jpg",
                             ),
@@ -219,7 +230,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {Navigator.of(context).push(PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) => ManualPage()));},
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
                         margin: EdgeInsets.only(top: 12, bottom: 40),
