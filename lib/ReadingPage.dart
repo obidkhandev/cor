@@ -569,7 +569,17 @@ class _ReadingPageState extends State<ReadingPage>
                                   Container(
                                       width: wdth1,
                                       child: LinearTimer(
-                                          onTimerStart: () {},
+                                          onTimerStart: () {
+                                           _sound(Duration(
+                                               milliseconds: (1000 *
+                                                   initLineTime(
+                                                       lines,
+                                                       readingSpeed)[
+                                                   indexLines +
+                                                       1])
+                                                   .toInt()));
+
+                                          },
                                           backgroundColor:
                                               Colors.transparent,
                                           color: Colors.transparent,
@@ -1553,5 +1563,102 @@ _isCrossed[1]=false;
         ),
           // This trailing comma makes auto-formatting nicer for build methods.
         );
+  }
+  void _sound(Duration dur){
+   // recordingPlayer.playlist!;
+
+
+      recordingPlayer.open(
+        Playlist(
+            audios: [
+              Audio("assets/01.ogg"),
+              Audio("assets/02.ogg"),
+              Audio("assets/03.ogg"),
+              Audio("assets/04.ogg"),
+              Audio("assets/05.ogg"),
+              Audio("assets/06.ogg"),
+              Audio("assets/07.ogg"),
+              Audio("assets/08.ogg"),
+              Audio("assets/09.ogg"),
+              Audio("assets/010.ogg"),
+              Audio("assets/011.ogg"),
+            ]
+        ),
+seek: Duration(milliseconds: 500),
+        playSpeed: 2,
+      autoStart: true,
+     // showNotification: true,
+    );
+    recordingPlayer.stop();
+
+   /* recordingPlayer.open(
+      Audio("assets/02.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/03.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/04.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/05.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/06.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/07.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/08.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/09.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/010.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();
+
+    recordingPlayer.open(
+      Audio("assets/011.ogg"),
+      autoStart: true,
+      showNotification: true,
+    );
+    recordingPlayer.stop();*/
   }
 }

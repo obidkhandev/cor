@@ -46,6 +46,7 @@ dependencies:
   assets_audio_player:
   intl:
   animated_line_through:
+  audioplayers: ^5.2.1
 
 
 
