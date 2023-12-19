@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,7 +15,7 @@ class BreathingTrainingPage extends StatefulWidget {
   State<BreathingTrainingPage> createState() => _BreathingTrainingPageState();
 }
 num  breathindSpeed = 9.2;
-List<bool> _inhale = [false, false, false, false];
+List<bool> _inhale = [true, true, true, true];
 class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with TickerProviderStateMixin{
   bool _isStart = false;
   late LinearTimerController timerController1 = LinearTimerController(this);
@@ -24,6 +25,17 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
   int _remainingTime = 5; //initial time in seconds
   late Timer _timer;
   num dur = 60/breathindSpeed-1.5;
+
+  @override
+  void dispose(){
+    super.dispose();
+    audioPlayer.stop();
+
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +63,9 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                           child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
-                                onTap: (){Navigator.pop(context);},
+                                onTap: (){
+                                  audioPlayer.stop();
+                                  Navigator.pop(context);},
                                 child: SvgPicture.asset(
                                 "assets/images/back.svg",
                                 colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
@@ -62,7 +76,9 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                           child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
-                                onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                onTap: (){
+                                  audioPlayer.stop();
+                                  Navigator.of(context).push(PageRouteBuilder(
                                     opaque: false,
                                     pageBuilder: (BuildContext context, _, __) => SettingsPage()));},
 
@@ -132,8 +148,13 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                     children: [
                       IconButton(onPressed: (){
                         breathindSpeed=breathindSpeed-0.1;
-                        setState(() {
-                          dur = 60/breathindSpeed-1.5;
+                        dur = 60/breathindSpeed-1.5;
+                        Navigator.pop(context);
+                        Navigator.of(context).push(PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) => BreathingTrainingPage()));
+                        this.setState(() {
+
                           print(breathindSpeed);
                         });
 
@@ -152,8 +173,14 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                       ) ,
                       IconButton(onPressed: (){
                         breathindSpeed=breathindSpeed+0.1;
+                        dur = 60/breathindSpeed-1.5;
+                        Navigator.pop(context);
+                        Navigator.of(context).push(PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) => BreathingTrainingPage()));
+
                         setState(() {
-                          dur = 60/breathindSpeed-1.5;
+
                           print(breathindSpeed);
                         });
 
@@ -192,26 +219,33 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>  with Tic
                           child:LinearTimer(
                               onTimerStart: (){
 
+setState(() {
 
+});
 
                               },
                               backgroundColor: Colors.transparent,
                               color: Colors.indigo,
-                              duration: Duration(milliseconds: ((dur*1000).toInt())),
+                              duration: Duration(milliseconds: (((60/breathindSpeed-1.5)*1000).toInt())),
                               controller: timerController1,
                               onTimerEnd: () {
                                 timerController1.stop();
                                 timerController1.reset();
 print("${(dur*1000).toInt()}"+"=================================================");
 
-                                  _inhale=[false, true,false,false];
+                                  _inhale=[false, true,true,true];
+
+                                 Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
+                                _sound();
                                   Future.delayed(const Duration(milliseconds: 1500), () {
 
-                                    _inhale=[false, false,false,false];
+                                    _inhale=[false, false,true,true];
                                     setState(() {
 
                                     });
+                                    Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                     timerController2.start();
+                                    _soundOut(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                   });
 
 
@@ -254,26 +288,32 @@ print("${(dur*1000).toInt()}"+"=================================================
                             child:LinearTimer(
                                 onTimerStart: (){
 
+                                  setState(() {
 
+                                  });
 
                                 },
                                 backgroundColor: Colors.transparent,
                                 color: Colors.indigo,
-                                duration: Duration(milliseconds: ((dur*1000).toInt())),
+                                duration: Duration(milliseconds: (((60/breathindSpeed-1.5)*1000).toInt())),
                                 controller: timerController2,
                                 onTimerEnd: () {
                                   timerController2.stop();
                                   timerController2.reset();
 
 
-                                  _inhale=[false, false,true,false];
+                                  _inhale=[false, false,true,true];
+                                  Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
+                                  _sound();
                                   Future.delayed(const Duration(milliseconds: 1500), () {
 
-                                    _inhale=[false, false,false,false];
+                                    _inhale=[false, false,false,true];
                                     setState(() {
 
                                     });
+                                    Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                     timerController3.start();
+                                    _soundOut(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                   });
 
 
@@ -316,12 +356,14 @@ print("${(dur*1000).toInt()}"+"=================================================
                             child:LinearTimer(
                                 onTimerStart: (){
 
+                                  setState(() {
 
+                                  });
 
                                 },
                                 backgroundColor: Colors.transparent,
                                 color: Colors.indigo,
-                                duration:Duration(milliseconds: ((dur*1000).toInt())),
+                                duration:Duration(milliseconds: (((60/breathindSpeed-1.5)*1000).toInt())),
                                 controller: timerController3,
                                 onTimerEnd: () {
                                   timerController3.stop();
@@ -329,13 +371,17 @@ print("${(dur*1000).toInt()}"+"=================================================
 
 
                                   _inhale=[false, false,false,true];
+                                  Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
+                                  _sound();
                                   Future.delayed(const Duration(milliseconds: 1500), () {
 
                                     _inhale=[false, false,false,false];
                                     setState(() {
 
                                     });
+                                    Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                     timerController4.start();
+                                    _soundOut(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                   });
 
 
@@ -377,27 +423,33 @@ print("${(dur*1000).toInt()}"+"=================================================
                             ),
                             child:LinearTimer(
                                 onTimerStart: (){
+                                  setState(() {
 
+                                  });
 
 
                                 },
                                 backgroundColor: Colors.transparent,
                                 color: Colors.indigo,
-                                duration: Duration(milliseconds: ((dur*1000).toInt())),
+                                duration: Duration(milliseconds: (((60/breathindSpeed-1.5)*1000).toInt())),
                                 controller: timerController4,
                                 onTimerEnd: () {
                                   timerController4.stop();
                                   timerController4.reset();
 
 
-                                  _inhale=[true, false,false,false];
+                                  _inhale=[true, true,true,true];
+                                  Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
+                                  _sound();
                                   Future.delayed(const Duration(milliseconds: 1500), () {
 
-                                    _inhale=[false, false,false,false];
+                                    _inhale=[false, true,true,true];
                                     setState(() {
 
                                     });
+                                    Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                     timerController1.start();
+                                    _soundOut(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                   });
 
 
@@ -416,6 +468,7 @@ print("${(dur*1000).toInt()}"+"=================================================
 
               GestureDetector(
                   onTap: () async{
+                    dur = 60/breathindSpeed-1.5;
                     _isStart = !_isStart;
                     if(_isStart==true){
 
@@ -426,12 +479,16 @@ print("${(dur*1000).toInt()}"+"=================================================
                       Future.delayed(const Duration(milliseconds: 5000),
                               () {
 
-                            _inhale = [true, false, false, false];
+                            _inhale = [true, true, true, true];
+                            Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
+                            _sound();
                             Future.delayed(const Duration(milliseconds: 1500),
                                     () {
-                                  _inhale = [false, false, false, false];
+                                  _inhale = [false, true, true, true];
                                   setState(() {});
+                                  Future.delayed(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                   timerController1.start();
+                                  _soundOut(Duration(milliseconds: (((dur*1000)/15).toInt())));
                                 });
                           });
                     }
@@ -442,6 +499,7 @@ print("${(dur*1000).toInt()}"+"=================================================
                       timerController2.stop();
                       timerController3.stop();
                       timerController4.stop();
+                      audioPlayer.stop();
                       setState(() {
 
                       });
@@ -516,5 +574,66 @@ print("${(dur*1000).toInt()}"+"=================================================
         }
       });
     });
+  }
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  void _sound()async{
+    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+    await Future.delayed(const Duration(milliseconds: 70));
+
+    await audioPlayer.play(AssetSource('01.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('02.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('03.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('04.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('05.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('06.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('07.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('08.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('09.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('010.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('011.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+
+
+  }
+
+  void _soundOut(Duration _dur)async{
+    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+    await Future.delayed(_dur);
+
+    await audioPlayer.play(AssetSource('011.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('010.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('09.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('08.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('07.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('06.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('05.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('04.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('03.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('02.ogg'));
+    await Future.delayed(_dur);
+    await audioPlayer.play(AssetSource('01.ogg'));
+    await Future.delayed(_dur);
+
+
   }
 }

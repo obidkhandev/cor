@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:animated_line_through/animated_line_through.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -308,6 +309,7 @@ class _ReadingPageState extends State<ReadingPage>
     _timer.cancel();
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
+    audioPlayer.stop();
     super.dispose();
   }
 
@@ -570,14 +572,7 @@ class _ReadingPageState extends State<ReadingPage>
                                       width: wdth1,
                                       child: LinearTimer(
                                           onTimerStart: () {
-                                           _sound(Duration(
-                                               milliseconds: (1000 *
-                                                   initLineTime(
-                                                       lines,
-                                                       readingSpeed)[
-                                                   indexLines +
-                                                       1])
-                                                   .toInt()));
+
 
                                           },
                                           backgroundColor:
@@ -605,6 +600,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                 true,
                                                 true
                                               ];
+                                              _sound();
                                               Future.delayed(
                                                   const Duration(
                                                       milliseconds:
@@ -785,6 +781,7 @@ _isCrossed[1]=false;
                                                   true,
                                                   true
                                                 ];
+                                                _sound();
                                                 Future.delayed(
                                                     const Duration(
                                                         milliseconds:
@@ -816,6 +813,7 @@ _isCrossed[1]=false;
                                                     false,
                                                     false
                                                   ];
+                                                  _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -966,6 +964,7 @@ _isCrossed[1]=false;
                                                     false,
                                                     true
                                                   ];
+                                                  _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -1071,7 +1070,7 @@ _isCrossed[1]=false;
                                                               lines,
                                                               readingSpeed)[
                                                           indexLines +
-                                                              2])
+                                                              3])
                                                           .toInt()),
                                                 isCrossed: _isCrossed[3],
                                                 strokeWidth: 2,
@@ -1122,6 +1121,7 @@ _isCrossed[1]=false;
                                                     true,
                                                     true
                                                   ];
+                                                  _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -1446,6 +1446,7 @@ _isCrossed[1]=false;
                       () {
                     initLineTime(lines, readingSpeed);
                     inhale = [true, true, true, true];
+                    _sound();
                     Future.delayed(const Duration(milliseconds: 1500),
                         () {
                       inhale = [false, true, true, true];
@@ -1456,6 +1457,7 @@ _isCrossed[1]=false;
                     });
                   });
                 } else {
+                  audioPlayer.stop();
                   if (isRecord) {
                     stopRecording();
                     var mode;
@@ -1564,101 +1566,35 @@ _isCrossed[1]=false;
           // This trailing comma makes auto-formatting nicer for build methods.
         );
   }
-  void _sound(Duration dur){
-   // recordingPlayer.playlist!;
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  void _sound()async{
+    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+    await Future.delayed(const Duration(milliseconds: 70));
+
+    await audioPlayer.play(AssetSource('01.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('02.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('03.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('04.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('05.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('06.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('07.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('08.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('09.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('010.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('011.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
 
 
-      recordingPlayer.open(
-        Playlist(
-            audios: [
-              Audio("assets/01.ogg"),
-              Audio("assets/02.ogg"),
-              Audio("assets/03.ogg"),
-              Audio("assets/04.ogg"),
-              Audio("assets/05.ogg"),
-              Audio("assets/06.ogg"),
-              Audio("assets/07.ogg"),
-              Audio("assets/08.ogg"),
-              Audio("assets/09.ogg"),
-              Audio("assets/010.ogg"),
-              Audio("assets/011.ogg"),
-            ]
-        ),
-seek: Duration(milliseconds: 500),
-        playSpeed: 2,
-      autoStart: true,
-     // showNotification: true,
-    );
-    recordingPlayer.stop();
-
-   /* recordingPlayer.open(
-      Audio("assets/02.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/03.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/04.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/05.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/06.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/07.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/08.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/09.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/010.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/011.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();*/
   }
 }

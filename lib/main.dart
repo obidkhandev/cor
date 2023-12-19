@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontWeight: FontWeight.w700),
                         textAlign: TextAlign.center,
                       )),
-                  TextButton(onPressed: (){_sound();}, child: Text("ghgh")),
+
 
 
                   Spacer(
@@ -272,154 +272,37 @@ class _MyHomePageState extends State<MyHomePage> {
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-  final assetsAudioPlayer = AssetsAudioPlayer();
+
 
   AudioPlayer audioPlayer = AudioPlayer();
 
-  void _sound(){
+  void _sound()async{
   audioPlayer.setPlayerMode(PlayerMode.lowLatency);
-  Future.delayed(Duration(milliseconds: 1000), () { print("DADADADADADADAD");
-  audioPlayer.play(AssetSource('01.ogg'));
-    // Do something
-  });Future.delayed(Duration(milliseconds: 1000), () { print("DADADADADADADAD");
-  audioPlayer.play(AssetSource('01.ogg'));
-    // Do something
-  });Future.delayed(Duration(milliseconds: 1000), () { print("DADADADADADADAD");
-  audioPlayer.play(AssetSource('01.ogg'));
-    // Do something
-  });Future.delayed(Duration(milliseconds: 1000), () { print("DADADADADADADAD");
-  audioPlayer.play(AssetSource('01.ogg'));
-    // Do something
-  });Future.delayed(Duration(milliseconds: 1000), () { print("DADADADADADADAD");
-  audioPlayer.play(AssetSource('01.ogg'));
-    // Do something
-  });
+  await Future.delayed(const Duration(milliseconds: 70));
 
-
-
- /*await audioPlayer.play(AssetSource('02.ogg'));
+  await audioPlayer.play(AssetSource('01.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
+  await audioPlayer.play(AssetSource('02.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('03.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('04.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('05.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('06.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('07.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('08.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('09.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('010.ogg'));
+  await Future.delayed(const Duration(milliseconds: 70));
   await audioPlayer.play(AssetSource('011.ogg'));
-*/
+  await Future.delayed(const Duration(milliseconds: 70));
 
 
-
-    /* player.play(AssetSource("01.ogg")); player.play(AssetSource("02.ogg"));
-    await player.play(AssetSource("03.ogg"));*/
-    /*await player.play(AssetSource("04.ogg"));
-    await player.play(AssetSource("05.ogg"));
-    await player.play(AssetSource("06.ogg"));
-    await player.play(AssetSource("07.ogg"));
-    await player.play(AssetSource("08.ogg"));
-    await player.play(AssetSource("09.ogg"));
-    await player.play(AssetSource("010.ogg"));
-    await player.play(AssetSource("011.ogg"));*/
-
-
-
-/*
-    assetsAudioPlayer.setPlaySpeed(5);
-    assetsAudioPlayer.open(
-      Playlist(
-          audios: [
-            Audio("assets/01.ogg"),
-            Audio("assets/02.ogg"),
-            Audio("assets/03.ogg"),
-            Audio("assets/04.ogg"),
-            Audio("assets/05.ogg"),
-            Audio("assets/06.ogg"),
-            Audio("assets/07.ogg"),
-            Audio("assets/08.ogg"),
-            Audio("assets/09.ogg"),
-            Audio("assets/010.ogg"),
-            Audio("assets/011.ogg"),
-          ]
-      ),
-
-      playSpeed: 1,
-      autoStart: true,
-      showNotification: true,
-    );
-    assetsAudioPlayer.stop();*/
-
-
-
-
-    /* recordingPlayer.open(
-      Audio("assets/02.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/03.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/04.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/05.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/06.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/07.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/08.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/09.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/010.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();
-
-    recordingPlayer.open(
-      Audio("assets/011.ogg"),
-      autoStart: true,
-      showNotification: true,
-    );
-    recordingPlayer.stop();*/
   }
 }
