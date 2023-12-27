@@ -300,13 +300,25 @@ class _ReadingPageState extends State<ReadingPage>
   @override
   void initState() {
     super.initState();
+    inhale=[true,true,true,true];
+
     initializer();
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
   }
   @override
   void dispose() {
+    inhale=[true,true,true,true];
     _timer.cancel();
+
+    timerController1.stop();
+    timerController2.stop();
+    timerController3.stop();
+    timerController4.stop();
+    timerController1.reset();
+    timerController2.reset();
+    timerController3.reset();
+    timerController4.reset();
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
     audioPlayer.stop();
@@ -587,7 +599,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                               0])
                                                   .toInt()),
                                           controller: timerController1,
-                                          onTimerEnd: () {
+                                          onTimerEnd: () async{
                                             timerController1.stop();
                                             timerController1.reset();
                                             _isCrossed[0]=false;
@@ -600,7 +612,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                 true,
                                                 true
                                               ];
-                                              _sound();
+                                               await _sound();
                                               Future.delayed(
                                                   const Duration(
                                                       milliseconds:
@@ -767,7 +779,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                               1])
                                                   .toInt()),
                                           controller: timerController2,
-                                          onTimerEnd: () {
+                                          onTimerEnd: ()async {
                                             timerController2.stop();
                                             timerController2.reset();
 _isCrossed[1]=false;
@@ -781,7 +793,7 @@ _isCrossed[1]=false;
                                                   true,
                                                   true
                                                 ];
-                                                _sound();
+                                                await _sound();
                                                 Future.delayed(
                                                     const Duration(
                                                         milliseconds:
@@ -813,7 +825,7 @@ _isCrossed[1]=false;
                                                     false,
                                                     false
                                                   ];
-                                                  _sound();
+                                                  await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -950,7 +962,7 @@ _isCrossed[1]=false;
                                                       .toInt()),
                                               controller:
                                                   timerController3,
-                                              onTimerEnd: () {
+                                              onTimerEnd: () async{
                                                 timerController3.stop();
                                                 timerController3
                                                     .reset();
@@ -964,7 +976,7 @@ _isCrossed[1]=false;
                                                     false,
                                                     true
                                                   ];
-                                                  _sound();
+                                                  await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -1102,7 +1114,7 @@ _isCrossed[1]=false;
                                                       .toInt()),
                                               controller:
                                                   timerController4,
-                                              onTimerEnd: () {
+                                              onTimerEnd: () async {
                                                 timerController4.stop();
                                                 timerController4
                                                     .reset();
@@ -1121,7 +1133,7 @@ _isCrossed[1]=false;
                                                     true,
                                                     true
                                                   ];
-                                                  _sound();
+                                                  await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
@@ -1443,10 +1455,10 @@ _isCrossed[1]=false;
                   this.setState(() {});
                   _startTimer();
                   Future.delayed(const Duration(milliseconds: 5000),
-                      () {
+                      () async {
                     initLineTime(lines, readingSpeed);
                     inhale = [true, true, true, true];
-                    _sound();
+                    await _sound();
                     Future.delayed(const Duration(milliseconds: 1500),
                         () {
                       inhale = [false, true, true, true];
@@ -1568,7 +1580,7 @@ _isCrossed[1]=false;
   }
   AudioPlayer audioPlayer = AudioPlayer();
 
-  void _sound()async{
+   _sound()async{
     audioPlayer.setPlayerMode(PlayerMode.lowLatency);
     await Future.delayed(const Duration(milliseconds: 70));
 
