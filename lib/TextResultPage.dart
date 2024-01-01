@@ -5,6 +5,7 @@ import 'package:cor/TextPage.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'PlayPage.dart';
@@ -23,6 +24,12 @@ late String curModeText;
 var curIndex;
 
 class _TextResultPageState extends State<TextResultPage> {
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

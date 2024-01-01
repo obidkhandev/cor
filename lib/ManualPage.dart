@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'main.dart';
 
@@ -9,7 +10,16 @@ class ManualPage extends StatefulWidget {
   State<ManualPage> createState() => _ManualPageState();
 }
 
+
+
+
 class _ManualPageState extends State<ManualPage> {
+
+  @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

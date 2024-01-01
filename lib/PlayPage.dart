@@ -4,6 +4,7 @@ import 'package:cor/ReadingPage.dart';
 import 'package:cor/ResultPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'TextResultPage.dart';
 
@@ -17,6 +18,11 @@ class PlayPage extends StatefulWidget {
 bool _isPlay = false;
 
 class _PlayPageState extends State<PlayPage> {
+  @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

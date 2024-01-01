@@ -2,6 +2,7 @@ import 'package:cor/ReadingPage.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'ChoiceTextPage.dart';
@@ -21,6 +22,7 @@ TextEditingController readingSpeedController = TextEditingController();
 class _ReadingModePageState extends State<ReadingModePage> {
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     super.initState();
   }
 

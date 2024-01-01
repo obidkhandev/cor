@@ -4,6 +4,7 @@ import 'package:cor/Pref.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TextPage extends StatefulWidget {
@@ -21,6 +22,12 @@ List<bool> _isSelectAge = [false, false, false, false, false, false, false];
  String selectAge='';
 
 class _TextPageState extends State<TextPage> {
+
+  @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

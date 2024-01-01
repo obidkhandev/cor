@@ -2,6 +2,7 @@ import 'package:cor/ManualPage.dart';
 import 'package:cor/ResultPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'main.dart';
 
@@ -13,6 +14,12 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

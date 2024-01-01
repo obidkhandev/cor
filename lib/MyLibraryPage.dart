@@ -3,6 +3,7 @@ import 'package:cor/ReadingPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'ChoiceTextPage.dart';
@@ -23,6 +24,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     selectIndex = -1;
     super.initState();
   }

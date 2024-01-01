@@ -2,6 +2,7 @@ import 'package:cor/MyLibraryPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:cor/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SavePage extends StatefulWidget {
   const SavePage({Key? key}) : super(key: key);
@@ -11,6 +12,12 @@ class SavePage extends StatefulWidget {
 }
 
 class _SavePageState extends State<SavePage> {
+
+  @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

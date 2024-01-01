@@ -5,6 +5,7 @@ import 'package:cor/TextPage.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +22,7 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
   @override
   void initState(){
     super.initState();
-
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
   }
 

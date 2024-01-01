@@ -4,6 +4,7 @@ import 'package:cor/TextResultPage.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'ReadingModePage.dart';
@@ -17,8 +18,18 @@ class ResultPage extends StatefulWidget {
 List<String> resForText=[];
 List <String> dateForText=[];
 List <String> modeForText=[];
+
+
+
 class _ResultPageState extends State<ResultPage> {
   @override
+void initState(){
+  super.initState();
+  SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+
+}
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

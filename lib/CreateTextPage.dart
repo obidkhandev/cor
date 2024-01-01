@@ -4,6 +4,7 @@ import 'package:cor/SavePage.dart';
 import 'package:cor/main.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,6 +27,7 @@ List<String> infoNewText = [];
 class _CreateTextPageState extends State<CreateTextPage> {
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     if (isEdit == false) {
       newText = [];
       lableController.clear();
