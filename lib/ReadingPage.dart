@@ -580,6 +580,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     true,
                                                     true
                                                   ];
+                                                  await Future.delayed(const Duration(milliseconds: 600));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
@@ -761,6 +762,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       true,
                                                       true
                                                     ];
+                                                    await Future.delayed(const Duration(milliseconds: 600));
                                                     await _sound();
                                                     Future.delayed(
                                                         const Duration(
@@ -795,6 +797,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                         false,
                                                         false
                                                       ];
+                                                      await Future.delayed(const Duration(milliseconds: 600));
                                                       await _sound();
                                                       Future.delayed(
                                                           const Duration(
@@ -946,6 +949,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     false,
                                                     true
                                                   ];
+                                                  await Future.delayed(const Duration(milliseconds: 600));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
@@ -1106,6 +1110,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     true,
                                                     true
                                                   ];
+                                                  await Future.delayed(const Duration(milliseconds: 600));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
@@ -1326,6 +1331,7 @@ class _ReadingPageState extends State<ReadingPage>
                                     () async {
                                   initLineTime(lines, readingSpeed);
                                   inhale = [true, true, true, true];
+                                  await Future.delayed(const Duration(milliseconds: 600));
                                   await _sound();
                                   Future.delayed(const Duration(milliseconds: 1500),
                                           () {
