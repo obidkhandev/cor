@@ -16,7 +16,8 @@ class ReadingModePage extends StatefulWidget {
 }
 
 String readingMode = "1 строка";
-
+String autorSelect = "";
+String nameSelect = "";
 TextEditingController readingSpeedController = TextEditingController();
 
 class _ReadingModePageState extends State<ReadingModePage> {
@@ -89,7 +90,7 @@ class _ReadingModePageState extends State<ReadingModePage> {
                             bottomLeft: Radius.circular(10)),
                       ),
                       child: Text(
-                        "Автор\nНазвание",
+                        "$autorSelect\n$nameSelect",
                         style: TextStyle(
                             color: Color.fromRGBO(0, 87, 204, 1),
                             fontSize: 20,

@@ -228,6 +228,8 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
                   GestureDetector(
                       onTap: ()async{
                         if(selectIndex!=-1){
+                          nameSelect=text_titles[selectIndex];
+                          autorSelect=text_autor[selectIndex];
                           lines = await pref.getStringList(items![selectIndex])!;
                           readingSpeedController.text= await pref.getStringList("${items![selectIndex]}_info")![2];
                            readingSpeed = int.parse(await pref.getStringList("${items![selectIndex]}_info")![2]);

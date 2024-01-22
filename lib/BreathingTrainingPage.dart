@@ -21,7 +21,8 @@ num breathindSpeed = 9.2;
 List<bool> _inhale = [true, true, true, true];
 
 
-
+final player0 = AudioPlayer();
+final player1 = AudioPlayer();
 
 class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     with TickerProviderStateMixin {
@@ -37,6 +38,8 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
   @override
   void initState() {
+    player1.setVolume(1);
+    player0.setVolume(1);
     _inhale=[true,true,true,true];
     super.initState();
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
@@ -58,7 +61,10 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     timerController2.reset();
     timerController3.reset();
     timerController4.reset();
-   // audioPlayer.stop();
+    player1.setVolume(0);
+    player0.setVolume(0);
+   player1.stop();
+    player0.stop();
   }
 
   @override
@@ -177,7 +183,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                     children: [
                       IconButton(
                           onPressed: () {
-                            breathindSpeed = breathindSpeed - 0.1;
+                           if(breathindSpeed>5.1) breathindSpeed = breathindSpeed - 0.1;
                             dur = 60 / breathindSpeed - 1.5;
                             Navigator.pop(context);
                             Navigator.of(context).push(PageRouteBuilder(
@@ -206,7 +212,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                       ),
                       IconButton(
                           onPressed: () {
-                            breathindSpeed = breathindSpeed + 0.1;
+                           if(breathindSpeed<14.99) breathindSpeed = breathindSpeed + 0.1;
                             dur = 60 / breathindSpeed - 1.5;
                             Navigator.pop(context);
                             Navigator.of(context).push(PageRouteBuilder(
@@ -263,7 +269,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        ((((60 / breathindSpeed - 1.5) * 1000)+1000)
+                                        (((60 / breathindSpeed - 1.5) * 1000)
                                             .toInt())),
                                 controller: timerController1,
                                 onTimerEnd: ()async {
@@ -271,18 +277,18 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                   timerController1.reset();
                                   _inhale = [false, true, true, true];
 
-
+                                  await Future.delayed(Duration(
+                                      milliseconds:
+                                      1000));
                                   await _sound();
                                   _inhale = [false, false, true, true];
                                   setState(() {});
-                                  await _soundOut(Duration(
+                                  await Future.delayed(Duration(
                                       milliseconds:
-                                      ((((dur * 1000)) / 12).toInt())));
+                                      500));
+                                   _soundOut(breathindSpeed);
                                   timerController2.start();
-/*
-                                    await Future.delayed(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)+1000)  / 10).toInt())));*/
+
 
 
                                   setState(() {});
@@ -325,7 +331,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        ((((60 / breathindSpeed - 1.5) * 1000)+1000)
+                                        (((60 / breathindSpeed - 1.5) * 1000)
                                             .toInt())),
                                 controller: timerController2,
                                 onTimerEnd: ()async {
@@ -333,13 +339,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                   timerController2.reset();
 
                                   _inhale = [false, false, true, true];
-
+                                  await Future.delayed(Duration(
+                                      milliseconds:
+                                      1000));
                                   await _sound();
                                   _inhale = [false, false, false, true];
                                   setState(() {});
-                                  _soundOut(Duration(
+                                  await Future.delayed(Duration(
                                       milliseconds:
-                                      ((((dur * 1000))  / 12).toInt())));
+                                      500));
+                                  _soundOut(breathindSpeed);
                                   timerController3.start();
 
 
@@ -384,7 +393,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        ((((60 / breathindSpeed - 1.5) * 1000)+1000)
+                                        (((60 / breathindSpeed - 1.5) * 1000)
                                             .toInt())),
                                 controller: timerController3,
                                 onTimerEnd: () async {
@@ -392,13 +401,15 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                   timerController3.reset();
 
                                   _inhale = [false, false, false, true];
-
+                                  await Future.delayed(Duration(
+                                      milliseconds:
+                                      1000));
                                   await _sound();
                                   _inhale = [false, false, false, false];
-                                  setState(() {});
-                                  _soundOut(Duration(
+                                  setState(() {});await Future.delayed(Duration(
                                       milliseconds:
-                                      ((((dur * 1000)) / 12).toInt())));
+                                      500));
+                                  _soundOut(breathindSpeed);
                                   timerController4.start();
 
 
@@ -442,7 +453,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        ((((60 / breathindSpeed - 1.5) * 1000)+1000)
+                                        (((60 / breathindSpeed - 1.5) * 1000)
                                             .toInt())),
                                 controller: timerController4,
                                 onTimerEnd: () async {
@@ -451,13 +462,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
                                   _inhale = [true, true, true, true];
                                   setState(() {});
-
+                                  await Future.delayed(Duration(
+                                      milliseconds:
+                                      1000));
                                   await _sound();
                                   _inhale = [false, true, true, true];
                                   setState(() {});
-                                  _soundOut(Duration(
+                                  await Future.delayed(Duration(
                                       milliseconds:
-                                      ((((dur * 1000)) / 12).toInt())));
+                                      500));
+                                  _soundOut(breathindSpeed);
                                   timerController1.start();
 
 
@@ -470,10 +484,11 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                   Spacer(
                     flex: 2,
                   ),
-                  TextButton(onPressed: ()async{
-                   },child: Text("pderrrr"),),
+
                   GestureDetector(
                       onTap: () async {
+                        player1.setVolume(1);
+                        player0.setVolume(1);
                         dur = 60 / breathindSpeed - 1.5;
                         _isStart = !_isStart;
                         if (_isStart == true) {
@@ -482,13 +497,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                           Future.delayed(const Duration(milliseconds: 5000),
                               ()async   {
                             _inhale = [true, true, true, true];
-
+                            await Future.delayed(Duration(
+                                milliseconds:
+                                1000));
                             await _sound();
                             _inhale = [false, true, true, true];
                             setState(() {});
-
-                            _soundOut(Duration(
-                                milliseconds: ((((dur * 1000)) / 12).toInt())));
+                            await Future.delayed(Duration(
+                                milliseconds:
+                                500));
+                            _soundOut(breathindSpeed);
                             timerController1.start();
 
 
@@ -500,7 +518,10 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                           timerController2.stop();
                           timerController3.stop();
                           timerController4.stop();
-                         // audioPlayer.stop();
+                          player1.setVolume(0);
+                          player0.setVolume(0);
+                          player1.stop();
+                          player0.stop();
                           setState(() {});
 
                           Navigator.of(context).push(PageRouteBuilder(
@@ -578,113 +599,354 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
    _sound() async {
 
-     final player0 = AudioPlayer();
+
 await player0.setAsset('assets/in.mp3');
 await player0.play();
+player0.stop();
 
-
-
-     /* audioPlayer.setPlayerMode(PlayerMode.lowLatency);
-
-
-    await audioPlayer.play(AssetSource('01.ogg'));
-    audioPlayer.getDuration();
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('02.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('03.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('04.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('05.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('06.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('07.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('08.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('09.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('010.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('011.ogg'));
-*/
   }
 
-   _soundOut(Duration _dur) async {
-     final player1 = AudioPlayer();
-     await player1.setAsset('assets/01.ogg');
-     final player2 = AudioPlayer();
-     await player2.setAsset('assets/02.ogg');
-     final player3 = AudioPlayer();
-     await player3.setAsset('assets/03.ogg');
-     final player4 = AudioPlayer();
-     await player4.setAsset('assets/04.ogg');
-     final player5 = AudioPlayer();
-     await player5.setAsset('assets/05.ogg');
-     final player6 = AudioPlayer();
-     await player6.setAsset('assets/06.ogg');
-     final player7 = AudioPlayer();
-     await player7.setAsset('assets/07.ogg');
-     final player8 = AudioPlayer();
-     await player8.setAsset('assets/08.ogg');
-     final player9 = AudioPlayer();
-     await player9.setAsset('assets/09.ogg');
-     final player10 = AudioPlayer();
-     await player10.setAsset('assets/010.ogg');
-     final player11 = AudioPlayer();
-     await player11.setAsset('assets/011.ogg');
+   _soundOut(num speed) async {
 
-     await player11.play();
-    await Future.delayed(_dur);
-     await player10.play();
-    await Future.delayed(_dur);
-     await  player9.play();
-    await Future.delayed(_dur);
-     await  player8.play();
-    await Future.delayed(_dur);
-     await  player7.play();
-    await Future.delayed(_dur);
-     await  player6.play();
-    await Future.delayed(_dur);
-     await  player5.play();
-    await Future.delayed(_dur);
-     await player4.play();
-    await Future.delayed(_dur);
-     await  player3.play();
-    await Future.delayed(_dur);
-     await  player2.play();
-    await Future.delayed(_dur);
+
+
+
+     switch (speed.toStringAsFixed(1)) {
+
+       case "15.0":
+         await player1.setAsset('assets/15-0.mp3');
+         break;
+       case "14.9":
+         await player1.setAsset('assets/15-0.mp3');
+         break;
+       case "14.8":
+         await player1.setAsset('assets/15-0.mp3');
+         break;
+       case "14.7":
+         await player1.setAsset('assets/15-0.mp3');
+         break;
+       case "14.6":
+         await player1.setAsset('assets/14-6.mp3');
+         break;
+       case "14.5":
+         await player1.setAsset('assets/14-6.mp3');
+         break;
+       case"14.4":
+         await player1.setAsset('assets/14-6.mp3');
+         break;
+       case "14.3":
+         await player1.setAsset('assets/14-6.mp3');
+         break;
+       case "14.2":
+         await player1.setAsset('assets/14-2.mp3');
+         break;
+       case "14.1":
+         await player1.setAsset('assets/14-2.mp3');
+         break;
+
+
+       case "14.0":
+         await player1.setAsset('assets/14-2.mp3');
+         break;
+       case "13.9":
+         await player1.setAsset('assets/13-9.mp3');
+         break;
+       case "13.8":
+         await player1.setAsset('assets/13-9.mp3');
+         break;
+       case "13.7":
+         await player1.setAsset('assets/13-9.mp3');
+         break;
+       case "13.6":
+         await player1.setAsset('assets/13-5.mp3');
+         break;
+       case "13.5":
+         await player1.setAsset('assets/13-5.mp3');
+         break;
+       case "13.4":
+         await player1.setAsset('assets/13-5.mp3');
+         break;
+       case "13.3":
+         await player1.setAsset('assets/13-2.mp3');
+         break;
+       case "13.2":
+         await player1.setAsset('assets/13-2.mp3');
+         break;
+       case "13.1":
+         await player1.setAsset('assets/13-2.mp3');
+         break;
+
+
+       case "13.0":
+         await player1.setAsset('assets/12-9.mp3');
+         break;
+       case "12.9":
+         await player1.setAsset('assets/12-9.mp3');
+         break;
+       case "12.8":
+         await player1.setAsset('assets/12-9.mp3');
+         break;
+       case "12.7":
+         await player1.setAsset('assets/12-6.mp3');
+         break;
+       case "12.6":
+         await player1.setAsset('assets/12-6.mp3');
+         break;
+       case "12.5":
+         await player1.setAsset('assets/12-4.mp3');
+         break;
+       case "12.4":
+         await player1.setAsset('assets/12-4.mp3');
+         break;
+       case "12.3":
+         await player1.setAsset('assets/12-4.mp3');
+         break;
+       case "12.2":
+         await player1.setAsset('assets/12-1.mp3');
+         break;
+       case "12.1":
+         await player1.setAsset('assets/12-1.mp3');
+         break;
+
+
+       case "12.0":
+         await player1.setAsset('assets/11-9.mp3');
+         break;
+       case "11.9":
+         await player1.setAsset('assets/11-9.mp3');
+         break;
+       case "11.8":
+         await player1.setAsset('assets/11-9.mp3');
+         break;
+       case "11.7":
+         await player1.setAsset('assets/11-6.mp3');
+         break;
+       case "11.6":
+         await player1.setAsset('assets/11-6.mp3');
+         break;
+       case "11.5":
+         await player1.setAsset('assets/11-4.mp3');
+         break;
+       case "11.4":
+         await player1.setAsset('assets/11-4.mp3');
+         break;
+       case "11.3":
+         await player1.setAsset('assets/11-2.mp3');
+         break;
+       case "11.2":
+         await player1.setAsset('assets/11-2.mp3');
+         break;
+       case "11.1":
+         await player1.setAsset('assets/11-0.mp3');
+         break;
+
+
+       case "11.0":
+         await player1.setAsset('assets/11-0.mp3');
+         break;
+       case "10.9":
+         await player1.setAsset('assets/10-8.mp3');
+         break;
+       case "10.8":
+         await player1.setAsset('assets/10-8.mp3');
+         break;
+       case "10.7":
+         await player1.setAsset('assets/10-6.mp3');
+         break;
+       case "10.6":
+         await player1.setAsset('assets/10-6.mp3');
+         break;
+       case "10.5":
+         await player1.setAsset('assets/10-4.mp3');
+         break;
+       case "10.4":
+         await player1.setAsset('assets/10-4.mp3');
+         break;
+       case "10.3":
+         await player1.setAsset('assets/10-2.mp3');
+         break;
+       case "10.2":
+         await player1.setAsset('assets/10-2.mp3');
+         break;
+       case "10.1":
+         await player1.setAsset('assets/10-2.mp3');
+         break;
+
+
+       case "10.0":
+         await player1.setAsset('assets/9-9.mp3');
+         break;
+       case "9.9":
+         await player1.setAsset('assets/9-9.mp3');
+         break;
+       case "9.8":
+         await player1.setAsset('assets/9-6.mp3');
+         break;
+       case "9.7":
+         await player1.setAsset('assets/9-6.mp3');
+         break;
+       case "9.6":
+         await player1.setAsset('assets/9-6.mp3');
+         break;
+       case "9.5":
+         await player1.setAsset('assets/9-4.mp3');
+         break;
+       case "9.4":
+         await player1.setAsset('assets/9-4.mp3');
+         break;
+       case "9.3":
+         await player1.setAsset('assets/9-4.mp3');
+         break;
+       case "9.2":
+         await player1.setAsset('assets/9-1.mp3');
+         break;
+       case "9.1":
+         await player1.setAsset('assets/9-1.mp3');
+         break;
+
+
+       case "9.0":
+         await player1.setAsset('assets/8-9.mp3');
+         break;
+       case "8.9":
+         await player1.setAsset('assets/8-9.mp3');
+         break;
+       case "8.8":
+         await player1.setAsset('assets/8-7.mp3');
+         break;
+       case "8.7":
+         await player1.setAsset('assets/8-7.mp3');
+         break;
+       case "8.6":
+         await player1.setAsset('assets/8-5.mp3');
+         break;
+       case "8.5":
+         await player1.setAsset('assets/8-5.mp3');
+         break;
+       case "8.4":
+         await player1.setAsset('assets/8-3.mp3');
+         break;
+       case "8.3":
+         await player1.setAsset('assets/8-3.mp3');
+         break;
+       case "8.2":
+         await player1.setAsset('assets/8-1.mp3');
+         break;
+       case "8.1":
+         await player1.setAsset('assets/8-1.mp3');
+         break;
+
+
+       case "8.0":
+         await player1.setAsset('assets/7-9.mp3');
+         break;
+       case "7.9":
+         await player1.setAsset('assets/7-9.mp3');
+         break;
+       case "7.8":
+         await player1.setAsset('assets/7-7.mp3');
+         break;
+       case "7.7":
+         await player1.setAsset('assets/7-7.mp3');
+         break;
+       case "7.6":
+         await player1.setAsset('assets/7-5.mp3');
+         break;
+       case "7.5":
+         await player1.setAsset('assets/7-5.mp3');
+         break;
+       case "7.4":
+         await player1.setAsset('assets/7-3.mp3');
+         break;
+       case "7.3":
+         await player1.setAsset('assets/7-3.mp3');
+         break;
+       case "7.2":
+         await player1.setAsset('assets/7-1.mp3');
+         break;
+       case "7.1":
+         await player1.setAsset('assets/7-1.mp3');
+         break;
+
+
+       case "7.0":
+         await player1.setAsset('assets/6-9.mp3');
+         break;
+       case "6.9":
+         await player1.setAsset('assets/6-9.mp3');
+         break;
+       case "6.8":
+         await player1.setAsset('assets/6-7.mp3');
+         break;
+       case "6.7":
+         await player1.setAsset('assets/6-7.mp3');
+         break;
+       case "6.6":
+         await player1.setAsset('assets/6-5.mp3');
+         break;
+       case "6.5":
+         await player1.setAsset('assets/6-5.mp3');
+         break;
+       case "6.4":
+         await player1.setAsset('assets/6-3.mp3');
+         break;
+       case "6.3":
+         await player1.setAsset('assets/6-3.mp3');
+         break;
+       case "6.2":
+         await player1.setAsset('assets/6-1.mp3');
+         break;
+       case "6.1":
+         await player1.setAsset('assets/6-1.mp3');
+         break;
+
+
+       case "6.0":
+         await player1.setAsset('assets/5-9.mp3');
+         break;
+       case "5.9":
+         await player1.setAsset('assets/5-9.mp3');
+         break;
+       case "5.8":
+         await player1.setAsset('assets/5-7.mp3');
+         break;
+       case "5.7":
+         await player1.setAsset('assets/5-7.mp3');
+         break;
+       case "5.6":
+         await player1.setAsset('assets/5-5.mp3');
+         break;
+       case "5.5":
+         await player1.setAsset('assets/5-5.mp3');
+         break;
+       case "5.4":
+         await player1.setAsset('assets/5-4.mp3');
+         break;
+       case "5.3":
+         await player1.setAsset('assets/5-3.mp3');
+         break;
+       case "5.2":
+         await player1.setAsset('assets/5-2.mp3');
+         break;
+       case "5.1":
+         await player1.setAsset('assets/5-1.mp3');
+         break;
+
+
+       case "5.0":
+         await player1.setAsset('assets/5-0.mp3');
+         break;
+
+       default :
+         await player1.setAsset('assets/9-6.mp3');
+         break;
+
+
+
+     }
+
+
      await player1.play();
-    await Future.delayed(_dur);
-
-
-
-  /*  audioPlayer.setPlayerMode(PlayerMode.lowLatency);
-
-
-    await audioPlayer.play(AssetSource('011.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('010.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('09.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('08.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('07.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('06.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('05.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('04.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('03.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('02.ogg'));
-    await Future.delayed(_dur);
-    await audioPlayer.play(AssetSource('01.ogg'));
-*/
+     player1.stop();
   }
 }
