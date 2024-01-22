@@ -47,6 +47,8 @@ dependencies:
   intl:
   animated_line_through:
   audioplayers: ^5.2.1
+  just_audio: ^0.9.36
+  just_audio_windows: ^0.2.0
 
 
 

@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+//import 'package:audioplayers/audioplayers.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:linear_timer/linear_timer.dart';
 
 import 'main.dart';
@@ -18,6 +19,9 @@ class BreathingTrainingPage extends StatefulWidget {
 
 num breathindSpeed = 9.2;
 List<bool> _inhale = [true, true, true, true];
+
+
+
 
 class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     with TickerProviderStateMixin {
@@ -54,7 +58,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     timerController2.reset();
     timerController3.reset();
     timerController4.reset();
-    audioPlayer.stop();
+   // audioPlayer.stop();
   }
 
   @override
@@ -84,7 +88,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  audioPlayer.stop();
+                                 // audioPlayer.stop();
                                   Navigator.pop(context);
                                 },
                                 child: SvgPicture.asset(
@@ -99,7 +103,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  audioPlayer.stop();
+                                 // audioPlayer.stop();
                                   Navigator.of(context).push(PageRouteBuilder(
                                       opaque: false,
                                       pageBuilder:
@@ -269,21 +273,17 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
 
                                   await _sound();
-                                  Future.delayed(
-                                       Duration(milliseconds:
-                                      ((((dur * 1000)+1000)  / 10).toInt())), ()async  {
-                                    _inhale = [false, false, true, true];
-                                    setState(() {});
-                                     _soundOut(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)) / 10).toInt())));
-                                     timerController2.start();
-
+                                  _inhale = [false, false, true, true];
+                                  setState(() {});
+                                  await _soundOut(Duration(
+                                      milliseconds:
+                                      ((((dur * 1000)) / 12).toInt())));
+                                  timerController2.start();
+/*
                                     await Future.delayed(Duration(
                                         milliseconds:
-                                        ((((dur * 1000)+1000)  / 10).toInt())));
+                                        ((((dur * 1000)+1000)  / 10).toInt())));*/
 
-                                  });
 
                                   setState(() {});
                                 })),
@@ -333,25 +333,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                   timerController2.reset();
 
                                   _inhale = [false, false, true, true];
-                                  Future.delayed(Duration(
-                                      milliseconds:
-                                          ((((dur * 1000)+1000)  / 10).toInt())));
-                                  await _sound();
-                                  Future.delayed(
-                                      Duration(
-                                          milliseconds:
-                                          ((((dur * 1000)+1000) / 10).toInt())), () async {
-                                    _inhale = [false, false, false, true];
-                                    setState(() {});
-                                     _soundOut(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000))  / 10).toInt())));
-                                    timerController3.start();
 
-                                    await Future.delayed(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)+1000)  / 10).toInt())));
-                                  });
+                                  await _sound();
+                                  _inhale = [false, false, false, true];
+                                  setState(() {});
+                                  _soundOut(Duration(
+                                      milliseconds:
+                                      ((((dur * 1000))  / 12).toInt())));
+                                  timerController3.start();
+
+
 
                                   setState(() {});
                                 })),
@@ -401,25 +392,15 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                                   timerController3.reset();
 
                                   _inhale = [false, false, false, true];
-                                  Future.delayed(Duration(
-                                      milliseconds:
-                                          ((((dur * 1000)+1000) / 10).toInt())));
-                                  await _sound();
-                                  Future.delayed(
-                                      Duration(
-                                          milliseconds:
-                                          ((((dur * 1000)+1000)/ 10).toInt())), () async {
-                                    _inhale = [false, false, false, false];
-                                    setState(() {});
-                                     _soundOut(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)) / 10).toInt())));
-                                    timerController4.start();
 
-                                    await Future.delayed(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)+1000) / 10).toInt())));
-                                  });
+                                  await _sound();
+                                  _inhale = [false, false, false, false];
+                                  setState(() {});
+                                  _soundOut(Duration(
+                                      milliseconds:
+                                      ((((dur * 1000)) / 12).toInt())));
+                                  timerController4.start();
+
 
                                   setState(() {});
                                 })),
@@ -470,25 +451,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
                                   _inhale = [true, true, true, true];
                                   setState(() {});
-                                  Future.delayed(Duration(
-                                      milliseconds:
-                                          ((((dur * 1000)+1000)/ 10).toInt())));
-                                  await _sound();
-                                  Future.delayed(
-                                      Duration(
-                                          milliseconds:
-                                          ((((dur * 1000)+1000)/ 10).toInt())), () async {
-                                    _inhale = [false, true, true, true];
-                                    setState(() {});
-                                     _soundOut(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)) / 10).toInt())));
-                                    timerController1.start();
 
-                                    await Future.delayed(Duration(
-                                        milliseconds:
-                                        ((((dur * 1000)+1000) / 10).toInt())));
-                                  });
+                                  await _sound();
+                                  _inhale = [false, true, true, true];
+                                  setState(() {});
+                                  _soundOut(Duration(
+                                      milliseconds:
+                                      ((((dur * 1000)) / 12).toInt())));
+                                  timerController1.start();
+
+
 
                                   setState(() {});
                                 })),
@@ -498,6 +470,8 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                   Spacer(
                     flex: 2,
                   ),
+                  TextButton(onPressed: ()async{
+                   },child: Text("pderrrr"),),
                   GestureDetector(
                       onTap: () async {
                         dur = 60 / breathindSpeed - 1.5;
@@ -508,25 +482,16 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                           Future.delayed(const Duration(milliseconds: 5000),
                               ()async   {
                             _inhale = [true, true, true, true];
-                            Future.delayed(Duration(
-                                milliseconds: ((((dur * 1000)+1000) / 10).toInt())));
-                            await _sound();
-                            Future.delayed(Duration(
-                                milliseconds:
-                                ((((dur * 1000)+1000) / 10).toInt())),
-                                () async {
-                              _inhale = [false, true, true, true];
-                              setState(() {});
-                              Future.delayed(Duration(
-                                  milliseconds: ((((dur * 1000)+1000) / 10).toInt())));
-                               _soundOut(Duration(
-                                  milliseconds: ((((dur * 1000)) / 10).toInt())));
-                              timerController1.start();
 
-                              await Future.delayed(Duration(
-                                  milliseconds:
-                                  ((((dur * 1000)+1000) / 10).toInt())));
-                            });
+                            await _sound();
+                            _inhale = [false, true, true, true];
+                            setState(() {});
+
+                            _soundOut(Duration(
+                                milliseconds: ((((dur * 1000)) / 12).toInt())));
+                            timerController1.start();
+
+
                           });
                         } else {
                           _isStart = !_isStart;
@@ -535,7 +500,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
                           timerController2.stop();
                           timerController3.stop();
                           timerController4.stop();
-                          audioPlayer.stop();
+                         // audioPlayer.stop();
                           setState(() {});
 
                           Navigator.of(context).push(PageRouteBuilder(
@@ -609,10 +574,17 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     });
   }
 
-  AudioPlayer audioPlayer = AudioPlayer();
+ // AudioPlayer audioPlayer = AudioPlayer();
 
    _sound() async {
-    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+
+     final player0 = AudioPlayer();
+await player0.setAsset('assets/in.mp3');
+await player0.play();
+
+
+
+     /* audioPlayer.setPlayerMode(PlayerMode.lowLatency);
 
 
     await audioPlayer.play(AssetSource('01.ogg'));
@@ -637,11 +609,59 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     await audioPlayer.play(AssetSource('010.ogg'));
     await Future.delayed(const Duration(milliseconds: 70));
     await audioPlayer.play(AssetSource('011.ogg'));
-
+*/
   }
 
    _soundOut(Duration _dur) async {
-    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+     final player1 = AudioPlayer();
+     await player1.setAsset('assets/01.ogg');
+     final player2 = AudioPlayer();
+     await player2.setAsset('assets/02.ogg');
+     final player3 = AudioPlayer();
+     await player3.setAsset('assets/03.ogg');
+     final player4 = AudioPlayer();
+     await player4.setAsset('assets/04.ogg');
+     final player5 = AudioPlayer();
+     await player5.setAsset('assets/05.ogg');
+     final player6 = AudioPlayer();
+     await player6.setAsset('assets/06.ogg');
+     final player7 = AudioPlayer();
+     await player7.setAsset('assets/07.ogg');
+     final player8 = AudioPlayer();
+     await player8.setAsset('assets/08.ogg');
+     final player9 = AudioPlayer();
+     await player9.setAsset('assets/09.ogg');
+     final player10 = AudioPlayer();
+     await player10.setAsset('assets/010.ogg');
+     final player11 = AudioPlayer();
+     await player11.setAsset('assets/011.ogg');
+
+     await player11.play();
+    await Future.delayed(_dur);
+     await player10.play();
+    await Future.delayed(_dur);
+     await  player9.play();
+    await Future.delayed(_dur);
+     await  player8.play();
+    await Future.delayed(_dur);
+     await  player7.play();
+    await Future.delayed(_dur);
+     await  player6.play();
+    await Future.delayed(_dur);
+     await  player5.play();
+    await Future.delayed(_dur);
+     await player4.play();
+    await Future.delayed(_dur);
+     await  player3.play();
+    await Future.delayed(_dur);
+     await  player2.play();
+    await Future.delayed(_dur);
+     await player1.play();
+    await Future.delayed(_dur);
+
+
+
+  /*  audioPlayer.setPlayerMode(PlayerMode.lowLatency);
 
 
     await audioPlayer.play(AssetSource('011.ogg'));
@@ -665,6 +685,6 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
     await audioPlayer.play(AssetSource('02.ogg'));
     await Future.delayed(_dur);
     await audioPlayer.play(AssetSource('01.ogg'));
-
+*/
   }
 }
