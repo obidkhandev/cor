@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:animated_line_through/animated_line_through.dart';
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:cor/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:linear_timer/linear_timer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
@@ -39,6 +40,7 @@ bool isRecord = false;
 var indexLines = 0;
 List<bool> _isCrossed = [false, false, false, false];
 List<bool> inhale = [true, true, true, true];
+var player2 = AudioPlayer();
 
 List<num> initLineTime(List<String> cur_lines, num? selectSpeed) {
   num syllable_A;
@@ -300,6 +302,8 @@ class _ReadingPageState extends State<ReadingPage>
   @override
   void initState() {
     super.initState();
+    player2= AudioPlayer();
+    player2.stop();
     inhale=[true,true,true,true];
     _isCrossed[0]=false;
     _isCrossed[1]=false;
@@ -326,6 +330,7 @@ class _ReadingPageState extends State<ReadingPage>
 
     WidgetsBinding.instance.addPostFrameCallback((_) => wdthFunc(context));
     audioPlayer.stop();
+    player2.dispose();
     super.dispose();
   }
 
@@ -580,12 +585,12 @@ class _ReadingPageState extends State<ReadingPage>
                                                     true,
                                                     true
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 600));
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
-                                                          1500), () {
+                                                          500), () {
                                                     inhale = [
                                                       false,
                                                       false,
@@ -762,12 +767,12 @@ class _ReadingPageState extends State<ReadingPage>
                                                       true,
                                                       true
                                                     ];
-                                                    await Future.delayed(const Duration(milliseconds: 600));
+                                                    await Future.delayed(const Duration(milliseconds: 500));
                                                     await _sound();
                                                     Future.delayed(
                                                         const Duration(
                                                             milliseconds:
-                                                            1500), () {
+                                                            500), () {
                                                       inhale = [
                                                         false,
                                                         false,
@@ -797,12 +802,12 @@ class _ReadingPageState extends State<ReadingPage>
                                                         false,
                                                         false
                                                       ];
-                                                      await Future.delayed(const Duration(milliseconds: 600));
+                                                      await Future.delayed(const Duration(milliseconds: 500));
                                                       await _sound();
                                                       Future.delayed(
                                                           const Duration(
                                                               milliseconds:
-                                                              1500),
+                                                              500),
                                                               () {
                                                             inhale = [
                                                               false,
@@ -949,12 +954,12 @@ class _ReadingPageState extends State<ReadingPage>
                                                     false,
                                                     true
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 600));
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
-                                                          1500),
+                                                          500),
                                                           () {
                                                         inhale = [
                                                           false,
@@ -1110,12 +1115,12 @@ class _ReadingPageState extends State<ReadingPage>
                                                     true,
                                                     true
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 600));
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   await _sound();
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
-                                                          1500),
+                                                          500),
                                                           () {
                                                         inhale = [
                                                           false,
@@ -1331,9 +1336,9 @@ class _ReadingPageState extends State<ReadingPage>
                                     () async {
                                   initLineTime(lines, readingSpeed);
                                   inhale = [true, true, true, true];
-                                  await Future.delayed(const Duration(milliseconds: 600));
+                                  await Future.delayed(const Duration(milliseconds: 500));
                                   await _sound();
-                                  Future.delayed(const Duration(milliseconds: 1500),
+                                  Future.delayed(const Duration(milliseconds: 500),
                                           () {
                                         inhale = [false, true, true, true];
                                         _isCrossed=[true, false, false, false];
@@ -1342,8 +1347,22 @@ class _ReadingPageState extends State<ReadingPage>
                                         _isCrossed[0]=true;
                                       });
                                 });
-                          } else {
+                          } else {setState(() {
+                            _isStart = !_isStart;
+                          });
                             audioPlayer.stop();
+
+                            player2.dispose();
+                            inhale = [false, false, false, false];
+                            _isCrossed = [false, false, false, false];
+                            timerController1.stop();
+                          timerController2.stop();
+                          timerController3.stop();
+                          timerController4.stop();
+                          timerController1.reset();
+                          timerController2.reset();
+                          timerController3.reset();
+                          timerController4.reset();
                             if (isRecord) {
                               stopRecording();
                               var mode;
@@ -1368,15 +1387,8 @@ class _ReadingPageState extends State<ReadingPage>
                                 ],
                               );
                             }
-                            inhale = [false, false, false, false];
-                            _isCrossed = [false, false, false, false];
-                            timerController1.stop();
-                            timerController2.stop();
-                            timerController3.stop();
-                            timerController4.stop();
-                            setState(() {
-                              _isStart = !_isStart;
-                            });
+
+
                             items.clear();
                             items = await pref.getStringList('2-4 года') ?? [];
                             items.addAll(
@@ -1454,33 +1466,12 @@ class _ReadingPageState extends State<ReadingPage>
   }
   AudioPlayer audioPlayer = AudioPlayer();
 
-   _sound()async{
-    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
-    await Future.delayed(const Duration(milliseconds: 70));
+  _sound() async {
 
-    await audioPlayer.play(AssetSource('01.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('02.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('03.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('04.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('05.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('06.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('07.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('08.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('09.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('010.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
-    await audioPlayer.play(AssetSource('011.ogg'));
-    await Future.delayed(const Duration(milliseconds: 70));
 
+    await player2.setAsset('assets/in.mp3');
+    await player2.play();
+    player2.stop();
 
   }
 }
