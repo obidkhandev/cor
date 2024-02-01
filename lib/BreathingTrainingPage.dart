@@ -40,9 +40,8 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
   void initState() {
     player1= AudioPlayer();
     player0= AudioPlayer();
-player1.stop();
-player0.stop();
 
+print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     speedForLine = _durSound(breathindSpeed);
     _inhale=[true,true,true,true];
     super.initState();
@@ -190,12 +189,11 @@ player0.stop();
                           onPressed: () {
                            if(breathindSpeed>5.1) breathindSpeed = breathindSpeed - 0.1;
                             dur = 60 / breathindSpeed - 1.5;
-                            Navigator.pop(context);
-                            Navigator.of(context).push(PageRouteBuilder(
-                                opaque: false,
-                                pageBuilder: (BuildContext context, _, __) =>
-                                    BreathingTrainingPage()));
-                           speedForLine = _durSound(breathindSpeed);
+
+
+
+
+
 
                             this.setState(() {
                               print(breathindSpeed);
@@ -221,12 +219,9 @@ player0.stop();
                           onPressed: () {
                            if(breathindSpeed<14.99) breathindSpeed = breathindSpeed + 0.1;
                             dur = 60 / breathindSpeed - 1.5;
-                            Navigator.pop(context);
-                            Navigator.of(context).push(PageRouteBuilder(
-                                opaque: false,
-                                pageBuilder: (BuildContext context, _, __) =>
-                                    BreathingTrainingPage()));
-                           speedForLine=  _durSound(breathindSpeed);
+
+
+
                             setState(() {
                               print(breathindSpeed);
                             });
@@ -498,6 +493,7 @@ player0.stop();
                         dur = 60 / breathindSpeed - 1.5;
                         _isStart = !_isStart;
                         if (_isStart == true) {
+
                           this.setState(() {});
                           _startTimer();
                           Future.delayed(const Duration(milliseconds: 5000),
