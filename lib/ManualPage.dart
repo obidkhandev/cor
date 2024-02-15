@@ -63,7 +63,22 @@ void initState(){
               child:Icon(Icons.clear, color: Colors.grey,size: 42,))),
         ],
       ),
+                Container(
+               width: 20,
+                  margin: EdgeInsets.only(top:12,bottom: 0, ),
+                  padding: EdgeInsets.only(top:12,bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(234, 87, 87, 1),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
+                  ),
+                  child: Text("Тренинг\nдыхания", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),),
+                ),
 
+      Container(child: Text("[j [j [j"),),
       Padding(
           padding:EdgeInsets.only(top: 24,bottom:8 ) ,
           child:   Text("Выбери в таблице свой возраст",textAlign: TextAlign.center,
