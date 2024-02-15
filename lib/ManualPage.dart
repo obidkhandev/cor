@@ -63,35 +63,36 @@ void initState(){
               child:Icon(Icons.clear, color: Colors.grey,size: 42,))),
         ],
       ),
-                Container(
-               width: 20,
-                  margin: EdgeInsets.only(top:12,bottom: 0, ),
-                  padding: EdgeInsets.only(top:12,bottom: 12),
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(234, 87, 87, 1),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
-                  ),
-                  child: Text("Тренинг\nдыхания", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),),
+                Row(
+                  children: [Spacer(),
+                    Container(
+                                   width: MediaQuery.of(context).size.width/2.5,
+                      margin: EdgeInsets.only(top:12,bottom: 0, ),
+                      padding: EdgeInsets.only(top:12,bottom: 12),
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(234, 87, 87, 1),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
+                      ),
+                      child: Center(child:Text("Тренинг\nдыхания", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
+                    ),Spacer(),
+                  ],
                 ),
 
-      Container(child: Text("[j [j [j"),),
+
       Padding(
-          padding:EdgeInsets.only(top: 24,bottom:8 ) ,
-          child:   Text("Выбери в таблице свой возраст",textAlign: TextAlign.center,
+          padding:EdgeInsets.only(top: 24,bottom:8,left: 12,right: 12 ) ,
+          child:   Text("Установи ритм речевого дыхания. Нажми кнопку “Начать” и тренируй речевое дыхание",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
       Container(margin: EdgeInsets.only(bottom: 8),
           height: 250,
           child:Image.asset(
         "assets/images/manual_1.png",
       )),
-      Padding(
-          padding:EdgeInsets.only(top: 8,bottom:8 ) ,
-          child: Text("Установится первоначальный ритм дыхания",textAlign: TextAlign.center,
-            style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+
       Container(
         width: MediaQuery.of(context).size.width-50,
         height: 3,
@@ -101,8 +102,8 @@ void initState(){
         ),
       ),
       Padding(
-          padding:EdgeInsets.only(top: 8,bottom:8 ) ,
-          child: Text("Выбери персонажа, вместе с которым будешь дышать животом",textAlign: TextAlign.center,
+          padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+          child: Text("Вдох - вертикальная красная стрелка (или звук).\nВыдох - синяя полоса.\nВдох - живот округляется.\nВыдох - живот втягивается.\nДыши животом без усилий.",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
                     height: 250,
@@ -118,9 +119,25 @@ void initState(){
 
         ),
       ),
+
+                Row(
+                  children: [Spacer(),
+                    Container(
+                      width: MediaQuery.of(context).size.width/2.5,
+                      margin: EdgeInsets.only(top:12,bottom: 0, ),
+                      padding: EdgeInsets.only(top:12,bottom: 12),
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(33, 150, 82, 1),
+
+                      ),
+                      child: Center(child:Text("Чтение", style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
+                    ),Spacer(),
+                  ],
+                ),
+
       Padding(
           padding:EdgeInsets.only(top: 8,bottom:8 ) ,
-          child: Text("Выбери сюжет для контроля вдоха/выдоха",textAlign: TextAlign.center,
+          child: Text("Выбери возраст тренирующегося или открой “Моя библиотека”",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
                     height: 180,
@@ -136,18 +153,106 @@ void initState(){
         ),
       ),
       Padding(
-          padding:EdgeInsets.only(top: 8,bottom:8 ) ,
-          child: Text("Вдох - живот округляется Выдох - живот втягивается Дыши животом без усилий",textAlign: TextAlign.center,
+          padding:EdgeInsets.only(top: 8,bottom:8,left: 12,right: 12 ) ,
+          child: Text("Выбери текст для чтения",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
                     height: 300,
                     child:Image.asset(
                       "assets/images/manual_4.png",
                     )),
+                Container(
+                  width: MediaQuery.of(context).size.width-50,
+                  height: 3,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 82, 204, 1),
+
+                  ),
+                ),
       Padding(
-          padding:EdgeInsets.only(top: 8,bottom:8 ) ,
-          child: Text("Постепенно замедляй ритм дыхания за счёт удлиннения выдоха. Помни, дышать нужно без усилий!",textAlign: TextAlign.center,
+          padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+          child: Text("Выбери режим чтения по 1 или 2 строчки Установи скорость чтения в слогах в минуту",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+
+                Container(margin: EdgeInsets.only(bottom: 8),
+                    height: 300,
+                    child:Image.asset(
+                      "assets/images/manual_4.png",
+                    )),
+
+                Padding(
+                    padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+                    child: Text("Перейди в режим чтения",textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+                Container(
+                  width: MediaQuery.of(context).size.width-50,
+                  height: 3,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 82, 204, 1),
+
+                  ),
+                ),
+                Padding(
+                    padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+                    child: Text("Нажми запись голоса. Начинай читать.",textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+                Container(margin: EdgeInsets.only(bottom: 8),
+                    height: 300,
+                    child:Image.asset(
+                      "assets/images/manual_4.png",
+                    )),
+                Container(
+                  width: MediaQuery.of(context).size.width-50,
+                  height: 3,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 82, 204, 1),
+
+                  ),
+                ),
+
+                Row(
+                  children: [Spacer(),
+                    Container(
+                      width: MediaQuery.of(context).size.width/1.5,
+                      margin: EdgeInsets.only(top:12,bottom: 0, ),
+                      padding: EdgeInsets.only(top:12,bottom: 12),
+                      decoration: const BoxDecoration(
+                        color:Color.fromRGBO(0, 82, 204, 1),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
+                      ),
+                      child: Center(child:Text("Сводная таблица\nрезультатов", textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800),)),
+                    ),Spacer(),
+                  ],
+                ),
+
+                Padding(
+                    padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+                    child: Text("Выбери произведение",textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+                Container(margin: EdgeInsets.only(bottom: 8),
+                    height: 300,
+                    child:Image.asset(
+                      "assets/images/manual_4.png",
+                    )),
+                Padding(
+                    padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
+                    child: Text("Прослушай",textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
+                Container(margin: EdgeInsets.only(bottom: 8),
+                    height: 300,
+                    child:Image.asset(
+                      "assets/images/manual_4.png",
+                    )),
+                Container(margin: EdgeInsets.only(bottom: 8),
+                    height: 300,
+                    child:Image.asset(
+                      "assets/images/manual_4.png",
+                    )),
+
 
 
 
