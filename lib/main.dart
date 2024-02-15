@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animated_line_through/animated_line_through.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cor/AboutPage.dart';
 import 'package:cor/BreathingTrainingPage.dart';
 import 'package:cor/ManualPage.dart';
 import 'package:cor/Pref.dart';
@@ -243,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   GestureDetector(
                       onTap: () {Navigator.of(context).push(PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (BuildContext context, _, __) => ManualPage()));},
+                          pageBuilder: (BuildContext context, _, __) => AboutPage()));},
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
                         margin: EdgeInsets.only(top: 12, bottom: 40),

@@ -39,7 +39,7 @@ void initState(){
                         size: 46,
                       ), onPressed:(){ Navigator.pop(context);},)),
                   Container(
-                    padding: EdgeInsets.only(top: 32, bottom: 32, left: 12, right: 12),
+                    padding: EdgeInsets.only(top: 32, bottom: 32, left: 24, right: 24),
                     decoration: BoxDecoration(
                         color: Color.fromRGBO (214, 247, 127, 1),
                         borderRadius: BorderRadius.all(
@@ -105,7 +105,7 @@ void initState(){
                                 pageBuilder: (BuildContext context, _, __) =>
                                     TextPage()));},
                             child:Text(
-                              "Чтение(Коррекция речи)",
+                              "Чтение",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,

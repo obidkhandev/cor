@@ -38,7 +38,7 @@ void initState(){
 
         children: [
 
-
+Spacer(flex: 2,),
           GestureDetector(
               onTap: (){},
               child:Container(
@@ -60,14 +60,14 @@ void initState(){
               onTap: (){ Navigator.of(context).push(PageRouteBuilder(
                   opaque: false,
                   pageBuilder: (BuildContext context, _, __) => MyHomePage(title: 'Коррекция речи')));},
-              child:Icon(Icons.clear, color: Colors.grey,size: 42,))),
+              child:Icon(Icons.clear, color: Colors.grey,size: 42,))),Spacer(flex: 1,)
         ],
       ),
                 Row(
                   children: [Spacer(),
                     Container(
                                    width: MediaQuery.of(context).size.width/2.5,
-                      margin: EdgeInsets.only(top:12,bottom: 0, ),
+                      margin: EdgeInsets.only(top:24,bottom: 0, ),
                       padding: EdgeInsets.only(top:12,bottom: 12),
                       decoration: const BoxDecoration(
                         color: Color.fromRGBO(234, 87, 87, 1),
@@ -88,7 +88,8 @@ void initState(){
           child:   Text("Установи ритм речевого дыхания. Нажми кнопку “Начать” и тренируй речевое дыхание",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
       Container(margin: EdgeInsets.only(bottom: 8),
-          height: 250,
+          height: 596,
+          width: 269,
           child:Image.asset(
         "assets/images/manual_1.png",
       )),
@@ -106,7 +107,8 @@ void initState(){
           child: Text("Вдох - вертикальная красная стрелка (или звук).\nВыдох - синяя полоса.\nВдох - живот округляется.\nВыдох - живот втягивается.\nДыши животом без усилий.",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 250,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
                       "assets/images/manual_2.png",
                     )),
@@ -140,7 +142,8 @@ void initState(){
           child: Text("Выбери возраст тренирующегося или открой “Моя библиотека”",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 180,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
                       "assets/images/manual_3.png",
                     )),
@@ -157,7 +160,8 @@ void initState(){
           child: Text("Выбери текст для чтения",textAlign: TextAlign.center,
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
                       "assets/images/manual_4.png",
                     )),
@@ -175,9 +179,10 @@ void initState(){
             style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
 
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
-                      "assets/images/manual_4.png",
+                      "assets/images/manual_5.png",
                     )),
 
                 Padding(
@@ -197,9 +202,10 @@ void initState(){
                     child: Text("Нажми запись голоса. Начинай читать.",textAlign: TextAlign.center,
                       style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
-                      "assets/images/manual_4.png",
+                      "assets/images/manual_6.png",
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width-50,
@@ -234,23 +240,26 @@ void initState(){
                     child: Text("Выбери произведение",textAlign: TextAlign.center,
                       style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
-                      "assets/images/manual_4.png",
+                      "assets/images/manual_7.png",
                     )),
                 Padding(
                     padding:EdgeInsets.only(top: 8,bottom:8 ,left: 12,right: 12) ,
                     child: Text("Прослушай",textAlign: TextAlign.center,
                       style: TextStyle(fontWeight:FontWeight.w700 ,fontSize:20 ),)),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
-                      "assets/images/manual_4.png",
+                      "assets/images/manual_8.png",
                     )),
                 Container(margin: EdgeInsets.only(bottom: 8),
-                    height: 300,
+                    height: 596,
+                    width: 269,
                     child:Image.asset(
-                      "assets/images/manual_4.png",
+                      "assets/images/manual_9.png",
                     )),
 
 
