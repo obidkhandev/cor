@@ -39,7 +39,7 @@ class ReadingPage extends StatefulWidget {
 bool isRecord = false;
 var indexLines = 0;
 List<bool> _isCrossed = [false, false, false, false];
-List<bool> inhale = [true, true, true, true];
+List<bool> inhale = [false, false, false, false];
 var player2 = AudioPlayer();
 
 List<num> initLineTime(List<String> cur_lines, num? selectSpeed) {
@@ -304,7 +304,7 @@ class _ReadingPageState extends State<ReadingPage>
     super.initState();
     player2= AudioPlayer();
     player2.stop();
-    inhale=[true,true,true,true];
+    inhale=[false,false,false,false];
     _isCrossed[0]=false;
     _isCrossed[1]=false;
     _isCrossed[2]=false;
@@ -316,7 +316,7 @@ class _ReadingPageState extends State<ReadingPage>
   @override
   void dispose() {
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-    inhale=[true,true,true,true];
+    inhale=[false,false,false,false];
     _timer.cancel();
 
     timerController1.stop();
@@ -339,7 +339,38 @@ class _ReadingPageState extends State<ReadingPage>
   @override
   Widget build(BuildContext context) {
     return
-        Stack(
+      WillPopScope( onWillPop: () async{   final shouldPop = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Вернуться на главный экран?'),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              TextButton(
+                onPressed: () {
+
+                  Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => MyHomePage(title: 'Коррекция речи'),
+                    ),
+                        (route) => false,//if you want to disable back feature set to false
+                  );
+                },
+                child: const Text('Да'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Нет'),
+              ),
+            ],
+          );
+        },
+      );
+      return shouldPop!;},
+      child:Stack(
           children: [
             Image.asset(
               "assets/images/bg.png",
@@ -487,7 +518,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       color: Colors.black,
                                                       fontWeight:
                                                       FontWeight.w700,
-                                                      fontSize: 16),
+                                                      fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                                 )),
                                             AnimatedLineThrough( reverseDuration: Duration(milliseconds: 100), color: _isCrossed[0]?Colors.indigo:Colors.transparent,
                                               duration: Duration(
@@ -509,7 +540,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     color: Colors.transparent,
                                                     fontWeight:
                                                     FontWeight.w700,
-                                                    fontSize: 16),
+                                                    fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                               ),
                                             ),
                                           ],
@@ -526,7 +557,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       color: Colors.black,
                                                       fontWeight:
                                                       FontWeight.w700,
-                                                      fontSize: 16),
+                                                      fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                                 )),
                                             AnimatedLineThrough(
                                               reverseDuration: Duration(milliseconds: 100),
@@ -547,7 +578,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                     color: Colors.transparent,
                                                     fontWeight:
                                                     FontWeight.w700,
-                                                    fontSize: 16),
+                                                    fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                               ),
                                             ),
                                           ],
@@ -579,24 +610,32 @@ class _ReadingPageState extends State<ReadingPage>
 
                                                 if (indexLines + 1 <=
                                                     lines.length - 1) {
+
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   inhale = [
                                                     false,
                                                     true,
-                                                    true,
-                                                    true
+                                                    false,
+                                                    false
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 500));
+                                                  setState(() {
+
+                                                  });
                                                   await _sound();
+                                                  inhale = [
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    false
+                                                  ];
+                                                  setState(() {
+
+                                                  });
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
                                                           500), () {
-                                                    inhale = [
-                                                      false,
-                                                      false,
-                                                      true,
-                                                      true
-                                                    ];
+
                                                     setState(() {
                                                       wdthFunc(context);
                                                     });
@@ -678,7 +717,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                         color: Colors.black,
                                                         fontWeight:
                                                         FontWeight.w700,
-                                                        fontSize: 16),
+                                                        fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                                   )),
                                               AnimatedLineThrough(  reverseDuration: Duration(milliseconds: 100),color: _isCrossed[1]?Colors.indigo:Colors.transparent,
                                                 duration: Duration(
@@ -701,7 +740,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       color: Colors.transparent,
                                                       fontWeight:
                                                       FontWeight.w700,
-                                                      fontSize: 16),
+                                                      fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32),
                                                 ),
                                               ),
                                             ],
@@ -716,7 +755,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                           color: Colors.black,
                                                           fontWeight:
                                                           FontWeight.w700,
-                                                          fontSize: 16))),
+                                                          fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32))),
                                               AnimatedLineThrough(  reverseDuration: Duration(milliseconds: 100),color: _isCrossed[1]?Colors.indigo:Colors.transparent,
                                                   duration: Duration(
                                                       milliseconds: (1000 *
@@ -733,7 +772,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                           color: Colors.transparent,
                                                           fontWeight:
                                                           FontWeight.w700,
-                                                          fontSize: 16))
+                                                          fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32))
                                               ),
                                             ],
                                           )),
@@ -761,24 +800,32 @@ class _ReadingPageState extends State<ReadingPage>
                                                     lines.length - 1) {
                                                   if (readingMode !=
                                                       "2 строки") {
+
+                                                    await Future.delayed(const Duration(milliseconds: 500));
                                                     inhale = [
                                                       false,
                                                       false,
                                                       true,
-                                                      true
+                                                      false
                                                     ];
-                                                    await Future.delayed(const Duration(milliseconds: 500));
+                                                    setState(() {
+
+                                                    });
                                                     await _sound();
+                                                    inhale = [
+                                                      false,
+                                                      false,
+                                                      false,
+                                                      false
+                                                    ];
+                                                    setState(() {
+
+                                                    });
                                                     Future.delayed(
                                                         const Duration(
                                                             milliseconds:
                                                             500), () {
-                                                      inhale = [
-                                                        false,
-                                                        false,
-                                                        false,
-                                                        true
-                                                      ];
+
                                                       setState(() {
                                                         wdthFunc(context);
                                                       });
@@ -796,25 +843,33 @@ class _ReadingPageState extends State<ReadingPage>
                                                       });
                                                       _isCrossed[0]=false;
                                                       _isCrossed[1]=false;
+
+                                                      await Future.delayed(const Duration(milliseconds: 500));
                                                       inhale = [
                                                         true,
-                                                        true,
+                                                        false,
                                                         false,
                                                         false
                                                       ];
-                                                      await Future.delayed(const Duration(milliseconds: 500));
+                                                      setState(() {
+
+                                                      });
                                                       await _sound();
+                                                      inhale = [
+                                                        false,
+                                                        false,
+                                                        false,
+                                                        false
+                                                      ];
+                                                      setState(() {
+
+                                                      });
                                                       Future.delayed(
                                                           const Duration(
                                                               milliseconds:
                                                               500),
                                                               () {
-                                                            inhale = [
-                                                              false,
-                                                              true,
-                                                              false,
-                                                              false
-                                                            ];
+
                                                             setState(() {
                                                               wdthFunc(context);
                                                             });
@@ -901,7 +956,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                           color: Colors.black,
                                                           fontWeight:
                                                           FontWeight.w700,
-                                                          fontSize: 16))),
+                                                          fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32))),
                                               AnimatedLineThrough(  reverseDuration: Duration(milliseconds: 100),color: _isCrossed[2]?Colors.indigo:Colors.transparent,
                                                   duration: Duration(
                                                       milliseconds: (1000 *
@@ -919,7 +974,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                           color: Colors.transparent,
                                                           fontWeight:
                                                           FontWeight.w700,
-                                                          fontSize: 16))
+                                                          fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32))
                                               ),
                                             ],
                                           )),
@@ -948,25 +1003,33 @@ class _ReadingPageState extends State<ReadingPage>
 
                                                 if (indexLines + 3 <=
                                                     lines.length - 1) {
+
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   inhale = [
                                                     false,
                                                     false,
                                                     false,
                                                     true
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 500));
+                                                  setState(() {
+
+                                                  });
                                                   await _sound();
+                                                  inhale = [
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    false
+                                                  ];
+                                                  setState(() {
+
+                                                  });
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
                                                           500),
                                                           () {
-                                                        inhale = [
-                                                          false,
-                                                          false,
-                                                          false,
-                                                          false
-                                                        ];
+
                                                         setState(() {
                                                           wdthFunc(context);
                                                         });
@@ -1051,7 +1114,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       color: Colors.black,
                                                       fontWeight:
                                                       FontWeight.w700,
-                                                      fontSize: 16,
+                                                      fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32,
                                                     ),
                                                   )),
                                               AnimatedLineThrough(  reverseDuration: Duration(milliseconds: 100),color: _isCrossed[3]?Colors.indigo:Colors.transparent,
@@ -1071,7 +1134,7 @@ class _ReadingPageState extends State<ReadingPage>
                                                       color: Colors.transparent,
                                                       fontWeight:
                                                       FontWeight.w700,
-                                                      fontSize: 16,
+                                                      fontSize: selectAge==">11 лет"?16:((selectAge=="1 класс")||(selectAge=="2 класс")||(selectAge=="3 класс")||(selectAge=="4 класс"))?24:32,
                                                     ),
                                                   )
                                               ),
@@ -1109,25 +1172,33 @@ class _ReadingPageState extends State<ReadingPage>
                                                   setState(() {
                                                     wdthFunc(context);
                                                   });
+
+                                                  await Future.delayed(const Duration(milliseconds: 500));
                                                   inhale = [
                                                     true,
-                                                    true,
-                                                    true,
-                                                    true
+                                                    false,
+                                                    false,
+                                                    false
                                                   ];
-                                                  await Future.delayed(const Duration(milliseconds: 500));
+                                                  setState(() {
+
+                                                  });
                                                   await _sound();
+                                                  inhale = [
+                                                    false,
+                                                    false,
+                                                    false,
+                                                    false
+                                                  ];
+                                                  setState(() {
+
+                                                  });
                                                   Future.delayed(
                                                       const Duration(
                                                           milliseconds:
                                                           500),
                                                           () {
-                                                        inhale = [
-                                                          false,
-                                                          true,
-                                                          true,
-                                                          true
-                                                        ];
+
                                                         setState(() {
                                                           wdthFunc(context);
                                                         });
@@ -1335,12 +1406,20 @@ class _ReadingPageState extends State<ReadingPage>
                             Future.delayed(const Duration(milliseconds: 5000),
                                     () async {
                                   initLineTime(lines, readingSpeed);
-                                  inhale = [true, true, true, true];
+
                                   await Future.delayed(const Duration(milliseconds: 500));
+                                  inhale = [true, false, false, false];
+                                  setState(() {
+
+                                  });
                                   await _sound();
+                                  inhale = [false, false, false, false];
+                                  setState(() {
+
+                                  });
                                   Future.delayed(const Duration(milliseconds: 500),
                                           () {
-                                        inhale = [false, true, true, true];
+
                                         _isCrossed=[true, false, false, false];
                                         setState(() {});
                                         timerController1.start();
@@ -1416,9 +1495,14 @@ class _ReadingPageState extends State<ReadingPage>
                             }
                             print(items);
 
-                            Navigator.of(context).push(PageRouteBuilder(
+                            for(var i =0; i<items.length;i++){ if(nameSelect ==text_titles[i])selectIndex=i;}
+
+                    /*        Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
-                                pageBuilder: (BuildContext context, _, __) => ResultPage()));
+                                pageBuilder: (BuildContext context, _, __) => ResultPage()));*/
+                          Navigator
+                              .of(context)
+                              .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  ResultPage()));
                           }
                         },
                         child: Container(
@@ -1459,7 +1543,7 @@ class _ReadingPageState extends State<ReadingPage>
                   ],
                 ))),),
           ],
-        );
+        ));
 
           // This trailing comma makes auto-formatting nicer for build methods.
 

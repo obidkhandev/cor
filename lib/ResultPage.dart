@@ -55,7 +55,9 @@ void initState(){
                           padding: EdgeInsets.only(top: 24),
                           child: Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(onTap: (){Navigator.pop(context);},child: SvgPicture.asset(
+                              child: GestureDetector(onTap: (){Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) => MyHomePage(title: 'Коррекция речи')));},child: SvgPicture.asset(
                                 "assets/images/back.svg",
                                 colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
 

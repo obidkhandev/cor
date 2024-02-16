@@ -18,7 +18,7 @@ class BreathingTrainingPage extends StatefulWidget {
 }
 
 num breathindSpeed = 9.2;
-List<bool> _inhale = [true, true, true, true];
+List<bool> _inhale = [false, false, false, false];
 
 String speedForLine ="-";
  var player0 = AudioPlayer();
@@ -43,7 +43,7 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
 
 print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     speedForLine = _durSound(breathindSpeed);
-    _inhale=[true,true,true,true];
+    _inhale=[false,false,false,false];
     super.initState();
     SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
@@ -58,7 +58,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
     super.dispose();
 
     _timer.cancel();
-    _inhale=[true,true,true,true];
+    _inhale=[false,false,false,false];
     timerController1.stop();
     timerController2.stop();
     timerController3.stop();
@@ -277,13 +277,15 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                 onTimerEnd: ()async {
                                   timerController1.stop();
                                   timerController1.reset();
-                                  _inhale = [false, true, true, true];
+
 
                                   await Future.delayed(Duration(
                                       milliseconds:
                                       1000));
+                                  _inhale = [false, true, false, false];
+                                  setState(() {});
                                   await _sound();
-                                  _inhale = [false, false, true, true];
+                                  _inhale = [false, false, false, false];
                                   setState(() {});
                                   await Future.delayed(Duration(
                                       milliseconds:
@@ -340,12 +342,15 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                   timerController2.stop();
                                   timerController2.reset();
 
-                                  _inhale = [false, false, true, true];
+                                  _inhale = [false, false, false, false];
+                                  setState(() {});
                                   await Future.delayed(Duration(
                                       milliseconds:
                                       1000));
+                                  _inhale = [false, false, true, false];
+                                  setState(() {});
                                   await _sound();
-                                  _inhale = [false, false, false, true];
+                                  _inhale = [false, false, false, false];
                                   setState(() {});
                                   await Future.delayed(Duration(
                                       milliseconds:
@@ -402,10 +407,12 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                   timerController3.stop();
                                   timerController3.reset();
 
-                                  _inhale = [false, false, false, true];
+
                                   await Future.delayed(Duration(
                                       milliseconds:
                                       1000));
+                                  _inhale = [false, false, false, true];
+                                  setState(() {});
                                   await _sound();
                                   _inhale = [false, false, false, false];
                                   setState(() {});await Future.delayed(Duration(
@@ -462,13 +469,15 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                   timerController4.stop();
                                   timerController4.reset();
 
-                                  _inhale = [true, true, true, true];
+
                                   setState(() {});
                                   await Future.delayed(Duration(
                                       milliseconds:
                                       1000));
+                                  _inhale = [true, false, false, false];
+                                  setState(() {});
                                   await _sound();
-                                  _inhale = [false, true, true, true];
+                                  _inhale = [false, false, false, false];
                                   setState(() {});
                                   await Future.delayed(Duration(
                                       milliseconds:
@@ -498,12 +507,14 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                           _startTimer();
                           Future.delayed(const Duration(milliseconds: 5000),
                               ()async   {
-                            _inhale = [true, true, true, true];
+                            _inhale = [false, false, false, false];
                             await Future.delayed(Duration(
                                 milliseconds:
                                 1000));
+                            _inhale = [true, false, false, false];
+                            setState(() {});
                             await _sound();
-                            _inhale = [false, true, true, true];
+                            _inhale = [false, false, false, false];
                             setState(() {});
                             await Future.delayed(Duration(
                                 milliseconds:
@@ -516,6 +527,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                         } else {
                           _isStart = !_isStart;
                           _inhale = [false, false, false, false];
+                          setState(() {});
                           timerController1.stop();
                           timerController2.stop();
                           timerController3.stop();
