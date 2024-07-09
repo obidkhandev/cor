@@ -1,6 +1,9 @@
 import 'dart:async';
 
 //import 'package:audioplayers/audioplayers.dart';
+import 'package:cor/data/local/local_db.dart';
+import 'package:cor/data/model/dixaniya_model.dart';
+import 'package:cor/resultat_dixaniya_table.dart';
 import 'package:cor/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,20 +11,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:linear_timer/linear_timer.dart';
 
+import 'data/model/network_response.dart';
 import 'main.dart';
 
 class BreathingTrainingPage extends StatefulWidget {
-  const BreathingTrainingPage({Key? key}) : super(key: key);
+  final num breathindSpeed;
+
+  const BreathingTrainingPage({Key? key, required this.breathindSpeed})
+      : super(key: key);
 
   @override
   State<BreathingTrainingPage> createState() => _BreathingTrainingPageState();
 }
 
-num breathindSpeed = 9.2;
 List<bool> _inhale = [false, false, false, false];
 
-String speedForLine ="-";
- var player0 = AudioPlayer();
+String speedForLine = "-";
+var player0 = AudioPlayer();
 var player1 = AudioPlayer();
 
 class _BreathingTrainingPageState extends State<BreathingTrainingPage>
@@ -33,23 +39,25 @@ class _BreathingTrainingPageState extends State<BreathingTrainingPage>
   late LinearTimerController timerController4 = LinearTimerController(this);
   int _remainingTime = 5; //initial time in seconds
   late Timer _timer;
-  num dur = 60 / breathindSpeed - 1.5;
+  num dur = 0;
+  num breathindSpeed = 0;
 
+  List<bool> _inhale = [false, false, false, false];
 
   @override
   void initState() {
-    player1= AudioPlayer();
-    player0= AudioPlayer();
-
-print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    breathindSpeed = widget.breathindSpeed;
+    player1 = AudioPlayer();
+    player0 = AudioPlayer();
+    print(
+        "ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     speedForLine = _durSound(breathindSpeed);
-    _inhale=[false,false,false,false];
+    dur = 60 / breathindSpeed - 1.5;
+    _inhale = [false, false, false, false];
     super.initState();
-    SystemChrome.setPreferredOrientations ([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-
-
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   }
-
 
   @override
   void dispose() {
@@ -58,7 +66,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
     super.dispose();
 
     _timer.cancel();
-    _inhale=[false,false,false,false];
+    _inhale = [false, false, false, false];
     timerController1.stop();
     timerController2.stop();
     timerController3.stop();
@@ -67,7 +75,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
     timerController2.reset();
     timerController3.reset();
     timerController4.reset();
-   player1.stop();
+    player1.stop();
     player0.stop();
   }
 
@@ -98,7 +106,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                 // audioPlayer.stop();
+                                  // audioPlayer.stop();
                                   Navigator.pop(context);
                                 },
                                 child: SvgPicture.asset(
@@ -113,7 +121,7 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                 // audioPlayer.stop();
+                                  // audioPlayer.stop();
                                   Navigator.of(context).push(PageRouteBuilder(
                                       opaque: false,
                                       pageBuilder:
@@ -187,13 +195,9 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                     children: [
                       IconButton(
                           onPressed: () {
-                           if(breathindSpeed>5.1) breathindSpeed = breathindSpeed - 0.1;
+                            if (breathindSpeed > 5.1)
+                              breathindSpeed = breathindSpeed - 0.1;
                             dur = 60 / breathindSpeed - 1.5;
-
-
-
-
-
 
                             this.setState(() {
                               print(breathindSpeed);
@@ -217,10 +221,9 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                       ),
                       IconButton(
                           onPressed: () {
-                           if(breathindSpeed<14.99) breathindSpeed = breathindSpeed + 0.1;
+                            if (breathindSpeed < 14.99)
+                              breathindSpeed = breathindSpeed + 0.1;
                             dur = 60 / breathindSpeed - 1.5;
-
-
 
                             setState(() {
                               print(breathindSpeed);
@@ -271,29 +274,25 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        (((60 / breathindSpeed - 1.5) * 1000+300)
+                                        (((60 / breathindSpeed - 1.5) * 1000 +
+                                                300)
                                             .toInt())),
                                 controller: timerController1,
-                                onTimerEnd: ()async {
+                                onTimerEnd: () async {
                                   timerController1.stop();
                                   timerController1.reset();
 
-
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      1000));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
                                   _inhale = [false, true, false, false];
                                   setState(() {});
                                   await _sound();
                                   _inhale = [false, false, false, false];
                                   setState(() {});
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      500));
-                                   _soundOut(speedForLine);
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
+                                  _soundOut(speedForLine);
                                   timerController2.start();
-
-
 
                                   setState(() {});
                                 })),
@@ -335,30 +334,27 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        (((60 / breathindSpeed - 1.5) * 1000+300)
+                                        (((60 / breathindSpeed - 1.5) * 1000 +
+                                                300)
                                             .toInt())),
                                 controller: timerController2,
-                                onTimerEnd: ()async {
+                                onTimerEnd: () async {
                                   timerController2.stop();
                                   timerController2.reset();
 
                                   _inhale = [false, false, false, false];
                                   setState(() {});
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      1000));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
                                   _inhale = [false, false, true, false];
                                   setState(() {});
                                   await _sound();
                                   _inhale = [false, false, false, false];
                                   setState(() {});
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      500));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
                                   _soundOut(speedForLine);
                                   timerController3.start();
-
-
 
                                   setState(() {});
                                 })),
@@ -400,27 +396,25 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        (((60 / breathindSpeed - 1.5) * 1000+300)
+                                        (((60 / breathindSpeed - 1.5) * 1000 +
+                                                300)
                                             .toInt())),
                                 controller: timerController3,
                                 onTimerEnd: () async {
                                   timerController3.stop();
                                   timerController3.reset();
 
-
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      1000));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
                                   _inhale = [false, false, false, true];
                                   setState(() {});
                                   await _sound();
                                   _inhale = [false, false, false, false];
-                                  setState(() {});await Future.delayed(Duration(
-                                      milliseconds:
-                                      500));
+                                  setState(() {});
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
                                   _soundOut(speedForLine);
                                   timerController4.start();
-
 
                                   setState(() {});
                                 })),
@@ -462,30 +456,26 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                                 color: Colors.indigo,
                                 duration: Duration(
                                     milliseconds:
-                                        (((60 / breathindSpeed - 1.5) * 1000+300)
+                                        (((60 / breathindSpeed - 1.5) * 1000 +
+                                                300)
                                             .toInt())),
                                 controller: timerController4,
                                 onTimerEnd: () async {
                                   timerController4.stop();
                                   timerController4.reset();
 
-
                                   setState(() {});
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      1000));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 1000));
                                   _inhale = [true, false, false, false];
                                   setState(() {});
                                   await _sound();
                                   _inhale = [false, false, false, false];
                                   setState(() {});
-                                  await Future.delayed(Duration(
-                                      milliseconds:
-                                      500));
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
                                   _soundOut(speedForLine);
                                   timerController1.start();
-
-
 
                                   setState(() {});
                                 })),
@@ -495,36 +485,36 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                   Spacer(
                     flex: 2,
                   ),
-
                   GestureDetector(
                       onTap: () async {
-
                         dur = 60 / breathindSpeed - 1.5;
                         _isStart = !_isStart;
                         if (_isStart == true) {
-
+                          LocalDatabase.insertDixaniyaResultat(
+                            DixaniyaModel(
+                              title:
+                                  "${breathindSpeed.toStringAsFixed(1)} дых./мин.",
+                              createdDate: DateTime.now(),
+                            ),
+                          );
                           this.setState(() {});
                           _startTimer();
                           Future.delayed(const Duration(milliseconds: 5000),
-                              ()async   {
+                              () async {
                             _inhale = [false, false, false, false];
-                            await Future.delayed(Duration(
-                                milliseconds:
-                                1000));
+                            await Future.delayed(Duration(milliseconds: 1000));
                             _inhale = [true, false, false, false];
                             setState(() {});
                             await _sound();
                             _inhale = [false, false, false, false];
                             setState(() {});
-                            await Future.delayed(Duration(
-                                milliseconds:
-                                500));
+                            await Future.delayed(Duration(milliseconds: 500));
                             _soundOut(speedForLine);
                             timerController1.start();
-
-
                           });
                         } else {
+                          NetworkResponse response = await LocalDatabase.getAllDixaniyaResultat();
+
                           _isStart = !_isStart;
                           _inhale = [false, false, false, false];
                           setState(() {});
@@ -535,18 +525,15 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                           player0.dispose();
                           player1.dispose();
 
-
                           setState(() {});
-
-
                           Navigator.pushAndRemoveUntil<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) => MyHomePage(title: 'Коррекция речи'),
+                              builder: (BuildContext context) =>
+                               ResultDixaniyaScreen(resultats: response.data,)
                             ),
-                                (route) => false,//if you want to disable back feature set to false
+                            (route) => false,
                           );
-
                         }
                       },
                       child: Container(
@@ -566,21 +553,22 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
                               bottomLeft: Radius.circular(10)),
                         ),
                         child: Center(
-                            child: _isStart
-                                ? Text(
-                                    "Завершить",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w800),
-                                  )
-                                : Text(
-                                    "Начать",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w800),
-                                  )),
+                          child: _isStart
+                              ? Text(
+                                  "Завершить",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800),
+                                )
+                              : Text(
+                                  "Начать",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                        ),
                       )),
                   Spacer(
                     flex: 1,
@@ -613,21 +601,16 @@ print("ИНИТ СТАРИЦЫ++++++++++++++++++++++++++++++++++++++++++++++++++
     });
   }
 
- // AudioPlayer audioPlayer = AudioPlayer();
+  // AudioPlayer audioPlayer = AudioPlayer();
 
-   _sound() async {
-
-
-await player0.setAsset('assets/in.mp3');
-await player0.play();
-player0.stop();
-
+  _sound() async {
+    await player0.setAsset('assets/in.mp3');
+    await player0.play();
+    player0.stop();
   }
 
   _durSound(num speed) {
-
     switch (speed.toStringAsFixed(1)) {
-
       case "15.0":
         return 'assets/15-0.mp3';
 
@@ -642,7 +625,7 @@ player0.stop();
       case "14.5":
         return 'assets/14-6.mp3';
 
-      case"14.4":
+      case "14.4":
         return 'assets/14-6.mp3';
       case "14.3":
         return 'assets/14-6.mp3';
@@ -650,7 +633,6 @@ player0.stop();
         return 'assets/14-2.mp3';
       case "14.1":
         return 'assets/14-2.mp3';
-
 
       case "14.0":
         return 'assets/14-2.mp3';
@@ -673,7 +655,6 @@ player0.stop();
       case "13.1":
         return 'assets/13-2.mp3';
 
-
       case "13.0":
         return 'assets/12-9.mp3';
       case "12.9":
@@ -694,7 +675,6 @@ player0.stop();
         return 'assets/12-1.mp3';
       case "12.1":
         return 'assets/12-1.mp3';
-
 
       case "12.0":
         return 'assets/11-9.mp3';
@@ -717,7 +697,6 @@ player0.stop();
       case "11.1":
         return 'assets/11-0.mp3';
 
-
       case "11.0":
         return 'assets/11-0.mp3';
       case "10.9":
@@ -738,7 +717,6 @@ player0.stop();
         return 'assets/10-2.mp3';
       case "10.1":
         return 'assets/10-2.mp3';
-
 
       case "10.0":
         return 'assets/9-9.mp3';
@@ -761,7 +739,6 @@ player0.stop();
       case "9.1":
         return 'assets/9-1.mp3';
 
-
       case "9.0":
         return 'assets/8-9.mp3';
       case "8.9":
@@ -782,7 +759,6 @@ player0.stop();
         return 'assets/8-1.mp3';
       case "8.1":
         return 'assets/8-1.mp3';
-
 
       case "8.0":
         return 'assets/7-9.mp3';
@@ -805,7 +781,6 @@ player0.stop();
       case "7.1":
         return 'assets/7-1.mp3';
 
-
       case "7.0":
         return 'assets/6-9.mp3';
       case "6.9":
@@ -826,7 +801,6 @@ player0.stop();
         return 'assets/6-1.mp3';
       case "6.1":
         return 'assets/6-1.mp3';
-
 
       case "6.0":
         return 'assets/5-9.mp3';
@@ -849,25 +823,18 @@ player0.stop();
       case "5.1":
         return 'assets/5-1.mp3';
 
-
       case "5.0":
         return 'assets/5-0.mp3';
 
-      default :
+      default:
         return 'assets/9-6.mp3';
-
-
-
     }
-
   }
 
-   _soundOut(String speedForLine) async {
+  _soundOut(String speedForLine) async {
+    await player1.setAsset(speedForLine);
 
-
-     await player1.setAsset(speedForLine);
-
-     await player1.play();
-     player1.stop();
+    await player1.play();
+    player1.stop();
   }
 }
