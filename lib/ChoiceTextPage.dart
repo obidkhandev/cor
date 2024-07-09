@@ -18,6 +18,7 @@ class ChoiceTextPage extends StatefulWidget {
  var selectIndex = -1;
 late List<String> lines;
 late int readingSpeed;
+
 class _ChoiceTextPageState extends State<ChoiceTextPage> {
   @override
   void initState(){

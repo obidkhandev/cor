@@ -10,15 +10,16 @@ import 'package:cor/Pref.dart';
 import 'package:cor/ResultPage.dart';
 import 'package:cor/TextPage.dart';
 import 'package:cor/settings.dart';
+import 'package:cor/trening_dixaniya_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
   await SystemChrome.setPreferredOrientations(
@@ -41,8 +42,8 @@ class MyApp extends StatelessWidget {
       title: 'Коррекция речи',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromRGBO(33, 150, 82, 1)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromRGBO(33, 150, 82, 1)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Коррекция речи'),
@@ -65,35 +66,37 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     initBD();
   }
+
   bool _isCrossed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bg.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: Padding(
-            padding: EdgeInsets.only(right: 8, left: 8),
+            padding: const EdgeInsets.only(right: 8, left: 8),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 24),
+                      padding: const EdgeInsets.only(top: 24),
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.of(context).push(PageRouteBuilder(
                                   opaque: false,
-                                  pageBuilder: (BuildContext context, _, __) => SettingsPage()));
-
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      const SettingsPage()));
                             },
                             child: Image.asset(
                               "assets/images/settings.jpg",
@@ -103,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: MediaQuery.of(context).size.width / 3.5,
                       height: MediaQuery.of(context).size.width / 3.5,
                       // margin: EdgeInsets.only(bottom:12),
-                      padding: EdgeInsets.only(left: 14, right: 14),
+                      padding: const EdgeInsets.only(left: 14, right: 14),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -111,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Image.asset(
                         "assets/images/logo.png",
                       )),
-                  Spacer(
+                  const Spacer(
                     flex: 2,
                   ),
                   Container(
@@ -126,18 +129,29 @@ class _MyHomePageState extends State<MyHomePage> {
                             bottomRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10)),
                       ),
-                      child: Text(
-                        "Коррекция\n речи",
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 87, 204, 1),
-                            fontSize: 36,
-                            fontWeight: FontWeight.w700),
-                        textAlign: TextAlign.center,
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.center,
+                            'Чтение на 5+',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(0, 82, 204, 1),
+                            ),
+                          ),
+                          Text(
+                            textAlign: TextAlign.center,
+                            '•Логопедам,\n•Дефектологом \n•И всем, всем, всем!!!',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       )),
-
-
-
-                  Spacer(
+                  const Spacer(
                     flex: 3,
                   ),
                   Row(
@@ -146,18 +160,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           GestureDetector(
                               onTap: () {
-
-                            Navigator.of(context).push(PageRouteBuilder(
-                                opaque: false,
-                                pageBuilder: (BuildContext context, _, __) => ManualPage()));
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            const ManualPage()));
                               },
                               child: Container(
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 40,
                                 height: MediaQuery.of(context).size.height / 11,
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                     bottom: 12, left: 24, right: 24),
-                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                padding:
+                                    const EdgeInsets.only(top: 6, bottom: 6),
                                 decoration: const BoxDecoration(
                                   color: Color.fromRGBO(47, 128, 237, 1),
                                   borderRadius: BorderRadius.only(
@@ -166,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       bottomRight: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Text(
                                   "Инструкция",
                                   style: TextStyle(
@@ -177,19 +193,23 @@ class _MyHomePageState extends State<MyHomePage> {
                               )),
                           GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(PageRouteBuilder(
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
                                     opaque: false,
                                     pageBuilder:
                                         (BuildContext context, _, __) =>
-                                            BreathingTrainingPage()));
+                                            const TreningDixaniyaPicker()
+                                  ),
+                                );
                               },
                               child: Container(
                                 width:
                                     MediaQuery.of(context).size.width / 2 - 40,
                                 height: MediaQuery.of(context).size.height / 11,
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                     bottom: 12, left: 24, right: 24),
-                                padding: EdgeInsets.only(top: 6, bottom: 6),
+                                padding:
+                                    const EdgeInsets.only(top: 6, bottom: 6),
                                 decoration: const BoxDecoration(
                                   color: Color.fromRGBO(234, 87, 87, 1),
                                   borderRadius: BorderRadius.only(
@@ -198,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       bottomRight: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Text(
                                   "Тренинг\nдыхания",
                                   style: TextStyle(
@@ -214,13 +234,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
-                                    TextPage()));
+                                    const TextPage()));
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 2 - 40,
                             height: MediaQuery.of(context).size.height / 5,
-                            margin: EdgeInsets.only(bottom: 12),
-                            padding: EdgeInsets.only(top: 6, bottom: 6),
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.only(top: 6, bottom: 6),
                             decoration: const BoxDecoration(
                               color: Color.fromRGBO(33, 150, 83, 1),
                               borderRadius: BorderRadius.only(
@@ -229,9 +249,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   bottomRight: Radius.circular(10),
                                   bottomLeft: Radius.circular(10)),
                             ),
-                            child: Center(
+                            child: const Center(
                                 child: Text(
-                              "Чтение\n(корреция\nречи)",
+                              "Чтение",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white,
@@ -242,13 +262,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   GestureDetector(
-                      onTap: () {Navigator.of(context).push(PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) => AboutPage()));},
+                      onTap: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const AboutPage()));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2,
-                        margin: EdgeInsets.only(top: 12, bottom: 40),
-                        padding: EdgeInsets.only(top: 12, bottom: 12),
+                        margin: const EdgeInsets.only(top: 12, bottom: 40),
+                        padding: const EdgeInsets.only(top: 12, bottom: 12),
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(0, 82, 204, 1),
                           borderRadius: BorderRadius.only(
@@ -257,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               bottomRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10)),
                         ),
-                        child: Center(
+                        child: const Center(
                             child: Text(
                           "О методе",
                           style: TextStyle(
@@ -266,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontWeight: FontWeight.w800),
                         )),
                       )),
-                  Spacer(
+                  const Spacer(
                     flex: 1,
                   )
                 ],
@@ -277,36 +300,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   AudioPlayer audioPlayer = AudioPlayer();
 
-  void _sound()async{
-  audioPlayer.setPlayerMode(PlayerMode.lowLatency);
-  await Future.delayed(const Duration(milliseconds: 70));
+  void _sound() async {
+    audioPlayer.setPlayerMode(PlayerMode.lowLatency);
+    await Future.delayed(const Duration(milliseconds: 70));
 
-  await audioPlayer.play(AssetSource('01.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('02.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('03.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('04.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('05.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('06.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('07.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('08.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('09.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('010.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-  await audioPlayer.play(AssetSource('011.ogg'));
-  await Future.delayed(const Duration(milliseconds: 70));
-
-
+    await audioPlayer.play(AssetSource('01.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('02.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('03.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('04.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('05.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('06.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('07.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('08.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('09.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('010.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
+    await audioPlayer.play(AssetSource('011.ogg'));
+    await Future.delayed(const Duration(milliseconds: 70));
   }
 }
