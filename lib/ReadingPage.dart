@@ -224,7 +224,7 @@ class _ReadingPageState extends State<ReadingPage>
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        primary: Colors.white,
+        // primary: Colors.white,
         elevation: 9.0,
       ),
       onPressed: () {
