@@ -220,9 +220,6 @@ class _ChoiceTextPageState extends State<ChoiceTextPage> {
                              }),
                           ],
                         ),)),
-
-
-
                   Spacer(flex: 2,),
 
 
